@@ -45,7 +45,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.addMarker(MarkerOptions().position(buenosAires).title("Marker in Buenos Aires"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(buenosAires))
         val polyline1 = googleMap.addPolyline(
-            PolylineOptions()
+            PolylineOptions() 
             .clickable(true)
             .add(
                 LatLng(-35.016, 143.321),
