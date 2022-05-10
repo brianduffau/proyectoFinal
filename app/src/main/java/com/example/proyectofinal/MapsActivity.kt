@@ -3,13 +3,11 @@ package com.example.proyectofinal
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.proyectofinal.databinding.ActivityMapsBinding
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.PolylineOptions
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -46,5 +44,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         mMap.addMarker(MarkerOptions().position(buenosAires).title("Marker in Buenos Aires"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(buenosAires))
+        val polyline1 = googleMap.addPolyline(
+            PolylineOptions()
+            .clickable(true)
+            .add(
+                LatLng(-35.016, 143.321),
+                LatLng(-34.747, 145.592),
+                LatLng(-34.364, 147.891),
+                LatLng(-33.501, 150.217),
+                LatLng(-32.306, 149.248),
+                LatLng(-32.491, 147.309)))
     }
 }

@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -16,10 +17,11 @@ class MainActivity : AppCompatActivity() {
 
         // Create a new user with a first and last name
         val user = hashMapOf(
-            "nombre" to "Ada",
+            "nombre" to "22222Ada",
             "apellido" to "Lovelace",
             "mail" to "ada@gmail.com",
-            "direccion" to "Rivadavia 133"
+            "direccion" to "Rivadavia 133",
+            "latlong" to LatLng(-34.0, 151.0)
         )
 
 // Add a new document with a generated ID
