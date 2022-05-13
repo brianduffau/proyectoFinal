@@ -10,6 +10,7 @@ buildscript {
         // Add this line
         classpath 'com.google.gms:google-services:4.3.10'
         classpath "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.0"
+        classpath 'androidx.navigation:navigation-safe-args-gradle-plugin:2.4.1'
 
     }
 }
@@ -24,6 +25,9 @@ plugins {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+
+
 
 
 
