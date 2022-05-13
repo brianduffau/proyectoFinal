@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.proyectofinal.R
-import com.example.proyectofinal.viewModel.ProfessionalProfileViewModel
+import com.example.proyectofinal.viewmodels.ProfessionalProfileViewModel
 
 class ProfessionalProfile : Fragment() {
 

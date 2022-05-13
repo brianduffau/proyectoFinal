@@ -1,9 +1,10 @@
-package com.example.proyectofinal
+package com.example.proyectofinal.activities
 
 import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.example.proyectofinal.R
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase

@@ -1,7 +1,8 @@
-package com.example.proyectofinal
+package com.example.proyectofinal.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.proyectofinal.R
 
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -9,7 +10,7 @@ import com.example.proyectofinal.databinding.ActivityMapsBinding
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.PolylineOptions
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding

@@ -7,9 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.proyectofinal.R
-import com.example.proyectofinal.databinding.ActivityMapsBinding
-import com.example.proyectofinal.viewModel.MapViewModel
-import com.google.android.gms.maps.GoogleMap
+import com.example.proyectofinal.viewmodels.MapViewModel
 
 class Map : Fragment() {
 
