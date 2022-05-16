@@ -3,13 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Gabriel/proyectoFinal/app/src/main/res/layout/activity_maps.xml" value="0.14175724637681159" />
-        <entry key="..\:/Users/cami8/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/activity_main.xml" value="0.11302083333333333" />
-        <entry key="..\:/Users/cami8/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/activity_maps.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/cami8/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/map_fragment.xml" value="0.11302083333333333" />
-        <entry key="..\:/Users/cami8/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/professional_profile.xml" value="0.264" />
-        <entry key="..\:/Users/cami8/AndroidStudioProjects/proyectoFinal/app/src/main/res/menu/botton_bar.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/cami8/AndroidStudioProjects/proyectoFinal/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.124" />
+        <entry key="..\:/Users/carug/proyectoFinal/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/carug/proyectoFinal/app/src/main/res/layout/map_fragment.xml" value="0.2611111111111111" />
+        <entry key="..\:/Users/carug/proyectoFinal/app/src/main/res/menu/botton_bar.xml" value="0.2611111111111111" />
       </map>
     </option>
   </component>
