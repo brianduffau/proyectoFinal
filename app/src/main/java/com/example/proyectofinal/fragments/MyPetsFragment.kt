@@ -7,26 +7,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.proyectofinal.R
-import com.example.proyectofinal.viewmodels.MapViewModel
+import com.example.proyectofinal.viewmodels.PetsViewModel
 
-class Map : Fragment() {
+class MyPetsFragment : Fragment() {
 
     companion object {
-        fun newInstance() = Map()
+        fun newInstance() = MyPetsFragment()
     }
 
-    private lateinit var viewModel: MapViewModel
+    private lateinit var viewModel: PetsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.map_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_pets, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MapViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(PetsViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
