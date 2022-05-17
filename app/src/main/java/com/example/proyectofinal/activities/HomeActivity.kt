@@ -4,29 +4,42 @@ import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.TextView
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.proyectofinal.R
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class MainActivity : AppCompatActivity() {
+
+class HomeActivity : AppCompatActivity() {
 
     private lateinit var bottomNavView : BottomNavigationView
     private lateinit var navHostFragment : NavHostFragment
 
+    private lateinit var emailTextView : TextView
+    private lateinit var logoutButton : Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_home)
         navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         bottomNavView = findViewById(R.id.bottom_bar)
         NavigationUI.setupWithNavController(bottomNavView, navHostFragment.navController)
 
+        emailTextView = findViewById(R.id.emailTextView)
+        logoutButton = findViewById(R.id.logoutButton)
+
+
+        setup()
+
+        /*//prueba Firebase
         val db = Firebase.firestore
 
-        // Create a new user with a first and last name
         val user = hashMapOf(
             "nombre" to "22222Ada",
             "apellido" to "Lovelace",
@@ -35,7 +48,6 @@ class MainActivity : AppCompatActivity() {
             "latlong" to LatLng(-34.0, 151.0)
         )
 
-// Add a new document with a generated ID
         db.collection("usuarios")
             .add(user)
             .addOnSuccessListener { documentReference ->
@@ -43,8 +55,16 @@ class MainActivity : AppCompatActivity() {
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error adding document", e)
-            }
-
-
+            }*/
     }
+
+    private fun setup(){
+        logoutButton.setOnClickListener{
+            FirebaseAuth.getInstance().signOut()
+            onBackPressed()
+        }
+    }
+
+
+
 }
