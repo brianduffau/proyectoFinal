@@ -1,5 +1,7 @@
 package com.example.proyectofinal.entities
 
+import com.google.firebase.firestore.GeoPoint
+
 class Professional (
     id: String,
     mail: String,
@@ -7,16 +9,14 @@ class Professional (
     name: String,
     surname: String,
     phone: String,
-    address: String,
-    lat: Float,
-    long: Float,
+    geo: GeoPoint,
     polygon: String,
-    professionalType: Array<String>, //o Enum
-    petType: Array<PetType>,
+    professionalType: Array<String>,
+    petType: Array<String>,
     petAge: Array<Integer>,
 
 
 ): User(id,mail, pass, name,
     surname,
-    phone, address
+    phone
 )
