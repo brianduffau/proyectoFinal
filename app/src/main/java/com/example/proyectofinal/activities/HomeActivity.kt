@@ -1,16 +1,11 @@
 package com.example.proyectofinal.activities
 
-import android.content.ContentValues.TAG
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
-import android.widget.TextView
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.proyectofinal.R
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
@@ -22,6 +17,8 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var bottomNavView : BottomNavigationView
     private lateinit var navHostFragment : NavHostFragment
 
+    private lateinit var logOutButton : Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -29,8 +26,10 @@ class HomeActivity : AppCompatActivity() {
         bottomNavView = findViewById(R.id.bottom_bar)
         NavigationUI.setupWithNavController(bottomNavView, navHostFragment.navController)
 
+        logOutButton = findViewById(R.id.logOutButton)
 
-        //setup()
+        setup()
+
 
         /*//prueba Firebase
         val db = Firebase.firestore
@@ -49,6 +48,13 @@ class HomeActivity : AppCompatActivity() {
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error adding document", e)
             }*/
+    }
+
+    private fun setup(){
+        logOutButton.setOnClickListener{
+            FirebaseAuth.getInstance().signOut()
+            onBackPressed()
+        }
     }
 
 

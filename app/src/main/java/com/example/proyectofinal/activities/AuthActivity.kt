@@ -21,6 +21,7 @@ class AuthActivity : AppCompatActivity() {
     private lateinit var loginButton : Button
     private lateinit var emailEditText : EditText
     private lateinit var passEditText : EditText
+    private lateinit var googleButton : Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +32,7 @@ class AuthActivity : AppCompatActivity() {
         loginButton = findViewById(R.id.loginButton)
         emailEditText = findViewById(R.id.emailEditText)
         passEditText = findViewById(R.id.passEditText)
+        googleButton = findViewById(R.id.googleButton)
 
         setup()
 
@@ -66,6 +68,10 @@ class AuthActivity : AppCompatActivity() {
                 }
             }
         }
+
+        //googleButton.setOnClickListener {
+        //    val googleConf
+        //}
     }
 
     private fun showAlert(){
