@@ -8,11 +8,9 @@ import androidx.navigation.ui.NavigationUI
 import com.example.proyectofinal.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 
-class HomeActivity : AppCompatActivity() {
+class MapActivity : AppCompatActivity() {
 
     private lateinit var bottomNavView : BottomNavigationView
     private lateinit var navHostFragment : NavHostFragment
@@ -21,7 +19,7 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        setContentView(R.layout.activity_map)
         navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         bottomNavView = findViewById(R.id.bottom_bar)
         NavigationUI.setupWithNavController(bottomNavView, navHostFragment.navController)

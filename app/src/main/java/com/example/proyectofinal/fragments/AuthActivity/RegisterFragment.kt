@@ -1,4 +1,4 @@
-package com.example.proyectofinal.fragments
+package com.example.proyectofinal.fragments.AuthActivity
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -7,26 +7,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.proyectofinal.R
-import com.example.proyectofinal.viewmodels.MapViewModel
+import com.example.proyectofinal.viewmodels.RegisterViewModel
 
-class MapFragment : Fragment() {
+class RegisterFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = MapFragment()
-    }
-
-    private lateinit var viewModel: MapViewModel
+    private lateinit var viewModel: RegisterViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_map, container, false)
+        return inflater.inflate(R.layout.fragment_register, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MapViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
