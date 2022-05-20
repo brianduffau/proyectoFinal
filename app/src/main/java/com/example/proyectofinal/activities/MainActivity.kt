@@ -10,26 +10,38 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 
 
-class MapActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var bottomNavView : BottomNavigationView
-    private lateinit var navHostFragment : NavHostFragment
-
-    private lateinit var logOutButton : Button
+    //private lateinit var navHostFragment : NavHostFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_map)
-        navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+        setContentView(R.layout.activity_main)
+
+
+
         bottomNavView = findViewById(R.id.bottom_bar)
-        NavigationUI.setupWithNavController(bottomNavView, navHostFragment.navController)
-
-        logOutButton = findViewById(R.id.logOutButton)
-
-        setup()
+        //NavigationUI.setupWithNavController(bottomNavView, navHostFragment.navController)
 
 
-        /*//prueba Firebase
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/*//prueba Firebase
         val db = Firebase.firestore
         val user = hashMapOf(
             "nombre" to "22222Ada",
@@ -46,14 +58,3 @@ class MapActivity : AppCompatActivity() {
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error adding document", e)
             }*/
-    }
-
-    private fun setup(){
-        logOutButton.setOnClickListener{
-            FirebaseAuth.getInstance().signOut()
-            onBackPressed()
-        }
-    }
-
-
-}

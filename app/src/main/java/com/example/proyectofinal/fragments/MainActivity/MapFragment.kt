@@ -1,4 +1,4 @@
-package com.example.proyectofinal.fragments.MapActivity
+package com.example.proyectofinal.fragments.MainActivity
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle

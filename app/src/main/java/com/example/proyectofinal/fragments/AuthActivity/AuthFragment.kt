@@ -13,8 +13,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import androidx.navigation.Navigation
 import com.example.proyectofinal.R
-import com.example.proyectofinal.activities.MapActivity
+import com.example.proyectofinal.activities.MainActivity
 import com.example.proyectofinal.viewmodels.AuthViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -27,6 +28,8 @@ import com.google.firebase.ktx.Firebase
 class AuthFragment : Fragment() {
 
     private val GOOGLE_SIGN_IN = 100
+
+    lateinit var v:View
 
     private lateinit var viewModel: AuthViewModel
 
@@ -41,21 +44,21 @@ class AuthFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_auth, container, false)
-    }
+        v = inflater.inflate(R.layout.fragment_auth, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        signUpButton = v.findViewById(R.id.signUpButton)
+        loginButton = v.findViewById(R.id.loginButton)
+        emailEditText = v.findViewById(R.id.emailEditText)
+        passEditText = v.findViewById(R.id.passEditText)
+        googleButton = v.findViewById(R.id.googleButton)
 
-        signUpButton = view.findViewById(R.id.signUpButton)
-        loginButton = view.findViewById(R.id.loginButton)
-        emailEditText = view.findViewById(R.id.emailEditText)
-        passEditText = view.findViewById(R.id.passEditText)
-        googleButton = view.findViewById(R.id.googleButton)
+        signUpButton.setOnClickListener{Navigation.findNavController(v).navigate(R.id.actionAuthToRegister)}
 
         setup()
 
+        return v
     }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -65,23 +68,6 @@ class AuthFragment : Fragment() {
 
     private fun setup() {
 
-        signUpButton.setOnClickListener {
-            if (emailEditText.text.isNotEmpty() && passEditText.text.isNotEmpty()) {
-
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(
-                    emailEditText.text.toString(),
-                    passEditText.text.toString()
-                ).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        var email = emailEditText.text.toString()
-                        saveUser(email ?: "")
-                        showHome()
-                    } else {
-                        showAlert()
-                    }
-                }
-            }
-        }
 
         loginButton.setOnClickListener{
             if (emailEditText.text.isNotEmpty() && passEditText.text.isNotEmpty()){
@@ -89,7 +75,7 @@ class AuthFragment : Fragment() {
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(emailEditText.text.toString(),
                     passEditText.text.toString()).addOnCompleteListener{
                     if(it.isSuccessful){
-                        showHome()
+                        Navigation.findNavController(v).navigate(R.id.authToMain)
                     }else{
                         showAlert()
                     }
@@ -120,10 +106,6 @@ class AuthFragment : Fragment() {
         dialog.show()
     }
 
-    private fun showHome(){
-        val homeIntent = Intent(activity, MapActivity::class.java)
-        startActivity(homeIntent)
-    }
 
     private fun saveUser(email: String){
         val user = hashMapOf(
@@ -151,9 +133,9 @@ class AuthFragment : Fragment() {
                     val credential = GoogleAuthProvider.getCredential(account.idToken, null)
                     FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener {
                         if(it.isSuccessful){
-                            //var email = emailEditText?.text?.toString()
                             //saveUser(email ?: "")
-                            showHome()
+                            Navigation.findNavController(v).navigate(R.id.authToMain)
+
                         }else{
                             showAlert()
                         }
