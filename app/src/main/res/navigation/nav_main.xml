@@ -10,4 +10,14 @@
         android:name="com.example.proyectofinal.fragments.MainActivity.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/myHiresFragment"
+        android:name="com.example.proyectofinal.fragments.MyHiresFragment"
+        android:label="fragment_my_hires"
+        tools:layout="@layout/fragment_my_hires" />
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.example.proyectofinal.fragments.UserProfileFragment"
+        android:label="fragment_user_profile"
+        tools:layout="@layout/fragment_user_profile" />
 </navigation>

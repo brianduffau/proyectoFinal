@@ -30,7 +30,7 @@
         android:layout_marginBottom="44dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text="Direccion"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -44,7 +44,7 @@
         android:layout_marginBottom="54dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text="Mascotas"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -58,7 +58,7 @@
         android:layout_marginBottom="59dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text="Nombre"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -72,7 +72,7 @@
         android:layout_marginBottom="67dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text="Apellido"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -86,7 +86,7 @@
         android:layout_marginBottom="54dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text="Telefono"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
