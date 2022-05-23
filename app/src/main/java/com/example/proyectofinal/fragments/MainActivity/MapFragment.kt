@@ -1,21 +1,40 @@
 package com.example.proyectofinal.fragments.MainActivity
 
-import android.content.Context
-import androidx.lifecycle.ViewModelProvider
+import android.app.Activity
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.view.*
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
+import androidx.lifecycle.ViewModelProvider
 import com.example.proyectofinal.R
 import com.example.proyectofinal.viewmodels.MapViewModel
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
+import android.Manifest
 
-class MapFragment : Fragment() {
 
+class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+
+    private lateinit var mMap: GoogleMap
     private lateinit var viewModel: MapViewModel
     lateinit var v:View
+    private lateinit var lastLocation: Location
+    private lateinit var fusedLocationClient : FusedLocationProviderClient
+
+
+    companion object{
+        private const val LOCATION_REQUEST_CODE = 1
+    }
 
 
     override fun onCreateView(
@@ -25,6 +44,10 @@ class MapFragment : Fragment() {
 
         v = inflater.inflate(R.layout.fragment_map, container, false)
 
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         return v
     }
@@ -35,6 +58,51 @@ class MapFragment : Fragment() {
         // TODO: Use the ViewModel
 
     }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+        mMap.uiSettings.isZoomControlsEnabled = true
+        mMap.setOnMarkerClickListener(this)
+
+        setUpMap()
+
+    }
+
+    private fun setUpMap(){
+
+        val caba = LatLng(-34.594776, -58.446751)
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(caba, 15.0F));
+        mMap.addMarker(
+            MarkerOptions()
+            .position(caba)
+            .title("Marker in CABA"))
+
+        if(ActivityCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_REQUEST_CODE)
+            return
+        }
+
+
+        mMap.isMyLocationEnabled = true
+
+        fusedLocationClient.lastLocation.addOnSuccessListener(requireActivity()) {location ->
+            if(location != null){
+                lastLocation = location
+                val currentLatLng = LatLng(location.latitude, location.longitude)
+                placeMarkerOnMap(currentLatLng)
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+            }
+        }
+    }
+
+    private fun placeMarkerOnMap(currentLatLng: LatLng) {
+        val markerOptions = MarkerOptions().position(currentLatLng)
+        markerOptions.title("$currentLatLng")
+        mMap.addMarker(markerOptions)
+    }
+
+    override fun onMarkerClick(p0: Marker) = false
 
 
 }
