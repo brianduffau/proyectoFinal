@@ -1,12 +1,13 @@
 package com.example.proyectofinal.fragments.MainActivity
 
-import android.app.Activity
+import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.proyectofinal.R
@@ -20,21 +21,23 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import android.Manifest
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 
 class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
+    companion object{
+        private const val LOCATION_REQUEST_CODE = 1
+    }
+    private val db = Firebase.firestore
     private lateinit var mMap: GoogleMap
     private lateinit var viewModel: MapViewModel
     lateinit var v:View
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient : FusedLocationProviderClient
 
-
-    companion object{
-        private const val LOCATION_REQUEST_CODE = 1
-    }
+    private lateinit var professionals : Unit
 
 
     override fun onCreateView(
@@ -52,6 +55,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         return v
     }
 
+
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MapViewModel::class.java)
@@ -65,13 +70,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         mMap.setOnMarkerClickListener(this)
 
         setUpMap()
-
     }
 
     private fun setUpMap(){
 
         val caba = LatLng(-34.594776, -58.446751)
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(caba, 15.0F));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(caba, 12f));
         mMap.addMarker(
             MarkerOptions()
             .position(caba)
@@ -84,9 +88,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         }
 
 
+        /*
         mMap.isMyLocationEnabled = true
 
-        fusedLocationClient.lastLocation.addOnSuccessListener(requireActivity()) {location ->
+        fusedLocationClient.lastLocation.addOnSuccessListener(requireActivity()) { location ->
             if(location != null){
                 lastLocation = location
                 val currentLatLng = LatLng(location.latitude, location.longitude)
@@ -94,6 +99,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
             }
         }
+
+         */
+
     }
 
     private fun placeMarkerOnMap(currentLatLng: LatLng) {
