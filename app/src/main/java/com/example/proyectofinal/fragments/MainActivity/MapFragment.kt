@@ -1,19 +1,27 @@
 package com.example.proyectofinal.fragments.MainActivity
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
+import android.os.Looper
+import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.proyectofinal.R
 import com.example.proyectofinal.viewmodels.MapViewModel
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -30,14 +38,11 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     companion object{
         private const val LOCATION_REQUEST_CODE = 1
     }
-    private val db = Firebase.firestore
     private lateinit var mMap: GoogleMap
     private lateinit var viewModel: MapViewModel
     lateinit var v:View
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient : FusedLocationProviderClient
-
-    private lateinit var professionals : Unit
 
 
     override fun onCreateView(
@@ -78,17 +83,17 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(caba, 12f));
         mMap.addMarker(
             MarkerOptions()
-            .position(caba)
-            .title("Marker in CABA"))
+                .position(caba)
+                .title("Marker in CABA"))
 
         if(ActivityCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED){
-                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_REQUEST_CODE)
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_REQUEST_CODE)
             return
         }
 
 
-        /*
+
         mMap.isMyLocationEnabled = true
 
         fusedLocationClient.lastLocation.addOnSuccessListener(requireActivity()) { location ->
@@ -100,7 +105,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
             }
         }
 
-         */
+
 
     }
 
@@ -114,4 +119,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
 
 }
+
+
+
 
