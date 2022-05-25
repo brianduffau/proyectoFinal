@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,38 +46,38 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/signUpButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="135dp"
-        android:layout_marginTop="76dp"
-        android:layout_marginEnd="135dp"
-        android:layout_marginBottom="8dp"
-        android:layout_weight="1"
-        android:backgroundTint="#E1737475"
-        android:shadowColor="#000000"
-        android:text="Registrarme"
-        app:layout_constraintBottom_toTopOf="@+id/googleButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/authLayout" />
-
     <ImageButton
         android:id="@+id/googleButton"
         android:layout_width="166dp"
         android:layout_height="49dp"
         android:layout_marginStart="122dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="59dp"
         android:layout_marginEnd="122dp"
-        android:layout_marginBottom="324dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="74dp"
+        app:layout_constraintBottom_toTopOf="@+id/signUpButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpButton"
+        app:layout_constraintTop_toBottomOf="@+id/authLayout"
         app:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
+
+    <Button
+        android:id="@+id/signUpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="135dp"
+        android:layout_marginTop="74dp"
+        android:layout_marginEnd="135dp"
+        android:layout_marginBottom="312dp"
+        android:layout_weight="1"
+        android:backgroundTint="#E1737475"
+        android:shadowColor="#000000"
+        android:text="Registrarme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/googleButton" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
