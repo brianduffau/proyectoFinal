@@ -15,7 +15,6 @@ import android.widget.EditText
 import android.widget.ImageButton
 import androidx.navigation.Navigation
 import com.example.proyectofinal.R
-import com.example.proyectofinal.activities.MainActivity
 import com.example.proyectofinal.viewmodels.AuthViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -29,8 +28,8 @@ class AuthFragment : Fragment() {
 
     private val GOOGLE_SIGN_IN = 100
 
-    lateinit var v:View
-
+    lateinit var v: View
+    private val db = Firebase.firestore
     private lateinit var viewModel: AuthViewModel
 
     private lateinit var signUpButton: Button
@@ -38,7 +37,7 @@ class AuthFragment : Fragment() {
     private lateinit var emailEditText: EditText
     private lateinit var passEditText: EditText
     private lateinit var googleButton: ImageButton
-    private val db = Firebase.firestore
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,37 +45,35 @@ class AuthFragment : Fragment() {
     ): View? {
         v = inflater.inflate(R.layout.fragment_auth, container, false)
 
+        findViews()
+        setupListeners()
+
+        return v
+    }
+
+    private fun findViews() {
         signUpButton = v.findViewById(R.id.signUpButton)
         loginButton = v.findViewById(R.id.loginButton)
         emailEditText = v.findViewById(R.id.emailEditText)
         passEditText = v.findViewById(R.id.passEditText)
         googleButton = v.findViewById(R.id.googleButton)
 
+    }
+
+    private fun setupListeners() {
+
         signUpButton.setOnClickListener{Navigation.findNavController(v).navigate(R.id.actionAuthToRegister)}
 
-        setup()
+        loginButton.setOnClickListener {
+            if (emailEditText.text.isNotEmpty() && passEditText.text.isNotEmpty()) {
 
-        return v
-    }
-
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
-    private fun setup() {
-
-
-        loginButton.setOnClickListener{
-            if (emailEditText.text.isNotEmpty() && passEditText.text.isNotEmpty()){
-
-                FirebaseAuth.getInstance().signInWithEmailAndPassword(emailEditText.text.toString(),
-                    passEditText.text.toString()).addOnCompleteListener{
-                    if(it.isSuccessful){
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(
+                    emailEditText.text.toString(),
+                    passEditText.text.toString()
+                ).addOnCompleteListener {
+                    if (it.isSuccessful) {
                         Navigation.findNavController(v).navigate(R.id.authToMain)
-                    }else{
+                    } else {
                         showAlert()
                     }
                 }
@@ -97,7 +94,7 @@ class AuthFragment : Fragment() {
         }
     }
 
-    private fun showAlert(){
+    private fun showAlert() {
         val builder = AlertDialog.Builder(activity)
         builder.setTitle("Error")
         builder.setMessage("Se produjo un error al autenticar al usuario")
@@ -107,9 +104,39 @@ class AuthFragment : Fragment() {
     }
 
 
-    private fun saveUser(email: String){
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == GOOGLE_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+
+            try {
+                val account = task.getResult(ApiException::class.java)
+
+                if (account != null) {
+                    val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+                    FirebaseAuth.getInstance().signInWithCredential(credential)
+                        .addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                //saveUser(email ?: "")
+                                Navigation.findNavController(v).navigate(R.id.authToMain)
+
+                            } else {
+                                showAlert()
+                            }
+                        }
+                }
+            } catch (e: ApiException) {
+                showAlert()
+            }
+
+        }
+    }
+
+    private fun saveUser(email: String) {
         val user = hashMapOf(
-            "mail" to email)
+            "mail" to email
+        )
         db.collection("customers")
             .add(user)
             .addOnSuccessListener { documentReference ->
@@ -120,37 +147,11 @@ class AuthFragment : Fragment() {
             }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if(requestCode == GOOGLE_SIGN_IN){
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-
-            try{
-                val account = task.getResult(ApiException::class.java)
-
-                if(account != null){
-                    val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-                    FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener {
-                        if(it.isSuccessful){
-                            //saveUser(email ?: "")
-                            Navigation.findNavController(v).navigate(R.id.authToMain)
-
-                        }else{
-                            showAlert()
-                        }
-                    }
-                }
-            } catch (e: ApiException){
-                showAlert()
-            }
-
-        }
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+        // TODO: Use the ViewModel
     }
-
-
-
-
 
 
 }
