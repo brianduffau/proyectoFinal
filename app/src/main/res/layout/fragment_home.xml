@@ -15,7 +15,7 @@
         android:layout_marginTop="60dp"
         android:layout_marginEnd="121dp"
         android:layout_marginBottom="82dp"
-        android:text="Bienvenido a Mascoteando"
+        android:text="Mascoteando"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
@@ -35,10 +35,10 @@
         android:text="Conectamos mascotas con paseadores"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.327" />
+        app:layout_constraintVertical_bias="0.292" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -60,7 +60,7 @@
             android:layout_marginTop="76dp"
             android:layout_marginEnd="120dp"
             android:layout_marginBottom="0dp"
-            android:backgroundTint="@color/light_blue"
+            android:backgroundTint="@color/orange"
             android:shadowColor="#000000"
             android:text="Acceder" />
 
@@ -73,27 +73,15 @@
             android:layout_marginEnd="120dp"
             android:layout_marginBottom="60dp"
             android:layout_weight="1"
-            android:backgroundTint="#E1737475"
+            android:backgroundTint="@color/light"
             android:shadowColor="#000000"
             android:text="Registrarme"
             app:layout_constraintBottom_toTopOf="@+id/googleButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/authLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/login_register" />
 
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="141dp"
-        android:layout_height="191dp"
-        android:layout_marginStart="135dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="135dp"
-        android:src="@drawable/logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
