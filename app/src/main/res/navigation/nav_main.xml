@@ -19,5 +19,17 @@
         android:id="@+id/userProfileFragment"
         android:name="com.example.proyectofinal.fragments.UserProfileFragment"
         android:label="fragment_user_profile"
-        tools:layout="@layout/fragment_user_profile" />
+        tools:layout="@layout/fragment_user_profile" >
+        <action
+            android:id="@+id/actionUserPtoPets"
+            app:destination="@id/myPetsFragment" />
+        <action
+            android:id="@+id/actionUserPtoHirings"
+            app:destination="@id/hiringsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myPetsFragment"
+        android:name="com.example.proyectofinal.fragments.recyclerViews.MyPetsFragment"
+        android:label="fragment_pets"
+        tools:layout="@layout/fragment_pets" />
 </navigation>

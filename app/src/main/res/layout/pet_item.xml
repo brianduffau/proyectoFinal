@@ -38,9 +38,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Nombre usuario"
+                android:text="Nombre mascota"
                 android:textAlignment="center"
-
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -49,7 +48,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Comentario"
+                android:text="Tipo"
+                android:textAlignment="center"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/petAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Edad"
                 android:textAlignment="center"
                 android:textSize="14sp" />
 

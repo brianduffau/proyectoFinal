@@ -7,7 +7,7 @@ class Customer (
     name: String,
     surname: String,
     phone: String,
-    pets: Array<Pet>
+    idPets: Array<String>
 
 ): User(id,mail, password,
     name,
