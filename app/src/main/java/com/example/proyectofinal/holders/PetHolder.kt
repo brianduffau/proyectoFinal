@@ -5,7 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+//import com.bumptech.glide.Glide
 import com.example.proyectofinal.R
 
 class PetHolder(v: View): RecyclerView.ViewHolder(v) {
@@ -21,12 +21,12 @@ class PetHolder(v: View): RecyclerView.ViewHolder(v) {
         val agePet : TextView = view.findViewById(R.id.petAge)
         val namePet : TextView = view.findViewById(R.id.petName)
         val typePet : TextView = view.findViewById(R.id.petType)
-        val imagePet : ImageView = view.findViewById(R.id.petImage)
+        //val imagePet : ImageView = view.findViewById(R.id.petImage)
 
         agePet.text = age.toString()
         namePet.text = name
         typePet.text = type
-        Glide.with(this.view).load(image).into(getImageView())
+        //Glide.with(this.view).load(image).into(getImageView())
 
     }
 

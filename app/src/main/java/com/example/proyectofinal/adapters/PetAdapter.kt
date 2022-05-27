@@ -9,14 +9,13 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+//import com.bumptech.glide.Glide
 import com.example.proyectofinal.R
 import com.example.proyectofinal.entities.Pet
 import com.example.proyectofinal.holders.PetHolder
 
-class PetAdapter(var context: Context,
-                 var petsList: ArrayList<Pet>,
-                 var onClick: (Int) -> Unit): RecyclerView.Adapter<PetHolder>() {
+class PetAdapter(var petsList: ArrayList<Pet>,
+                 var onClick: (Int) -> Unit): RecyclerView.Adapter<PetHolder>(){
 
 
 
