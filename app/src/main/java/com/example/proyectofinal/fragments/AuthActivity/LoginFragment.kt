@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.proyectofinal.R
+import com.example.proyectofinal.entities.Customer
 import com.example.proyectofinal.viewmodels.AuthViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -49,6 +50,7 @@ class LoginFragment : Fragment() {
         findViews()
         setupToolbar()
         setupListeners()
+
 
 
         return v

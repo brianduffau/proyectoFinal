@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.navigation.Navigation
 import com.example.proyectofinal.R
+import com.example.proyectofinal.entities.Customer
 import com.example.proyectofinal.viewmodels.RegisterViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -24,7 +25,7 @@ import com.google.firebase.ktx.Firebase
 
 class RegisterFragment : Fragment() {
 
-    lateinit var v:View
+    lateinit var v: View
     private lateinit var viewModel: RegisterViewModel
     private val db = Firebase.firestore
 
@@ -37,8 +38,8 @@ class RegisterFragment : Fragment() {
     private lateinit var emailInput: EditText
     private lateinit var passInput: EditText
     private lateinit var passConfirmInput: EditText
-    private lateinit var backButton : ImageView
-    private lateinit var toolbarText : TextView
+    private lateinit var backButton: ImageView
+    private lateinit var toolbarText: TextView
 
 
     override fun onCreateView(
@@ -56,7 +57,7 @@ class RegisterFragment : Fragment() {
 
     private fun setupToolbar() {
         toolbarText.setText("Registrar una nueva cuenta")
-        backButton.setOnClickListener{ Navigation.findNavController(v).popBackStack()}
+        backButton.setOnClickListener { Navigation.findNavController(v).popBackStack() }
     }
 
     private fun findViews() {
@@ -73,25 +74,43 @@ class RegisterFragment : Fragment() {
 
     private fun setupRegister() {
 
-        registerButton.setOnClickListener{
-            if(checkFormNotEmpty()){
-                if(doubleCheckPass()){
-                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailInput.text.toString(), passInput.text.toString())
-                        .addOnCompleteListener{
-                            if(it.isSuccessful){
-                                saveUser(nameInput.text.toString(),surnameInput.text.toString(),emailInput.text.toString())
+        registerButton.setOnClickListener {
+            if (checkFormNotEmpty()) {
+                if (doubleCheckPass()) {
+                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(
+                        emailInput.text.toString(),
+                        passInput.text.toString()
+                    )
+                        .addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                saveUser(
+                                    it.getResult().user?.uid ?: "",
+                                    nameInput.text.toString(),
+                                    surnameInput.text.toString(),
+                                    emailInput.text.toString(),
+                                    ""
+                                )
                                 accountCreatedAlert()
-                            }else{
-                                val toast = Toast.makeText(requireContext(), "El usuario ya existe", Toast.LENGTH_LONG)
+                            } else {
+                                val toast = Toast.makeText(
+                                    requireContext(),
+                                    "El usuario ya existe",
+                                    Toast.LENGTH_LONG
+                                )
                                 toast.show()
                             }
                         }
-                }else{
-                    val toast = Toast.makeText(requireContext(), "Las contraseñas no coinciden", Toast.LENGTH_LONG)
+                } else {
+                    val toast = Toast.makeText(
+                        requireContext(),
+                        "Las contraseñas no coinciden",
+                        Toast.LENGTH_LONG
+                    )
                     toast.show()
                 }
-            }else{
-                val toast = Toast.makeText(requireContext(), "Campos incompletos", Toast.LENGTH_LONG)
+            } else {
+                val toast =
+                    Toast.makeText(requireContext(), "Campos incompletos", Toast.LENGTH_LONG)
                 toast.show()
 
             }
@@ -125,11 +144,16 @@ class RegisterFragment : Fragment() {
                     FirebaseAuth.getInstance().signInWithCredential(credential)
                         .addOnCompleteListener {
                             if (it.isSuccessful) {
-                                if(it.getResult().additionalUserInfo?.isNewUser!!){
-                                    saveUser(account.givenName ?: "", "",account.email ?: "")
+                                if (it.getResult().additionalUserInfo?.isNewUser!!) {
+                                    saveUser(
+                                        account.id ?: "",
+                                        account.givenName ?: "",
+                                        "",
+                                        account.email ?: "",
+                                        account.photoUrl.toString(),
+                                    )
                                 }
                                 Navigation.findNavController(v).navigate(R.id.actionRegisterToMain)
-
                             } else {
                                 showAlert()
                             }
@@ -151,14 +175,11 @@ class RegisterFragment : Fragment() {
         dialog.show()
     }
 
-    private fun saveUser(name: String, surname : String, email : String) {
-        val user = hashMapOf(
-            "name" to name,
-            "surname" to surname,
-            "email" to email,
-        )
+    private fun saveUser(id: String, name: String, surname: String, email: String, img: String) {
+        val customer = Customer(id = id, name = name, surname = surname, email = email, img = img)
+
         db.collection("customers")
-            .add(user)
+            .add(customer)
             .addOnSuccessListener { documentReference ->
                 Log.d(ContentValues.TAG, "Usuario agregado con id : ${documentReference.id}")
             }
@@ -190,11 +211,10 @@ class RegisterFragment : Fragment() {
     }
 
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
-        // TODO: Use the ViewModel
+// TODO: Use the ViewModel
     }
 
 
