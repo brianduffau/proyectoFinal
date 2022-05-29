@@ -1,20 +1,20 @@
 package com.example.proyectofinal.fragments.AuthActivity
 
 import android.app.AlertDialog
+import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
+import android.widget.*
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.proyectofinal.R
+import com.example.proyectofinal.entities.Customer
 import com.example.proyectofinal.viewmodels.AuthViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -24,7 +24,8 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class AuthFragment : Fragment() {
+
+class LoginFragment : Fragment() {
 
     private val GOOGLE_SIGN_IN = 100
 
@@ -37,27 +38,37 @@ class AuthFragment : Fragment() {
     private lateinit var emailEditText: EditText
     private lateinit var passEditText: EditText
     private lateinit var googleButton: ImageButton
+    private lateinit var backButton : ImageView
+    private lateinit var toolbarText : TextView
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        v = inflater.inflate(R.layout.fragment_auth, container, false)
-
+        v = inflater.inflate(R.layout.fragment_login, container, false)
         findViews()
+        setupToolbar()
         setupListeners()
+
+
 
         return v
     }
 
-    private fun findViews() {
-        signUpButton = v.findViewById(R.id.signUpButton)
-        loginButton = v.findViewById(R.id.loginButton)
-        emailEditText = v.findViewById(R.id.emailEditText)
-        passEditText = v.findViewById(R.id.passEditText)
-        googleButton = v.findViewById(R.id.googleButton)
+    private fun setupToolbar() {
+        toolbarText.setText("Acceder con una cuenta")
+        backButton.setOnClickListener{Navigation.findNavController(v).popBackStack()}
+    }
 
+    private fun findViews() {
+        signUpButton = v.findViewById(R.id.register_button)
+        loginButton = v.findViewById(R.id.login_button)
+        emailEditText = v.findViewById(R.id.email_login)
+        passEditText = v.findViewById(R.id.pass_login)
+        googleButton = v.findViewById(R.id.google_button_login)
+        toolbarText = v.findViewById(R.id.text_toolbar)
+        backButton = v.findViewById(R.id.back_button_toolbar)
     }
 
     private fun setupListeners() {
@@ -121,7 +132,9 @@ class AuthFragment : Fragment() {
                     FirebaseAuth.getInstance().signInWithCredential(credential)
                         .addOnCompleteListener {
                             if (it.isSuccessful) {
-                                //saveUser(email ?: "")
+                                if(it.getResult().additionalUserInfo?.isNewUser!!){
+                                    saveUser(account.givenName ?: "", "", account.email ?: "", )
+                                }
                                 Navigation.findNavController(v).navigate(R.id.authToMain)
 
                             } else {
@@ -136,17 +149,19 @@ class AuthFragment : Fragment() {
         }
     }
 
-    private fun saveUser(email: String) {
+    private fun saveUser(name: String, surname : String, email : String) {
         val user = hashMapOf(
-            "mail" to email
+            "name" to name,
+            "surname" to surname,
+            "email" to email,
         )
         db.collection("customers")
             .add(user)
             .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "Usuario agregado con id : ${documentReference.id}")
+                Log.d(ContentValues.TAG, "Usuario agregado con id : ${documentReference.id}")
             }
             .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
+                Log.w(ContentValues.TAG, "Error adding document", e)
             }
     }
 

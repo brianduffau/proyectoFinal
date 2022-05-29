@@ -5,22 +5,27 @@
     android:id="@+id/frameLayout7"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.AuthActivity.AuthFragment" >
+    tools:context=".fragments.AuthActivity.LoginFragment">
+
+    <include layout="@layout/toolbar"
+        android:id="@+id/auth_toolbar"/>
 
     <LinearLayout
-        android:id="@+id/authLayout"
+        android:id="@+id/login_register"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="200dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="14dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/google_button_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/emailEditText"
+            android:id="@+id/email_login"
             android:layout_width="match_parent"
             android:layout_height="59dp"
             android:ems="10"
@@ -28,7 +33,7 @@
             android:inputType="textEmailAddress" />
 
         <EditText
-            android:id="@+id/passEditText"
+            android:id="@+id/pass_login"
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:ems="10"
@@ -36,48 +41,49 @@
             android:inputType="textPassword" />
 
         <Button
-            android:id="@+id/loginButton"
+            android:id="@+id/login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/light_blue"
+            android:backgroundTint="@color/orange"
             android:shadowColor="#000000"
             android:text="Acceder" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/signUpButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="135dp"
-        android:layout_marginTop="76dp"
-        android:layout_marginEnd="135dp"
-        android:layout_marginBottom="8dp"
-        android:layout_weight="1"
-        android:backgroundTint="#E1737475"
-        android:shadowColor="#000000"
-        android:text="Registrarme"
-        app:layout_constraintBottom_toTopOf="@+id/googleButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/authLayout" />
-
     <ImageButton
-        android:id="@+id/googleButton"
+        android:id="@+id/google_button_login"
         android:layout_width="166dp"
         android:layout_height="49dp"
         android:layout_marginStart="122dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="59dp"
         android:layout_marginEnd="122dp"
-        android:layout_marginBottom="324dp"
+        android:layout_marginBottom="74dp"
+        app:layout_constraintBottom_toTopOf="@+id/register_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_register"
+        app:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
+
+    <Button
+        android:id="@+id/register_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="135dp"
+        android:layout_marginTop="74dp"
+        android:layout_marginEnd="135dp"
+        android:layout_marginBottom="312dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/light"
+        android:shadowColor="#000000"
+        android:text="Registrarme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpButton"
-        app:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
+        app:layout_constraintTop_toBottomOf="@+id/google_button_login" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

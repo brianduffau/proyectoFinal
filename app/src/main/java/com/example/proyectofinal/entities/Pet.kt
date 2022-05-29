@@ -1,7 +1,10 @@
 package com.example.proyectofinal.entities
 
-class Pet (
-    name: String,
-    age: Integer,
-    type: String,
+data class Pet(
+    val id: String = "",
+    val img: String = "",
+    val name: String = "",
+    val age: Int = 0,
+    val type: String = "",
+    val idOwner: String = "",
 )

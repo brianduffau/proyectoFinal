@@ -1,15 +1,12 @@
 package com.example.proyectofinal.entities
 
-class Customer (
-    id: String,
-    mail: String,
-    password: String,
-    name: String,
-    surname: String,
-    phone: String,
-    pets: Array<Pet>
+import android.net.Uri
 
-): User(id,mail, password,
-    name,
-    surname, phone
+data class Customer(
+    val id: String = "",
+    val email: String = "",
+    val name: String = "",
+    val surname: String = "",
+    val img: String = "",
+    val pets: Array<String>? = null
 )
