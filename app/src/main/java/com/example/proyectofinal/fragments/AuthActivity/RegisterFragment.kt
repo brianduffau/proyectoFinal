@@ -31,7 +31,6 @@ class RegisterFragment : Fragment() {
     private lateinit var passInput: EditText
     private lateinit var passInput2: EditText
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,6 +41,7 @@ class RegisterFragment : Fragment() {
         setupRegister()
 
         return v
+
     }
 
     private fun findViews() {
@@ -119,8 +119,6 @@ class RegisterFragment : Fragment() {
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
-
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

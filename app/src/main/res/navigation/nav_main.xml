@@ -9,7 +9,11 @@
         android:id="@+id/mapFragment"
         android:name="com.example.proyectofinal.fragments.MainActivity.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map" >
+        <argument
+            android:name="filtros"
+            app:argType="string[]" />
+    </fragment>
     <fragment
         android:id="@+id/hiringsFragment"
         android:name="com.example.proyectofinal.fragments.HiringsFragment"

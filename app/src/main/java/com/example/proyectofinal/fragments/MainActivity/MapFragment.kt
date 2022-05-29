@@ -2,21 +2,14 @@ package com.example.proyectofinal.fragments.MainActivity
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
-import android.location.LocationManager
 import android.os.Bundle
-import android.os.Looper
-import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.proyectofinal.R
@@ -26,24 +19,39 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-
-class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener,
+    GoogleMap.OnInfoWindowClickListener {
 
     companion object{
         private const val LOCATION_REQUEST_CODE = 1
     }
-    private lateinit var mMap: GoogleMap
-    private lateinit var viewModel: MapViewModel
-    lateinit var v:View
+
+    lateinit var v : View
+
+    private lateinit var mMap : GoogleMap
+    private lateinit var viewModel : MapViewModel
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient : FusedLocationProviderClient
 
+    private lateinit var paseador : Chip
+    private lateinit var cuidador : Chip
+    private lateinit var veterinaria : Chip
+    private lateinit var petShop : Chip
+    private lateinit var verTodos : Chip
+
+    private lateinit var chip_group : ChipGroup
+
+    var db = Firebase.firestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,12 +63,17 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+        paseador = v.findViewById(R.id.paseador)
+        cuidador = v.findViewById(R.id.cuidador)
+        veterinaria = v.findViewById(R.id.veterinaria)
+        petShop = v.findViewById(R.id.petShop)
+        verTodos = v.findViewById(R.id.verTodos)
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         return v
+
     }
-
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -73,26 +86,89 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
         mMap.setOnMarkerClickListener(this)
+        mMap.setOnInfoWindowClickListener(this)
 
         setUpMap()
+        getMarkersData()
+
+        paseador.setOnClickListener {
+            val paseadorString = capitalizeString(paseador.text.toString())
+            mMap.clear()
+            myMarker()
+            getDB(paseadorString)
+        }
+
+        cuidador.setOnClickListener {
+            mMap.clear()
+            myMarker()
+            val cuidadorString = capitalizeString(cuidador.text.toString())
+            getDB(cuidadorString)
+        }
+
+        verTodos.setOnClickListener {
+            getMarkersData()
+        }
+
     }
 
-    private fun setUpMap(){
+    private fun capitalizeString(str: String): String {
+        var retStr = str
+        try { // We can face index out of bound exception if the string is null
+            retStr = str.substring(0, 1).uppercase() + str.substring(1)
+        } catch (e: Exception) {
+        }
+        return retStr
+    }
 
+    private fun getDB(type : String){
+        lateinit var geoPoint : GeoPoint
+        db.collection("professionals")
+            .whereEqualTo("professionalType", type)
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    if(document != null){
+                        var geoPointFB = document.getGeoPoint("geo")
+                        if (geoPointFB != null) {
+                            geoPoint = geoPointFB
+                        }
+                    }
+                    var latitude = geoPoint.latitude
+                    var longitude = geoPoint.longitude
+                    val myPos = LatLng(latitude, longitude)
+
+                    Log.d("markersOk", "${document.id} => ${document.data}")
+
+                    mMap.addMarker(
+                        MarkerOptions()
+                            .position(myPos)
+                            .title(document.data["name"] as String?)
+                            .snippet(document.data["professionalType"] as String?)
+                    )
+
+                    mMap.setOnInfoWindowClickListener(){
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("markersNotOK", "Error getting documents: ", exception)
+            }
+        }
+
+
+    @SuppressLint("MissingPermission")
+    private fun setUpMap(){
         val caba = LatLng(-34.594776, -58.446751)
+
+        myMarker()
+
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(caba, 12f));
-        mMap.addMarker(
-            MarkerOptions()
-                .position(caba)
-                .title("Marker in CABA"))
 
         if(ActivityCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_REQUEST_CODE)
             return
         }
-
-
 
         mMap.isMyLocationEnabled = true
 
@@ -104,8 +180,70 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
             }
         }
+    }
+
+    private fun myMarker() {
+        val caba = LatLng(-34.594776, -58.446751)
+        mMap.addMarker(
+            MarkerOptions()
+                .position(caba)
+                .title("Mi Ubicación"))
+            ?.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+    }
+
+    private fun getMarkersData(){
+
+        lateinit var geoPoint : GeoPoint ;
+
+        val docRef = db.collection("professionals")
+
+        docRef.get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    if(document != null){
+                        var geoPointFB = document.getGeoPoint("geo")
+                        if (geoPointFB != null) {
+                            geoPoint = geoPointFB
+                        }
+                    }
+                    var latitude = geoPoint.latitude
+                    var longitude = geoPoint.longitude
+                    val myPos = LatLng(latitude, longitude)
+
+                    //Log.d("markersOk", "${document.id} => ${document.data}")
+
+                    mMap.addMarker(
+                        MarkerOptions()
+                            .position(myPos)
+                            .title(document.data["name"] as String?)
+                            .snippet(document.data["professionalType"] as String?)
+                    )
+
+                    mMap.setOnInfoWindowClickListener(){
+
+                        // TODO: CREAR UN DIALOG-POP PARA MOSTRAR DATOS DEL PROFESIONAL
+                        //  Y ENVIAR A PAGINA DE PERFIL
+
+                        /* val builder = AlertDialog.Builder(activity)
+                        builder.setTitle(document.data["name"] as String?)
+                        builder.setMessage("Aca van los datos del usuario, ")
+                        builder.setPositiveButton("Cerrar", null)
+                        builder.setNegativeButton("Contratar", null)
+                        val dialog: AlertDialog = builder.create()
+                        dialog.show()
+
+                         */
 
 
+
+                    }
+
+                }
+
+            }
+            .addOnFailureListener { exception ->
+                Log.d("markersNotOK", "Error getting documents: ", exception)
+            }
 
     }
 
@@ -117,6 +255,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
     override fun onMarkerClick(p0: Marker) = false
 
+    override fun onInfoWindowClick(p0: Marker) {
+        TODO("Not yet implemented")
+    }
 
 }
 
