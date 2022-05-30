@@ -15,7 +15,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.proyectofinal.R
 import com.example.proyectofinal.viewmodels.MapViewModel
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -25,10 +26,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+
 
 class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener,
     GoogleMap.OnInfoWindowClickListener {
@@ -50,7 +51,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     private lateinit var petShop : Chip
     private lateinit var verTodos : Chip
 
-    private lateinit var chip_group : ChipGroup
+    var markerMap = HashMap<String, String>()
 
     var db = Firebase.firestore
 
@@ -133,29 +134,44 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
                         if (geoPointFB != null) {
                             geoPoint = geoPointFB
                         }
-                    }
-                    var latitude = geoPoint.latitude
-                    var longitude = geoPoint.longitude
-                    val myPos = LatLng(latitude, longitude)
 
-                    Log.d("markersOk", "${document.id} => ${document.data}")
+                        var latitude = geoPoint.latitude
+                        var longitude = geoPoint.longitude
+                        val myPos = LatLng(latitude, longitude)
 
-                    mMap.addMarker(
-                        MarkerOptions()
-                            .position(myPos)
-                            .title(document.data["name"] as String?)
-                            .snippet(document.data["professionalType"] as String?)
-                    )
+                        Log.d("markersOk", "${document.id} => ${document.data}")
 
-                    mMap.setOnInfoWindowClickListener(){
+                        val marker = mMap.addMarker(
+                            MarkerOptions().position(myPos)
+                                .title(document.data["name"] as String?)
+                                .snippet(document.data["professionalType"] as String?)
+                        )
+
+                        val idOne = marker?.id
+                        if (idOne != null) {
+                            markerMap.put(idOne, document.id)
+                        }
+
                     }
                 }
+
+                mMap.setOnInfoWindowClickListener { marker ->
+                    val actionId = markerMap[marker.id]
+                    if (actionId != null) {
+                        val action = MapFragmentDirections.actionMapFragmentToProfessionalProfileFragment(
+                            actionId
+                        )
+                        v.findNavController().navigate(action)
+                    }
+                }
+
+
+
             }
             .addOnFailureListener { exception ->
                 Log.d("markersNotOK", "Error getting documents: ", exception)
             }
-        }
-
+    }
 
     @SuppressLint("MissingPermission")
     private fun setUpMap(){
@@ -201,52 +217,45 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         docRef.get()
             .addOnSuccessListener { result ->
                 for (document in result) {
-                    if(document != null){
+
+                    if(document != null) {
                         var geoPointFB = document.getGeoPoint("geo")
                         if (geoPointFB != null) {
                             geoPoint = geoPointFB
                         }
+
+                        var latitude = geoPoint.latitude
+                        var longitude = geoPoint.longitude
+                        val myPos = LatLng(latitude, longitude)
+
+                        val marker = mMap.addMarker(
+                            MarkerOptions().position(myPos)
+                                .title(document.data["name"] as String?)
+                                .snippet(document.data["professionalType"] as String?)
+                        )
+
+                        val idOne = marker?.id
+                        if (idOne != null) {
+                            markerMap.put(idOne, document.id)
+                        }
+
                     }
-                    var latitude = geoPoint.latitude
-                    var longitude = geoPoint.longitude
-                    val myPos = LatLng(latitude, longitude)
+                }
 
-                    //Log.d("markersOk", "${document.id} => ${document.data}")
-
-                    mMap.addMarker(
-                        MarkerOptions()
-                            .position(myPos)
-                            .title(document.data["name"] as String?)
-                            .snippet(document.data["professionalType"] as String?)
-                    )
-
-                    mMap.setOnInfoWindowClickListener(){
-
-                        /* val builder = AlertDialog.Builder(activity)
-                        builder.setTitle(document.data["name"] as String?)
-                        builder.setMessage("Aca van los datos del usuario, ")
-                        builder.setPositiveButton("Cerrar", null)
-                        builder.setNegativeButton("Contratar", null)
-                        val dialog: AlertDialog = builder.create()
-                        dialog.show()
-
-                         */
-
-                        val profId = document.id.toString()
-
-                        val action = MapFragmentDirections.
-                        actionMapFragmentToProfessionalProfileFragment(profId)
+                mMap.setOnInfoWindowClickListener { marker ->
+                    val actionId = markerMap[marker.id]
+                    if (actionId != null) {
+                        val action = MapFragmentDirections.actionMapFragmentToProfessionalProfileFragment(
+                            actionId
+                        )
                         v.findNavController().navigate(action)
-
                     }
-
                 }
 
             }
             .addOnFailureListener { exception ->
                 Log.d("markersNotOK", "Error getting documents: ", exception)
             }
-
     }
 
     private fun placeMarkerOnMap(currentLatLng: LatLng) {
@@ -257,8 +266,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
     override fun onMarkerClick(p0: Marker) = false
 
-    override fun onInfoWindowClick(p0: Marker) {
-        TODO("Not yet implemented")
+    override fun onInfoWindowClick( marker : Marker) {
     }
 
 }

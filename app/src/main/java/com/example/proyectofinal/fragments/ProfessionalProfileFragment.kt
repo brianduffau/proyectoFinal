@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.example.proyectofinal.R
 import com.example.proyectofinal.entities.Professional
 import com.example.proyectofinal.viewmodels.ProfessionalProfileViewModel
@@ -24,6 +25,9 @@ class ProfessionalProfileFragment : Fragment() {
 
     private lateinit var viewModel: ProfessionalProfileViewModel
 
+    lateinit var professionalName : TextView
+    lateinit var professionalType : TextView
+
     var db = Firebase.firestore
 
     override fun onCreateView(
@@ -31,8 +35,6 @@ class ProfessionalProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_professional_profile, container, false)
-
-
 
         return v
     }
@@ -42,11 +44,31 @@ class ProfessionalProfileFragment : Fragment() {
         val profId = ProfessionalProfileFragmentArgs.fromBundle(requireArguments()).profId
         Log.d("argumento", "professional ID: $profId")
 
-        getProfInfo(profId)
+        // getProfInfo(profId)
+
+        professionalName = v.findViewById(R.id.professionalName)
+        professionalType = v.findViewById(R.id.professionalType)
+
+        val docRef = db.collection("professionals").document(profId)
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    Log.d("documentOK", "DocumentSnapshot data: ${document.id}")
+                    professionalName.text = document.data?.get("name") as String
+                    professionalType.text = document.data?.get("professionalType") as String
+                } else {
+                    Log.d("documentNotFound", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("documentNotOK", "get failed with ", exception)
+            }
+
+
 
     }
 
-    private fun getProfInfo(profId : String) {
+   /* private fun getProfInfo(profId : String) {
         val docRef = db.collection("professionals").document(profId)
         docRef.get()
             .addOnSuccessListener { document ->
@@ -59,7 +81,7 @@ class ProfessionalProfileFragment : Fragment() {
             .addOnFailureListener { exception ->
                 Log.d("documentNotOK", "get failed with ", exception)
             }
-    }
+    }*/
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
