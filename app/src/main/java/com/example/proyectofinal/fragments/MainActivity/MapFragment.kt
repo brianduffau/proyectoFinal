@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import com.example.proyectofinal.R
 import com.example.proyectofinal.viewmodels.MapViewModel
 import com.google.android.gms.location.*
@@ -221,9 +222,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
                     mMap.setOnInfoWindowClickListener(){
 
-                        // TODO: CREAR UN DIALOG-POP PARA MOSTRAR DATOS DEL PROFESIONAL
-                        //  Y ENVIAR A PAGINA DE PERFIL
-
                         /* val builder = AlertDialog.Builder(activity)
                         builder.setTitle(document.data["name"] as String?)
                         builder.setMessage("Aca van los datos del usuario, ")
@@ -234,7 +232,11 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
                          */
 
+                        val profId = document.id.toString()
 
+                        val action = MapFragmentDirections.
+                        actionMapFragmentToProfessionalProfileFragment(profId)
+                        v.findNavController().navigate(action)
 
                     }
 

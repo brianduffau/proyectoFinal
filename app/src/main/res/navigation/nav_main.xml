@@ -13,6 +13,9 @@
         <argument
             android:name="filtros"
             app:argType="string[]" />
+        <action
+            android:id="@+id/action_mapFragment_to_professionalProfileFragment"
+            app:destination="@id/professionalProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/hiringsFragment"
@@ -24,4 +27,13 @@
         android:name="com.example.proyectofinal.fragments.UserProfileFragment"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" />
+    <fragment
+        android:id="@+id/professionalProfileFragment"
+        android:name="com.example.proyectofinal.fragments.ProfessionalProfileFragment"
+        android:label="fragment_professional_profile"
+        tools:layout="@layout/fragment_professional_profile" >
+        <argument
+            android:name="profId"
+            app:argType="string" />
+    </fragment>
 </navigation>
