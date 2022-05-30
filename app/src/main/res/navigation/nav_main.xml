@@ -21,11 +21,11 @@
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" >
         <action
-            android:id="@+id/actionUserPtoPets"
-            app:destination="@id/myPetsFragment" />
-        <action
             android:id="@+id/actionUserPtoHirings"
             app:destination="@id/hiringsFragment" />
+        <action
+            android:id="@+id/actionUserPtoPets"
+            app:destination="@id/myPetsFragment" />
     </fragment>
     <fragment
         android:id="@+id/myPetsFragment"

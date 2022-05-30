@@ -32,12 +32,11 @@ class MyPetsFragment : Fragment() {
 
     lateinit var btnAdd : FloatingActionButton
     lateinit var recPets : RecyclerView
-    private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var adapterPet: PetAdapter
+    lateinit var adapter: PetAdapter
 
     var db = Firebase.firestore
 
-    lateinit var petsList : ArrayList<Pet> //mutablelist?
+    var petsList : ArrayList<Pet> = arrayListOf()//mutablelist?
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,46 +47,48 @@ class MyPetsFragment : Fragment() {
         btnAdd = v.findViewById(R.id.btn_add)
         recPets = v.findViewById(R.id.recPets)
 
-        petsList = ArrayList()
+        //petsList = arrayListOf()
+
+
 
         return v
     }
 
-
     override fun onStart() {
         super.onStart()
+
+        // INTENTO DE CARGAR LOS DATOS A VER SI FUNCIONA:
+        //petsList.add(Pet("01","https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.es%2Ffotos-premium%2Flabrador-marron-foto-estudio-cachorro_12887850.htm&psig=AOvVaw2j8-0smiLmq9GD9vaaVKAY&ust=1653766170442000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCMCm-pq1gPgCFQAAAAAdAAAAABAD","India",9,"Perro", "1234AACC"))
+        //petsList.add(Pet("Malta","Perro",1,"https://www.google.com/url?sa=i&url=https%3A%2F%2Fes.123rf.com%2Fimagenes-de-archivo%2Fperro_mestizo.html&psig=AOvVaw1UJKwhy7PGxgimszqB8LaB&ust=1653766045548000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCMi5i-C0gPgCFQAAAAAdAAAAABAD", "1234AACC"))
 
         db.collection("pets")
             .get()
             .addOnSuccessListener { snapshot ->
                 if (snapshot != null) {
+                    Log.i("if", "entro")
                     for (p in snapshot) {
                         // logica para que sea de ese dueño
                         // busco en el array de las mascotas del dueño y despues me fijo que sean el mismo id de la tabla de pets
                         // si son el mismo lo agrego a la petsList
                         petsList.add(p.toObject())
-                        Log.i(TAG, "MASCOTAAS $petsList")
+                        Log.i("entro al for", "MASCOTAAS $petsList")
                     }
                 }
             }
             .addOnFailureListener { exception ->
-                Log.w(ContentValues.TAG, "Error getting documents: ", exception)
+                Log.w("fallo", "Error getting documents: ", exception)
             }
 
         recPets.setHasFixedSize(true)
-        //linearLayoutManager = LinearLayoutManager(context)
         recPets.layoutManager = LinearLayoutManager(context)
 
-        //adapterPet = PetAdapter(requireContext(),petsList){ position->
-        //    Snackbar.make(v,position.toString(), Snackbar.LENGTH_SHORT).show()
-        //    // esto se ejecuta cuando hace click
-        //}
 
-        adapterPet = PetAdapter(petsList){ position->
+        adapter = PetAdapter(requireContext(),petsList){ position->
             Snackbar.make(v,position.toString(), Snackbar.LENGTH_SHORT).show()
             // esto se ejecuta cuando hace click
         }
-        recPets.adapter = adapterPet
+        recPets.adapter = adapter
+
 
     }
 
