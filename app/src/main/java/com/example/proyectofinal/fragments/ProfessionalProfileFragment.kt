@@ -1,19 +1,23 @@
 package com.example.proyectofinal.fragments
 
-import androidx.lifecycle.ViewModelProvider
+import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.proyectofinal.R
-import com.example.proyectofinal.entities.Professional
+import com.example.proyectofinal.fragments.MainActivity.MapFragment
 import com.example.proyectofinal.viewmodels.ProfessionalProfileViewModel
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+
 
 class ProfessionalProfileFragment : Fragment() {
 
@@ -27,6 +31,8 @@ class ProfessionalProfileFragment : Fragment() {
 
     lateinit var professionalName : TextView
     lateinit var professionalType : TextView
+
+    lateinit var hireButton : ImageView
 
     var db = Firebase.firestore
 
@@ -44,11 +50,37 @@ class ProfessionalProfileFragment : Fragment() {
         val profId = ProfessionalProfileFragmentArgs.fromBundle(requireArguments()).profId
         Log.d("argumento", "professional ID: $profId")
 
-        // getProfInfo(profId)
-
         professionalName = v.findViewById(R.id.professionalName)
         professionalType = v.findViewById(R.id.professionalType)
+        hireButton = v.findViewById(R.id.hireButton)
 
+        getProfInfo(profId)
+
+        /*
+            hireButton.setOnClickListener(){
+            val mBuilder = AlertDialog.Builder(activity,android.R.style.Theme_DeviceDefault_NoActionBar_Fullscreen)
+                .setTitle("Contratar")
+                .setMessage("Profesional: ")
+                .setMessage("Disponibilidad:")
+            val mAlertDialog = mBuilder.create()
+            mAlertDialog.show()
+        }*/
+
+        // TODO: VER BIEN COMO HACER EL PASO A PASO DE LA CONTRATACION
+
+        hireButton.setOnClickListener() {
+            val datePicker =
+                MaterialDatePicker.Builder.datePicker()
+                    .setTitleText("Fechas disponibles")
+                    .build()
+
+            datePicker.show(childFragmentManager, "tag");
+
+        }
+
+    }
+
+    private fun getProfInfo(profId : String) {
         val docRef = db.collection("professionals").document(profId)
         docRef.get()
             .addOnSuccessListener { document ->
@@ -63,25 +95,7 @@ class ProfessionalProfileFragment : Fragment() {
             .addOnFailureListener { exception ->
                 Log.d("documentNotOK", "get failed with ", exception)
             }
-
-
-
     }
-
-   /* private fun getProfInfo(profId : String) {
-        val docRef = db.collection("professionals").document(profId)
-        docRef.get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    Log.d("documentOK", "DocumentSnapshot data: ${document.data}")
-                } else {
-                    Log.d("documentNotFound", "No such document")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.d("documentNotOK", "get failed with ", exception)
-            }
-    }*/
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

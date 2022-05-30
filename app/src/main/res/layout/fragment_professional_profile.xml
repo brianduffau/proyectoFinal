@@ -48,19 +48,6 @@
         app:layout_constraintTop_toBottomOf="@+id/professionalName" />
 
     <TextView
-        android:id="@+id/professionalCity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="176dp"
-        android:layout_marginEnd="177dp"
-        android:layout_marginBottom="9dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/professionalRatingBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/professionaQtyWork"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -75,33 +62,42 @@
     <RatingBar
         android:id="@+id/professionalRatingBar"
         android:layout_width="wrap_content"
-        android:layout_height="57dp"
+        android:layout_height="0dp"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="370dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="67dp"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/professionaQtyWork"
-        app:layout_constraintTop_toBottomOf="@+id/professionalCity" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="409dp"
-        android:layout_height="236dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="494dp" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/professionalRatingBar" />
 
     <ImageButton
         android:id="@+id/hireButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
         android:layout_marginStart="299dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="263dp"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/handshake"
         app:layout_constraintBottom_toTopOf="@+id/professionalRatingBar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
