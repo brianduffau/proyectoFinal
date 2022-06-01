@@ -2,13 +2,16 @@ package com.example.proyectofinal.fragments
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.text.Layout
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectofinal.R
 import com.example.proyectofinal.viewmodels.ProfessionalProfileViewModel
@@ -18,11 +21,13 @@ class ProfessionalProfileFragment : Fragment() {
     private lateinit var viewModel: ProfessionalProfileViewModel
 
     lateinit var v: View
+
     private lateinit var profileImage : ImageView
     private lateinit var professionalType : TextView
     private lateinit var workQuantity : TextView
     private lateinit var rating : RatingBar
     private lateinit var recReviews : RecyclerView
+    private lateinit var hireButton : LinearLayout
 
 
     override fun onCreateView(
@@ -40,6 +45,19 @@ class ProfessionalProfileFragment : Fragment() {
         workQuantity = v.findViewById(R.id.professional_work_qty)
         rating = v.findViewById(R.id.professional_profile_rating)
         recReviews = v.findViewById(R.id.professional_profile_rec_reviews)
+        hireButton = v.findViewById(R.id.hire_professional)
+
+        hireButton.setOnClickListener{
+
+
+            val professionalId = ProfessionalProfileFragmentDirections.actionProfessionaltoCalendar()
+
+            Navigation.findNavController(v).navigate(R.id.actionProfessionaltoCalendar)
+
+
+
+        }
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

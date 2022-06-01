@@ -3,16 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
-    app:startDestination="@id/mapFragment">
+    app:startDestination="@id/professionalProfileFragment">
 
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.example.proyectofinal.fragments.MainActivity.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/actionMaptoProfessional"
+            app:destination="@id/professionalProfileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/hiringsFragment"
-        android:name="com.example.proyectofinal.fragments.HiringsFragment"
+        android:name="com.example.proyectofinal.fragments.MyHiringsFragment"
         android:label="fragment_my_hires"
         tools:layout="@layout/fragment_hirings" />
     <fragment
@@ -20,4 +24,40 @@
         android:name="com.example.proyectofinal.fragments.UserProfileFragment"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" />
+    <fragment
+        android:id="@+id/professionalProfileFragment"
+        android:name="com.example.proyectofinal.fragments.ProfessionalProfileFragment"
+        android:label="fragment_professional_profile"
+        tools:layout="@layout/fragment_professional_profile" >
+        <action
+            android:id="@+id/actionProfessionaltoCalendar"
+            app:destination="@id/calendarFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="com.example.proyectofinal.fragments.CalendarFragment"
+        android:label="fragment_calendar"
+        tools:layout="@layout/fragment_calendar" >
+        <action
+            android:id="@+id/actionCalendarToConfirm"
+            app:destination="@id/confirmationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/actionConfirmToHiring"
+        android:name="com.example.proyectofinal.fragments.HiringFragment"
+        android:label="fragment_hiring"
+        tools:layout="@layout/fragment_hiring" >
+        <action
+            android:id="@+id/actionConfirmToMap"
+            app:destination="@id/mapFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/confirmationFragment"
+        android:name="com.example.proyectofinal.fragments.ConfirmationFragment"
+        android:label="fragment_confirmation"
+        tools:layout="@layout/fragment_confirm" >
+        <action
+            android:id="@+id/action_confirmationFragment_to_hiringFragment"
+            app:destination="@id/actionConfirmToHiring" />
+    </fragment>
 </navigation>

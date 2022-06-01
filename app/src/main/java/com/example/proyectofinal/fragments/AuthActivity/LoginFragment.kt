@@ -51,8 +51,6 @@ class LoginFragment : Fragment() {
         setupToolbar()
         setupListeners()
 
-
-
         return v
     }
 

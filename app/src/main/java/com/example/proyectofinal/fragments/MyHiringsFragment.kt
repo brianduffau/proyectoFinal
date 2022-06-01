@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.example.proyectofinal.R
 import com.example.proyectofinal.viewmodels.HiringsFragment
 
-class HiringsFragment : Fragment() {
+class MyHiringsFragment : Fragment() {
 
     companion object {
         fun newInstance() = HiringsFragment()
