@@ -71,8 +71,15 @@ class MyPetsFragment : Fragment() {
                         // busco en el array de las mascotas del dueño y despues me fijo que sean el mismo id de la tabla de pets
                         // si son el mismo lo agrego a la petsList
                         petsList.add(p.toObject())
+                    }
+                        adapter = PetAdapter(requireContext(),petsList){ position->
+                            Snackbar.make(v,position.toString(), Snackbar.LENGTH_SHORT).show()
+                            // esto se ejecuta cuando hace click
+
+
                         Log.i("entro al for", "MASCOTAAS $petsList")
                     }
+                    recPets.adapter = adapter
                 }
             }
             .addOnFailureListener { exception ->
@@ -83,11 +90,8 @@ class MyPetsFragment : Fragment() {
         recPets.layoutManager = LinearLayoutManager(context)
 
 
-        adapter = PetAdapter(requireContext(),petsList){ position->
-            Snackbar.make(v,position.toString(), Snackbar.LENGTH_SHORT).show()
-            // esto se ejecuta cuando hace click
-        }
-        recPets.adapter = adapter
+
+
 
 
     }

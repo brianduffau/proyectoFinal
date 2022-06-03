@@ -14,6 +14,7 @@ import com.example.proyectofinal.R
 import com.example.proyectofinal.activities.MainActivity
 import com.example.proyectofinal.entities.Customer
 import com.example.proyectofinal.viewmodels.UpdateUserProfileViewModel
+import com.example.proyectofinal.viewmodels.UserProfileViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
@@ -27,6 +28,7 @@ class UpdateUserProfileFragment : Fragment() {
     }
 
     private lateinit var viewModel: UpdateUserProfileViewModel
+    private lateinit var viewModelShared: UserProfileViewModel
 
     lateinit private var textName : EditText
     lateinit private var textSurname : EditText
@@ -56,19 +58,19 @@ class UpdateUserProfileFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(UpdateUserProfileViewModel::class.java)
+        viewModelShared = ViewModelProvider(requireActivity()).get(UserProfileViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
     override fun onStart() {
         super.onStart()
 
-        user = (activity as MainActivity).userLog
+        user = viewModelShared.getUserInfo()
 
         textName.setText(user.name)
         textMail.setText(user.email)
         textSurname.setText(user.surname)
 
-        //COMO PONERLE QUE DIGA ESO DE ENTRADA AL EDITTEXT
     }
 
     private fun updateUser() {
@@ -81,6 +83,7 @@ class UpdateUserProfileFragment : Fragment() {
         docRef.update("name",name, "surname",surname, "email", mail)
             .addOnSuccessListener { Log.d("updateUserOK", "Usuario actualizado en id: ${user.id}")
                                     Snackbar.make(v,"Usuario actualizado con exito", Snackbar.LENGTH_SHORT).show()
+                                    viewModelShared.userLog = user
             }
             .addOnFailureListener { e -> Log.d("updateUserNotOK", "get failed with ", e) }
 

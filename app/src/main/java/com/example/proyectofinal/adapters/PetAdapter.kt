@@ -29,10 +29,10 @@ class PetAdapter( var context: Context,
     override fun onBindViewHolder(holder: PetHolder, position: Int) {
 
         // OPCION 1 - CON HOLDER Y ENTITIE OP 1
-        val p : Pet = petsList[position]
-        holder.namePet.text = p.name
-        holder.agePet.text = p.age.toString()
-        holder.typePet.text = p.type
+        //val p : Pet = petsList[position]
+        holder.namePet.text = petsList[position].name
+        //holder.agePet.text = p.age.toString()
+        //holder.typePet.text = p.type
 
         // OPCION 2 - CON HOLDER Y ENTITIE OP 2
         //holder.setPet(petsList[position].name, petsList[position].age, petsList[position].type)

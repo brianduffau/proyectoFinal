@@ -16,8 +16,7 @@ import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity(){
 
-    private val db = Firebase.firestore
-    lateinit var userLog: Customer
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,43 +29,12 @@ class MainActivity : AppCompatActivity(){
 
         bottomNavigationView.setupWithNavController(navController)
 
-        val user = Firebase.auth.currentUser
-        if (user != null) {
-            getUserInfo(user.uid)
-        }
+
 
     }
 
 
-    fun getUserInfo(userId : String) {
-        val docRef = db.collection("customers").document(userId)
-        docRef.get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    Log.d("userOK", "DocumentSnapshot data: ${document.id}")
-                    userLog = document.toObject<Customer>()!!
 
-                } else {
-                    Log.d("userNotFound", "No such document")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.d("userNotOK", "get failed with ", exception)
-            }
-
-        docRef.addSnapshotListener { snapshot, e ->
-            if (e != null) {
-                Log.w("listenerUserNotOk", "Listen failed.", e)
-                return@addSnapshotListener
-            }
-
-            if (snapshot != null && snapshot.exists()) {
-                Log.d("listenerUserOk", "Current data: ${snapshot.data}")
-            } else {
-                Log.d("listenerUserNull", "Current data: null")
-            }
-        }
-    }
 
 
 }

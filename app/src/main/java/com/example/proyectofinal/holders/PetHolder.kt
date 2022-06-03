@@ -22,6 +22,11 @@ class PetHolder(v: View): RecyclerView.ViewHolder(v) {
     init {
         this.view = v
         this.cardPets = view.findViewById(R.id.card_pets_list)
+        val agePet : TextView = view.findViewById(R.id.petAge)
+        val namePet : TextView = view.findViewById(R.id.petName)
+        val typePet : TextView = view.findViewById(R.id.petType)
+        val imagePet : ImageView = view.findViewById(R.id.petImage)
+
     }
 
 

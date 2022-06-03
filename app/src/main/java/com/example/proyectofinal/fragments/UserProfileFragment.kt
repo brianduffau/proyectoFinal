@@ -10,12 +10,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.proyectofinal.R
 import com.example.proyectofinal.activities.MainActivity
 import com.example.proyectofinal.entities.Customer
+import com.example.proyectofinal.viewmodels.SharedViewModel
 import com.example.proyectofinal.viewmodels.UserProfileViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
@@ -32,6 +34,7 @@ class UserProfileFragment : Fragment() {
     }
 
     private lateinit var viewModel: UserProfileViewModel
+
 
     private lateinit var petsButton: Button
     private lateinit var hiringsButton: Button
@@ -79,18 +82,17 @@ class UserProfileFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        user = (activity as MainActivity).userLog
+        user = viewModel.getUserInfo()
         textName.text = user.name
         textMail.text = user.email
         textSurname.text = user.surname
-        Glide.with(activity as MainActivity).load(user.img).into(image)
+        Glide.with(this).load(user.img).into(image)
 
 
 
 
     }
 
-    //NO ESTA BUENO QUE ESTAMOS PASANDO LOS TRES PARA EL OTRO FRAGMENT, PODRIAMOS PASAR EL USUARIO ENTERO? PERO COMO? QUE TIPO DE DATO LE PONEMOS EN ARGUMENTO?
 
 
 
