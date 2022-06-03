@@ -3,61 +3,62 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
-    app:startDestination="@id/professionalProfileFragment">
+    app:startDestination="@id/mapFragment">
 
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.example.proyectofinal.fragments.MainActivity.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map" >
+        <argument
+            android:name="filtros"
+            app:argType="string[]" />
         <action
-            android:id="@+id/actionMaptoProfessional"
-            app:destination="@id/professionalProfileFragment" />
+            android:id="@+id/actionMapToProfessional"
+            app:destination="@id/hireActivity" />
+        <action
+            android:id="@+id/action_mapFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
+        <action
+            android:id="@+id/action_mapFragment_to_hiringsFragment"
+            app:destination="@id/hiringsFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/hiringsFragment"
-        android:name="com.example.proyectofinal.fragments.MyHiringsFragment"
+        android:name="com.example.proyectofinal.fragments.MainActivity.MyHiringsFragment"
         android:label="fragment_my_hires"
         tools:layout="@layout/fragment_hirings" />
     <fragment
         android:id="@+id/userProfileFragment"
-        android:name="com.example.proyectofinal.fragments.UserProfileFragment"
+        android:name="com.example.proyectofinal.fragments.MainActivity.UserProfileFragment"
         android:label="fragment_user_profile"
-        tools:layout="@layout/fragment_user_profile" />
-    <fragment
-        android:id="@+id/professionalProfileFragment"
-        android:name="com.example.proyectofinal.fragments.ProfessionalProfileFragment"
-        android:label="fragment_professional_profile"
-        tools:layout="@layout/fragment_professional_profile" >
+        tools:layout="@layout/fragment_user_profile" >
         <action
-            android:id="@+id/actionProfessionaltoCalendar"
-            app:destination="@id/calendarFragment" />
+            android:id="@+id/action_userProfileFragment_to_myPetsFragment"
+            app:destination="@id/myPetsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/calendarFragment"
-        android:name="com.example.proyectofinal.fragments.CalendarFragment"
-        android:label="fragment_calendar"
-        tools:layout="@layout/fragment_calendar" >
-        <action
-            android:id="@+id/actionCalendarToConfirm"
-            app:destination="@id/confirmationFragment" />
-    </fragment>
+        android:id="@+id/addPetFragment"
+        android:name="com.example.proyectofinal.fragments.MainActivity.AddPetFragment"
+        android:label="fragment_add_pet"
+        tools:layout="@layout/fragment_add_pet" />
     <fragment
-        android:id="@+id/actionConfirmToHiring"
-        android:name="com.example.proyectofinal.fragments.HiringFragment"
-        android:label="fragment_hiring"
-        tools:layout="@layout/fragment_hiring" >
+        android:id="@+id/myPetsFragment"
+        android:name="com.example.proyectofinal.fragments.MainActivity.MyPetsFragment"
+        android:label="fragment_pets"
+        tools:layout="@layout/fragment_pets" >
         <action
-            android:id="@+id/actionConfirmToMap"
-            app:destination="@id/mapFragment" />
+            android:id="@+id/action_myPetsFragment_to_addPetFragment"
+            app:destination="@id/addPetFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/confirmationFragment"
-        android:name="com.example.proyectofinal.fragments.ConfirmationFragment"
-        android:label="fragment_confirmation"
-        tools:layout="@layout/fragment_confirm" >
-        <action
-            android:id="@+id/action_confirmationFragment_to_hiringFragment"
-            app:destination="@id/actionConfirmToHiring" />
-    </fragment>
+    <activity
+        android:id="@+id/hireActivity"
+        android:name="com.example.proyectofinal.activities.HireActivity"
+        android:label="activity_hire"
+        tools:layout="@layout/activity_hire" >
+        <argument
+            android:name="professionalId"
+            app:argType="string" />
+    </activity>
 </navigation>

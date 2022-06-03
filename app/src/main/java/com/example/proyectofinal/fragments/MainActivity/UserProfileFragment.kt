@@ -1,4 +1,4 @@
-package com.example.proyectofinal.fragments
+package com.example.proyectofinal.fragments.MainActivity
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -7,26 +7,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.proyectofinal.R
-import com.example.proyectofinal.viewmodels.HiringsFragment
+import com.example.proyectofinal.viewmodels.UserProfileViewModel
 
-class MyHiringsFragment : Fragment() {
+class UserProfileFragment : Fragment() {
 
     companion object {
-        fun newInstance() = HiringsFragment()
+        fun newInstance() = UserProfileFragment()
     }
 
-    private lateinit var viewModel: HiringsFragment
+    private lateinit var viewModel: UserProfileViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_hirings, container, false)
+        return inflater.inflate(R.layout.fragment_user_profile, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HiringsFragment::class.java)
+        viewModel = ViewModelProvider(this).get(UserProfileViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

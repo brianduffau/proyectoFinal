@@ -1,4 +1,4 @@
-package com.example.proyectofinal.fragments
+package com.example.proyectofinal.fragments.MainActivity
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -7,26 +7,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.proyectofinal.R
-import com.example.proyectofinal.viewmodels.HiringViewModel
+import com.example.proyectofinal.viewmodels.AddPetViewModel
 
-class HiringFragment : Fragment() {
+class AddPetFragment : Fragment() {
 
     companion object {
-        fun newInstance() = HiringFragment()
+        fun newInstance() = AddPetFragment()
     }
 
-    private lateinit var viewModel: HiringViewModel
+    private lateinit var viewModel: AddPetViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_hiring, container, false)
+        return inflater.inflate(R.layout.fragment_add_pet, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HiringViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(AddPetViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
