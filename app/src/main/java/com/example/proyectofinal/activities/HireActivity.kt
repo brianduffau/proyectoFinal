@@ -51,7 +51,4 @@ class HireActivity : AppCompatActivity() {
                 Log.d("documentNotOK", "get failed with ", exception)
             }
     }
-
-
-
 }
