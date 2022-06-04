@@ -8,10 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RatingBar
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -23,6 +20,7 @@ import com.example.proyectofinal.entities.Professional
 import com.example.proyectofinal.viewmodels.ProfessionalProfileViewModel
 import com.google.android.gms.auth.api.Auth
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.google.firebase.Timestamp
@@ -37,7 +35,7 @@ class ProfessionalProfileFragment : Fragment(){
 
     private lateinit var viewModel: ProfessionalProfileViewModel
 
-    lateinit var v: View
+    private lateinit var v: View
 
     private val db = Firebase.firestore
 
@@ -66,7 +64,6 @@ class ProfessionalProfileFragment : Fragment(){
     override fun onStart() {
         super.onStart()
         professional = (activity as HireActivity).professional
-
         hireStartDate = Calendar.getInstance()
         hireEndDate = Calendar.getInstance()
 
@@ -106,7 +103,7 @@ class ProfessionalProfileFragment : Fragment(){
     private fun datePicker() {
         val datePicker =
             MaterialDatePicker.Builder.datePicker()
-                .setTitleText("Seleccione fecha para el paseo")
+                .setTitleText("Seleccione un día para el paseo")
                 .build()
         datePicker.show(parentFragmentManager, null);
         datePicker.addOnPositiveButtonClickListener {
@@ -114,7 +111,6 @@ class ProfessionalProfileFragment : Fragment(){
             hireStartDate.time = Date(localTimeMilliseconds)
             hireEndDate.time = Date(localTimeMilliseconds)
 
-            Log.d(TAG, "datePicker: ${hireStartDate.time} ${hireStartDate.timeZone}")
             startTimePicker()
         }
 
@@ -129,14 +125,19 @@ class ProfessionalProfileFragment : Fragment(){
                 .build()
         timePicker.show(parentFragmentManager, null)
         timePicker.addOnPositiveButtonClickListener{
-            hireStartDate.set(Calendar.HOUR_OF_DAY, timePicker.hour)
-            hireStartDate.set(Calendar.MINUTE, timePicker.minute)
+            if(timePicker.hour in 10..19){
+                hireStartDate.set(Calendar.HOUR_OF_DAY, timePicker.hour)
+                hireStartDate.set(Calendar.MINUTE, timePicker.minute)
 
-            Log.d(TAG, "datePicker: ${hireStartDate.time}")
+                Log.d(TAG, "datePicker: ${hireStartDate.time}")
 
-            (activity as HireActivity).hireStartDate = hireStartDate //hacer en view-model
+                (activity as HireActivity).hireStartDate = hireStartDate //hacer en view-model
 
-            endDatePicker()
+                endDatePicker()
+            }else{
+                Snackbar.make(v,"${professional.name} trabaja de 9hs a 20hs, ingrese otro horario",Snackbar.LENGTH_LONG).show()
+            }
+
 
         }
     }
