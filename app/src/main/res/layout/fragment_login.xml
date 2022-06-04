@@ -8,7 +8,7 @@
     tools:context=".fragments.AuthActivity.LoginFragment">
 
     <include layout="@layout/toolbar"
-        android:id="@+id/auth_toolbar"/>
+        android:id="@+id/confirm_toolbar"/>
 
     <ImageButton
         android:id="@+id/google_button_login"

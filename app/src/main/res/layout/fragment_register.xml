@@ -8,7 +8,7 @@
     tools:context=".fragments.AuthActivity.RegisterFragment" >
 
     <include layout="@layout/toolbar"
-        android:id="@+id/auth_toolbar"/>
+        android:id="@+id/confirm_toolbar"/>
 
     <LinearLayout
         android:id="@+id/form_register"

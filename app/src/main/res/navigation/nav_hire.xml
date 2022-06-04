@@ -21,11 +21,11 @@
         tools:layout="@layout/fragment_hiring" />
     <fragment
         android:id="@+id/confirmationFragment"
-        android:name="com.example.proyectofinal.fragments.HireActivity.ConfirmationFragment"
+        android:name="com.example.proyectofinal.fragments.HireActivity.ConfirmFragment"
         android:label="fragment_confirm"
         tools:layout="@layout/fragment_confirm" >
         <action
-            android:id="@+id/action_confirmationFragment_to_hiringFragment"
+            android:id="@+id/actionConfirmToHire"
             app:destination="@id/hiringFragment" />
     </fragment>
 </navigation>

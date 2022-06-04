@@ -8,6 +8,7 @@ import com.example.proyectofinal.entities.Professional
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import java.util.*
 
 
 class HireActivity : AppCompatActivity() {
@@ -15,6 +16,9 @@ class HireActivity : AppCompatActivity() {
     var db = Firebase.firestore
 
     lateinit var professional: Professional
+
+    lateinit var hireStartDate: Calendar
+    lateinit var hireEndDate : Calendar
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +30,11 @@ class HireActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        hireStartDate = Calendar.getInstance()
+        hireEndDate = Calendar.getInstance()
+    }
 
     private fun getProfessional(professionalId: String) {
         val collection = db.collection("professionals").document(professionalId)

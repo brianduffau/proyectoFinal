@@ -1,6 +1,7 @@
 package com.example.proyectofinal.fragments.HireActivity
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
@@ -13,15 +14,23 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectofinal.R
 import com.example.proyectofinal.activities.HireActivity
+import com.example.proyectofinal.entities.Hiring
 import com.example.proyectofinal.entities.Professional
 import com.example.proyectofinal.viewmodels.ProfessionalProfileViewModel
+import com.google.android.gms.auth.api.Auth
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.google.firebase.Timestamp
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import java.util.*
+import kotlin.math.abs
 
 
 class ProfessionalProfileFragment : Fragment(){
@@ -29,6 +38,8 @@ class ProfessionalProfileFragment : Fragment(){
     private lateinit var viewModel: ProfessionalProfileViewModel
 
     lateinit var v: View
+
+    private val db = Firebase.firestore
 
     private lateinit var professional : Professional
     private lateinit var profileImage : ImageView
@@ -39,11 +50,8 @@ class ProfessionalProfileFragment : Fragment(){
     private lateinit var hireButton : LinearLayout
     private lateinit var professionalName : TextView
 
-    private lateinit var calendar: Calendar
-    private lateinit var date: Date
-    private var hour : Int = 0
-    private var minute : Int = 0
-    
+    private lateinit var hireStartDate: Calendar
+    private lateinit var hireEndDate: Calendar
 
 
     override fun onCreateView(
@@ -58,7 +66,10 @@ class ProfessionalProfileFragment : Fragment(){
     override fun onStart() {
         super.onStart()
         professional = (activity as HireActivity).professional
-        calendar = Calendar.getInstance()
+
+        hireStartDate = Calendar.getInstance()
+        hireEndDate = Calendar.getInstance()
+
         setUpViews()
     }
 
@@ -88,9 +99,7 @@ class ProfessionalProfileFragment : Fragment(){
             } else {
                 dateRangePicker()
             }
-
         }
-
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -101,26 +110,57 @@ class ProfessionalProfileFragment : Fragment(){
                 .build()
         datePicker.show(parentFragmentManager, null);
         datePicker.addOnPositiveButtonClickListener {
-            calendar.time = Date(it)
-            Log.d(TAG, "datePicker: ${calendar.time}")
-            timePicker()
+            val localTimeMilliseconds = it + abs(hireStartDate.timeZone.rawOffset)
+            hireStartDate.time = Date(localTimeMilliseconds)
+            hireEndDate.time = Date(localTimeMilliseconds)
+
+            Log.d(TAG, "datePicker: ${hireStartDate.time} ${hireStartDate.timeZone}")
+            startTimePicker()
         }
 
     }
 
-    private fun timePicker() {
+    private fun startTimePicker() {
         val timePicker =
             MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
                 .setHour(12)
-                .setTitleText("¿A qué hora querés que pase ${professional.name}  ?")
+                .setTitleText("¿A qué hora querés que pase ${professional.name}?")
                 .build()
         timePicker.show(parentFragmentManager, null)
         timePicker.addOnPositiveButtonClickListener{
-            calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
-            calendar.set(Calendar.MINUTE, timePicker.minute)
+            hireStartDate.set(Calendar.HOUR_OF_DAY, timePicker.hour)
+            hireStartDate.set(Calendar.MINUTE, timePicker.minute)
 
-            Log.d(TAG, "datePicker: ${calendar.time}")
+            Log.d(TAG, "datePicker: ${hireStartDate.time}")
+
+            (activity as HireActivity).hireStartDate = hireStartDate //hacer en view-model
+
+            endDatePicker()
+
+        }
+    }
+
+    private fun endDatePicker() {
+        val timePicker =
+            MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_24H)
+                .setHour(12)
+                .setTitleText("¿A qué hora querés que ${professional.name} te devuelva tu mascota?")
+                .build()
+        timePicker.show(parentFragmentManager, null)
+        timePicker.addOnPositiveButtonClickListener{
+            hireEndDate.set(Calendar.HOUR_OF_DAY, timePicker.hour)
+            hireEndDate.set(Calendar.MINUTE, timePicker.minute)
+
+            Log.d(TAG, "datePicker: ${hireEndDate.time}")
+
+
+            (activity as HireActivity).hireEndDate = hireEndDate //hacer en view model
+
+            createHiring()
+
+            Navigation.findNavController(v).navigate(R.id.actionProfessionalToConfirm)
 
         }
     }
@@ -131,10 +171,40 @@ class ProfessionalProfileFragment : Fragment(){
             MaterialDatePicker.Builder.dateRangePicker()
                 .setTitleText("Seleccione ")
                 .build()
-        dateRangePicker.show(parentFragmentManager, null);
+        dateRangePicker.show(parentFragmentManager, null)
+
+        dateRangePicker.addOnPositiveButtonClickListener {
+            val startDateMilliseconds = dateRangePicker.selection?.first
+            val endDateMilliseconds = dateRangePicker.selection?.second
+
+            if(startDateMilliseconds != null && endDateMilliseconds != null){
+                hireStartDate.time = Date(startDateMilliseconds)
+                hireEndDate.time = Date(endDateMilliseconds)
+
+                (activity as HireActivity).hireStartDate = hireStartDate
+                (activity as HireActivity).hireEndDate = hireEndDate
+            }
+
+            createHiring()
+            Navigation.findNavController(v).navigate(R.id.actionProfessionalToConfirm)
+
+            Log.d(TAG, "dateRangePicker: ${hireStartDate.time} y ${hireEndDate.time}")
+        }
     }
 
+    private fun createHiring() {
+        val customerId = Firebase.auth.currentUser?.uid
+        val hiring = Hiring(customerId ?: "" ,professional.id, Timestamp(hireStartDate.time), Timestamp(hireEndDate.time))
 
+        db.collection("hirings")
+            .add(hiring)
+            .addOnSuccessListener { documentReference ->
+                Log.d(ContentValues.TAG, "Contratación agregada con id : ${documentReference.id}")
+            }
+            .addOnFailureListener { e ->
+                Log.w(ContentValues.TAG, "Error adding document", e)
+            }
+    }
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
