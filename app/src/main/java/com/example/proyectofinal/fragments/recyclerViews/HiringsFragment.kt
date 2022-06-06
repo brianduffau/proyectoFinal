@@ -79,7 +79,7 @@ class HiringsFragment : Fragment() {
                     // YO TENDRIA QUE BUSCAR ESE ID DE CADA UNO EN LA COLECCION DE PROFESIONALES PARA VER EL NOMBRE
                     adapter = HireAdapter(requireContext(),hiresList){ position->
                         Snackbar.make(v,position.toString(), Snackbar.LENGTH_SHORT).show()
-                        Log.i("entro al for y adapter", "MASCOTAS: $hiresList")
+                        Log.i("entro al for y adapter", "CONTRATACIONES: $hiresList")
                     }
                     recHires.adapter = adapter
                 }
