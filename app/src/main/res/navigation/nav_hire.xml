@@ -18,7 +18,11 @@
         android:id="@+id/hiringFragment"
         android:name="com.example.proyectofinal.fragments.HireActivity.HiringFragment"
         android:label="fragment_hiring"
-        tools:layout="@layout/fragment_hiring" />
+        tools:layout="@layout/fragment_hiring" >
+        <action
+            android:id="@+id/action_hiringFragment_to_mainActivity2"
+            app:destination="@id/actionHireToMain" />
+    </fragment>
     <fragment
         android:id="@+id/confirmationFragment"
         android:name="com.example.proyectofinal.fragments.HireActivity.ConfirmFragment"
@@ -28,4 +32,9 @@
             android:id="@+id/actionConfirmToHire"
             app:destination="@id/hiringFragment" />
     </fragment>
+    <activity
+        android:id="@+id/actionHireToMain"
+        android:name="com.example.proyectofinal.activities.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
 </navigation>

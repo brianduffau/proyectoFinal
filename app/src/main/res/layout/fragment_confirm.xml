@@ -2,99 +2,86 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout4"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.HireActivity.ConfirmFragment">
+    android:layout_height="match_parent">
 
-    <RatingBar
-        android:id="@+id/professional_profile_rating2"
-        style="?android:attr/ratingBarStyleSmall"
-        android:layout_width="80dp"
-        android:layout_height="18dp"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="113dp"
-        android:layout_marginBottom="69dp"
-        android:isIndicator="true"
-        android:numStars="5"
-        android:rating="4"
-        android:stepSize="0.1"
-        app:layout_constraintBottom_toTopOf="@+id/confirm_service_info"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="318dp"
+        android:layout_height="503dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/confirm_professional_type"
-        app:layout_constraintTop_toBottomOf="@+id/confirm_professional_name" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/profile" />
+
+        <TextView
+            android:id="@+id/confirm_professional_name"
+            android:layout_width="match_parent"
+            android:layout_height="81dp"
+            android:gravity="center"
+            android:text="Name"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/confirm_professional_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Professional type" />
+
+        <RatingBar
+            android:id="@+id/professional_profile_rating2"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="91dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="23dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="113dp"
+            android:layout_marginBottom="69dp"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:rating="4"
+            android:stepSize="0.1"
+            app:layout_constraintBottom_toTopOf="@+id/confirm_service_info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/confirm_professional_type"
+            app:layout_constraintTop_toBottomOf="@+id/confirm_professional_name" />
+
+        <TextView
+            android:id="@+id/confirm_service_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+    </LinearLayout>
 
     <include
         android:id="@+id/confirm_toolbar"
-        layout="@layout/toolbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        layout="@layout/toolbar" />
 
     <Button
         android:id="@+id/confirm_hire_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="141dp"
+        android:layout_height="54dp"
         android:layout_marginStart="150dp"
         android:layout_marginEnd="150dp"
         android:layout_marginBottom="60dp"
         android:text="Contratar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.462"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/confirm_professional_img"
-        android:layout_width="108dp"
-        android:layout_height="107dp"
-        android:layout_marginStart="151dp"
-        android:layout_marginTop="71dp"
-        android:layout_marginEnd="152dp"
-        android:layout_marginBottom="11dp"
-        app:layout_constraintBottom_toTopOf="@+id/confirm_professional_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirm_toolbar"
-        tools:src="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/confirm_professional_name"
-        android:layout_width="72dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="169dp"
-        android:layout_marginTop="11dp"
-        android:layout_marginEnd="170dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/professional_profile_rating2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirm_professional_img" />
-
-    <TextView
-        android:id="@+id/confirm_service_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="176dp"
-        android:layout_marginEnd="177dp"
-        android:layout_marginBottom="228dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/confirm_hire_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/confirm_professional_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="137dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="23dp"
-        android:layout_marginBottom="73dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/confirm_service_info"
-        app:layout_constraintEnd_toStartOf="@+id/professional_profile_rating2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirm_professional_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

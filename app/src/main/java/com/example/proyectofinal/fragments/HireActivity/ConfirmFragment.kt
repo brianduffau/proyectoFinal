@@ -70,7 +70,7 @@ class ConfirmFragment : Fragment() {
 
         professionalName.text = professional.name
         professionalType.text = professional.professionalType
-        confirm_msg.text = "${professional.name} pasará a buscar a tu mascota el ${hireStartDate.get(Calendar.DAY_OF_MONTH)}"
+        confirm_msg.text = "${professional.name} pasará a buscar a tu mascota el ${hireStartDate.get(Calendar.DAY_OF_MONTH)}/${hireStartDate.get(Calendar.MONTH)}/${hireStartDate.get(Calendar.YEAR)}, a las"
         confirmHireButton.setOnClickListener{
             createHiring()
             Navigation.findNavController(v).navigate(R.id.actionConfirmToHire)

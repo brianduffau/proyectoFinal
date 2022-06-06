@@ -147,7 +147,7 @@ class ProfessionalProfileFragment : Fragment(){
             MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
                 .setHour(12)
-                .setTitleText("¿A qué hora querés que ${professional.name} te devuelva tu mascota?")
+                .setTitleText("¿Hasta qué hora?")
                 .build()
         timePicker.show(parentFragmentManager, null)
         timePicker.addOnPositiveButtonClickListener{
@@ -158,8 +158,6 @@ class ProfessionalProfileFragment : Fragment(){
 
 
             (activity as HireActivity).hireEndDate = hireEndDate //hacer en view model
-
-            createHiring()
 
             Navigation.findNavController(v).navigate(R.id.actionProfessionalToConfirm)
 
@@ -186,27 +184,11 @@ class ProfessionalProfileFragment : Fragment(){
                 (activity as HireActivity).hireEndDate = hireEndDate
             }
 
-            createHiring()
             Navigation.findNavController(v).navigate(R.id.actionProfessionalToConfirm)
 
             Log.d(TAG, "dateRangePicker: ${hireStartDate.time} y ${hireEndDate.time}")
         }
     }
-
-    private fun createHiring() {
-        val customerId = Firebase.auth.currentUser?.uid
-        val hiring = Hiring(customerId ?: "" ,professional.id, Timestamp(hireStartDate.time), Timestamp(hireEndDate.time))
-
-        db.collection("hirings")
-            .add(hiring)
-            .addOnSuccessListener { documentReference ->
-                Log.d(ContentValues.TAG, "Contratación agregada con id : ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w(ContentValues.TAG, "Error adding document", e)
-            }
-    }
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
