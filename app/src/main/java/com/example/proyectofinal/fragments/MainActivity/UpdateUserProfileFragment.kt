@@ -1,4 +1,4 @@
-package com.example.proyectofinal.fragments
+package com.example.proyectofinal.fragments.MainActivity
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -9,16 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import androidx.navigation.Navigation
 import com.example.proyectofinal.R
-import com.example.proyectofinal.activities.MainActivity
 import com.example.proyectofinal.entities.Customer
 import com.example.proyectofinal.viewmodels.UpdateUserProfileViewModel
 import com.example.proyectofinal.viewmodels.UserProfileViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 class UpdateUserProfileFragment : Fragment() {

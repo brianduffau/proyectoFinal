@@ -16,22 +16,16 @@
         <action
             android:id="@+id/actionMapToProfessional"
             app:destination="@id/hireActivity" />
-        <action
-            android:id="@+id/action_mapFragment_to_userProfileFragment"
-            app:destination="@id/userProfileFragment" />
-        <action
-            android:id="@+id/action_mapFragment_to_hiringsFragment"
-            app:destination="@id/hiringsFragment" />
 
     </fragment>
     <fragment
         android:id="@+id/hiringsFragment"
-        android:name="com.example.proyectofinal.fragments.recyclerViews.HiringsFragment"
+        android:name="com.example.proyectofinal.fragments.recyclerViews.MyHiringsFragment"
         android:label="fragment_my_hires"
         tools:layout="@layout/fragment_hirings" />
     <fragment
         android:id="@+id/userProfileFragment"
-        android:name="com.example.proyectofinal.fragments.UserProfileFragment"
+        android:name="com.example.proyectofinal.fragments.MainActivity.UserProfileFragment"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" >
         <action
@@ -42,7 +36,7 @@
             app:destination="@id/myPetsFragment" />
         <action
             android:id="@+id/actionModifyProfileUser"
-            app:destination="@id/professionalProfileFragment" />
+            app:destination="@id/updateUserProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/myPetsFragment"
@@ -55,17 +49,21 @@
     </fragment>
     <fragment
         android:id="@+id/updateUserProfileFragment"
-        android:name="com.example.proyectofinal.fragments.UpdateUserProfileFragment"
+        android:name="com.example.proyectofinal.fragments.MainActivity.UpdateUserProfileFragment"
         android:label="fragment_update_user_profile"
         tools:layout="@layout/fragment_update_user_profile" />
     <fragment
         android:id="@+id/addPetFragment"
-        android:name="com.example.proyectofinal.fragments.AddPetFragment"
+        android:name="com.example.proyectofinal.fragments.MainActivity.AddPetFragment"
         android:label="fragment_add_pet"
         tools:layout="@layout/fragment_add_pet" />
-    <fragment
-        android:id="@+id/professionalProfileFragment"
-        android:name="com.example.proyectofinal.fragments.ProfessionalProfileFragment"
-        android:label="fragment_professional_profile"
-        tools:layout="@layout/fragment_professional_profile" />
+    <activity
+        android:id="@+id/hireActivity"
+        android:name="com.example.proyectofinal.activities.HireActivity"
+        android:label="activity_hire"
+        tools:layout="@layout/activity_hire" >
+        <argument
+            android:name="professionalId"
+            app:argType="string" />
+    </activity>
 </navigation>

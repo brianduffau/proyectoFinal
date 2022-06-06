@@ -19,10 +19,6 @@ import com.google.firebase.ktx.Firebase
 
 class UserProfileFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = UserProfileFragment()
-    }
-
     private lateinit var viewModel: UserProfileViewModel
 
 

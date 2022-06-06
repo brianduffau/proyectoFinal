@@ -158,9 +158,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
                 mMap.setOnInfoWindowClickListener { marker ->
                     val actionId = markerMap[marker.id]
                     if (actionId != null) {
-                        val action = MapFragmentDirections.actionMapToProfessional(
-                            actionId
-                        )
+                        val action = MapFragmentDirections.actionMapToProfessional(actionId)
                         v.findNavController().navigate(action)
                     }
                 }
