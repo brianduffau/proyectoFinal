@@ -7,58 +7,108 @@
     android:layout_height="match_parent"
     tools:context=".fragments.MainActivity.UserProfileFragment">
 
+
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imageUser"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="144dp"
-        android:layout_marginTop="144dp"
-        android:layout_marginEnd="144dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="31dp"
-        app:layout_constraintBottom_toTopOf="@+id/username"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/nameUser"
+        app:layout_constraintDimensionRatio="h,1:1"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintHorizontal_bias="0.432"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/username"
-        android:layout_width="wrap_content"
+        android:id="@+id/nameUser"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="144dp"
         android:layout_marginTop="31dp"
-        android:layout_marginEnd="144dp"
-        android:layout_marginBottom="125dp"
+        android:layout_marginBottom="32dp"
         android:text="Nombre"
-        app:layout_constraintBottom_toTopOf="@+id/mail"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintBottom_toTopOf="@+id/surnameUser"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/imageUser" />
 
     <TextView
-        android:id="@+id/mail"
-        android:layout_width="wrap_content"
+        android:id="@+id/mailUser"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="176dp"
-        android:layout_marginEnd="177dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="108dp"
         android:text="Mail"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="478dp" />
+        app:layout_constraintBottom_toTopOf="@+id/modifyProfile"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/surnameUser" />
 
     <Button
         android:id="@+id/modifyProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="144dp"
-        android:layout_marginTop="140dp"
-        android:layout_marginEnd="144dp"
-        android:layout_marginBottom="46dp"
-        android:text="Modificar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mail" />
+        android:layout_marginTop="32dp"
+        android:text="Modificar tus datos"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintHorizontal_bias="0.56"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/mailUser" />
+
+    <Button
+        android:id="@+id/myPets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="13dp"
+        android:text="Mis Mascotas"
+        app:layout_constraintBottom_toTopOf="@+id/myHirings"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintHorizontal_bias="0.544"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/modifyProfile"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/myHirings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:text="Mis Contrataciones"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/myPets" />
+
+    <TextView
+        android:id="@+id/surnameUser"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Apellido"
+        app:layout_constraintBottom_toTopOf="@+id/mailUser"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/nameUser"
+        app:layout_constraintVertical_bias="0.248" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="98dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="330dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

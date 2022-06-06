@@ -8,6 +8,6 @@ data class Customer(
     val name: String = "",
     val surname: String = "",
     val img: String = "",
-    val phone: String = "",
-    val pets: Array<String>? = null
+    //val phone: String = "",
+    //val pets: Array<String>? = null
 )
