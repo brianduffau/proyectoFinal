@@ -84,7 +84,7 @@
         app:layout_constraintTop_toBottomOf="@+id/professionalCity" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/recReviews"
         android:layout_width="409dp"
         android:layout_height="236dp"
         tools:layout_editor_absoluteX="1dp"

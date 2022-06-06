@@ -1,7 +1,6 @@
 package com.example.proyectofinal.fragments.recyclerViews
 
-import android.content.ContentValues
-import android.content.ContentValues.TAG
+
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectofinal.R
@@ -17,10 +17,7 @@ import com.example.proyectofinal.entities.Pet
 import com.example.proyectofinal.viewmodels.PetsViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.database.*
-import com.google.firebase.firestore.EventListener
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -36,7 +33,7 @@ class MyPetsFragment : Fragment() {
 
     var db = Firebase.firestore
 
-    var petsList : ArrayList<Pet> = arrayListOf()//mutablelist?
+    var petsList : ArrayList<Pet> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,12 +44,13 @@ class MyPetsFragment : Fragment() {
         btnAdd = v.findViewById(R.id.btn_add)
         recPets = v.findViewById(R.id.recPets)
 
-        //petsList = arrayListOf()
-
+        btnAdd.setOnClickListener{ Navigation.findNavController(v).navigate(R.id.actionListPetsAddPet)}
 
 
         return v
     }
+
+
 
     override fun onStart() {
         super.onStart()
@@ -61,23 +59,19 @@ class MyPetsFragment : Fragment() {
         //petsList.add(Pet("01","https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.es%2Ffotos-premium%2Flabrador-marron-foto-estudio-cachorro_12887850.htm&psig=AOvVaw2j8-0smiLmq9GD9vaaVKAY&ust=1653766170442000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCMCm-pq1gPgCFQAAAAAdAAAAABAD","India",9,"Perro", "1234AACC"))
         //petsList.add(Pet("Malta","Perro",1,"https://www.google.com/url?sa=i&url=https%3A%2F%2Fes.123rf.com%2Fimagenes-de-archivo%2Fperro_mestizo.html&psig=AOvVaw1UJKwhy7PGxgimszqB8LaB&ust=1653766045548000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCMi5i-C0gPgCFQAAAAAdAAAAABAD", "1234AACC"))
 
+        // CHEQUEAR SI DESPUES DE AGREGAR UNA MASCOTA, APARECE REPETIDA LA QUE YA ESTABA...
         db.collection("pets")
+            .whereEqualTo("idOwner", userId())
             .get()
             .addOnSuccessListener { snapshot ->
                 if (snapshot != null) {
                     Log.i("if", "entro")
                     for (p in snapshot) {
-                        // logica para que sea de ese dueño
-                        // busco en el array de las mascotas del dueño y despues me fijo que sean el mismo id de la tabla de pets
-                        // si son el mismo lo agrego a la petsList
                         petsList.add(p.toObject())
                     }
-                        adapter = PetAdapter(requireContext(),petsList){ position->
-                            Snackbar.make(v,position.toString(), Snackbar.LENGTH_SHORT).show()
-                            // esto se ejecuta cuando hace click
-
-
-                        Log.i("entro al for", "MASCOTAAS $petsList")
+                    adapter = PetAdapter(requireContext(),petsList){ position->
+                        Snackbar.make(v,position.toString(), Snackbar.LENGTH_SHORT).show()
+                        Log.i("entro al for y adapter", "MASCOTAS: $petsList")
                     }
                     recPets.adapter = adapter
                 }
@@ -86,13 +80,9 @@ class MyPetsFragment : Fragment() {
                 Log.w("fallo", "Error getting documents: ", exception)
             }
 
+        // ESTO ACA O EN EL CREATED
         recPets.setHasFixedSize(true)
         recPets.layoutManager = LinearLayoutManager(context)
-
-
-
-
-
 
     }
 
@@ -104,7 +94,14 @@ class MyPetsFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
-
+    fun userId (): String {
+        val user = Firebase.auth.currentUser
+        var id : String = ""
+        if (user != null) {
+            id = user.uid
+        }
+        return id
+    }
 
 
 }

@@ -2,14 +2,9 @@ package com.example.proyectofinal.entities
 
 import java.util.*
 
-class Review(
-    id_reviewer: String,
-    id_reviewed: String,
-    stars: Integer,
-    content: String,
-    date: Date
-) {
-
-
-
-}
+data class Review(
+    val id_hiring: String = "",
+    val stars: Int = 0,
+    val content: String= "",
+    val date: Date? = null
+)

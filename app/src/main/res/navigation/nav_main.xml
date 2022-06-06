@@ -28,16 +28,30 @@
             app:destination="@id/myPetsFragment" />
         <action
             android:id="@+id/actionModifyProfileUser"
-            app:destination="@id/updateUserProfileFragment" />
+            app:destination="@id/professionalProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/myPetsFragment"
         android:name="com.example.proyectofinal.fragments.recyclerViews.MyPetsFragment"
         android:label="fragment_pets"
-        tools:layout="@layout/fragment_pets" />
+        tools:layout="@layout/fragment_pets" >
+        <action
+            android:id="@+id/actionListPetsAddPet"
+            app:destination="@id/addPetFragment" />
+    </fragment>
     <fragment
         android:id="@+id/updateUserProfileFragment"
         android:name="com.example.proyectofinal.fragments.UpdateUserProfileFragment"
         android:label="fragment_update_user_profile"
         tools:layout="@layout/fragment_update_user_profile" />
+    <fragment
+        android:id="@+id/addPetFragment"
+        android:name="com.example.proyectofinal.fragments.AddPetFragment"
+        android:label="fragment_add_pet"
+        tools:layout="@layout/fragment_add_pet" />
+    <fragment
+        android:id="@+id/professionalProfileFragment"
+        android:name="com.example.proyectofinal.fragments.ProfessionalProfileFragment"
+        android:label="fragment_professional_profile"
+        tools:layout="@layout/fragment_professional_profile" />
 </navigation>

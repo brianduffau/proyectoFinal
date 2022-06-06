@@ -7,62 +7,87 @@
     android:layout_height="match_parent"
     tools:context=".fragments.AddPetFragment">
 
+    <include layout="@layout/toolbar"
+        android:id="@+id/addPet_toolbar"/>
+
     <EditText
-        android:id="@+id/petName2"
-        android:layout_width="wrap_content"
+        android:id="@+id/petNameAdd"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
         android:layout_marginTop="207dp"
-        android:layout_marginEnd="105dp"
-        android:layout_marginBottom="81dp"
+        android:layout_marginBottom="51dp"
         android:ems="10"
+        android:hint="Nombre de la mascota"
         android:inputType="textPersonName"
-        android:text="Nombre de la mascota"
-        app:layout_constraintBottom_toTopOf="@+id/dog"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/grupoSelecMascota"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <CheckBox
-        android:id="@+id/dog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="145dp"
-        android:layout_marginTop="81dp"
-        android:layout_marginEnd="172dp"
-        android:text="Perro"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/petName2" />
+    <RadioGroup
+        android:id="@+id/grupoSelecMascota"
+        android:layout_width="105dp"
+        android:layout_height="95dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/petAgeAdd"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toBottomOf="@+id/petNameAdd">
 
-    <CheckBox
-        android:id="@+id/cat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="145dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="172dp"
-        android:layout_marginBottom="41dp"
-        android:text="Gato"
-        app:layout_constraintBottom_toTopOf="@+id/petAge"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dog" />
+        <RadioButton
+            android:id="@+id/dog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Perro" />
+
+        <RadioButton
+            android:id="@+id/cat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="Gato" />
+
+    </RadioGroup>
 
     <EditText
-        android:id="@+id/petAge"
+        android:id="@+id/petAgeAdd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:hint="Edad"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/add_pet"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toBottomOf="@+id/grupoSelecMascota" />
+
+    <Button
+        android:id="@+id/add_pet"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="75dp"
+        android:text="Guardar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toBottomOf="@+id/petAgeAdd" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="105dp"
-        android:layout_marginTop="41dp"
-        android:layout_marginEnd="96dp"
-        android:layout_marginBottom="198dp"
-        android:ems="10"
-        android:inputType="number"
-        android:text="Edad"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cat" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="48dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="362dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

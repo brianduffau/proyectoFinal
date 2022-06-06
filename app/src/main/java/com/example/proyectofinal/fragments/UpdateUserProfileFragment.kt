@@ -50,7 +50,7 @@ class UpdateUserProfileFragment : Fragment() {
         textMail = v.findViewById(R.id.mailUserUp)
 
         buttonUpdate = v.findViewById(R.id.updateProf)
-        buttonUpdate.setOnClickListener{ updateUser()}
+        //buttonUpdate.setOnClickListener{ updateUser()}
 
         return v
     }
@@ -65,11 +65,11 @@ class UpdateUserProfileFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        user = viewModelShared.getUserInfo()
+        /*user = viewModelShared.getUserInfo()!!
 
         textName.setText(user.name)
         textMail.setText(user.email)
-        textSurname.setText(user.surname)
+        textSurname.setText(user.surname)*/
 
     }
 
@@ -83,7 +83,7 @@ class UpdateUserProfileFragment : Fragment() {
         docRef.update("name",name, "surname",surname, "email", mail)
             .addOnSuccessListener { Log.d("updateUserOK", "Usuario actualizado en id: ${user.id}")
                                     Snackbar.make(v,"Usuario actualizado con exito", Snackbar.LENGTH_SHORT).show()
-                                    viewModelShared.userLog = user
+                                    //viewModelShared.getUserInfo() = user
             }
             .addOnFailureListener { e -> Log.d("updateUserNotOK", "get failed with ", e) }
 

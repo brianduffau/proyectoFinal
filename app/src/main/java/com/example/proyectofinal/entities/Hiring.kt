@@ -1,10 +1,9 @@
 package com.example.proyectofinal.entities
 
-import java.util.*
+import com.google.firebase.Timestamp
 
-class Hiring (
-    id_customer: String,
-    id_professional: String,
-    date: Date
+data class Hiring(
+    val id_customer: String = "",
+    val id_professional: String = "",
+    val date: Timestamp? = null,
 )
-{  }

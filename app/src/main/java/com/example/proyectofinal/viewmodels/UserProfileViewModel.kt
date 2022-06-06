@@ -11,7 +11,7 @@ import com.google.firebase.ktx.Firebase
 class UserProfileViewModel : ViewModel() {
 
     private val db = Firebase.firestore
-    lateinit var userLog: Customer
+
 
     fun userId (): String {
         val user = Firebase.auth.currentUser
@@ -22,8 +22,8 @@ class UserProfileViewModel : ViewModel() {
         return id
     }
 
-    fun getUserInfo() : Customer {
-
+    fun getUserInfo() : Customer? {
+        var userLog: Customer? = null
         val id = userId()
         val docRef = db.collection("customers").document(id)
         docRef.get()

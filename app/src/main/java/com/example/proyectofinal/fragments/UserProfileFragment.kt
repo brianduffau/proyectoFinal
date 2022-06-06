@@ -2,7 +2,6 @@ package com.example.proyectofinal.fragments
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,21 +9,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.proyectofinal.R
-import com.example.proyectofinal.activities.MainActivity
 import com.example.proyectofinal.entities.Customer
-import com.example.proyectofinal.viewmodels.SharedViewModel
 import com.example.proyectofinal.viewmodels.UserProfileViewModel
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.auth.ktx.userProfileChangeRequest
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 class UserProfileFragment : Fragment() {
@@ -82,11 +72,11 @@ class UserProfileFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        user = viewModel.getUserInfo()
+        /*user = viewModel.getUserInfo()!!
         textName.text = user.name
         textMail.text = user.email
         textSurname.text = user.surname
-        Glide.with(this).load(user.img).into(image)
+        Glide.with(this).load(user.img).into(image)*/
 
 
 
