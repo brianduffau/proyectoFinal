@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_hire"
+    app:startDestination="@id/professionalProfileFragment">
+
+    <fragment
+        android:id="@+id/professionalProfileFragment"
+        android:name="com.example.proyectofinal.fragments.HireActivity.ProfessionalProfileFragment"
+        android:label="fragment_professional_profile"
+        tools:layout="@layout/fragment_professional_profile" >
+        <action
+            android:id="@+id/actionProfessionalToConfirm"
+            app:destination="@id/confirmationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/hiringFragment"
+        android:name="com.example.proyectofinal.fragments.HireActivity.HiringFragment"
+        android:label="fragment_hiring"
+        tools:layout="@layout/fragment_hiring" >
+        <action
+            android:id="@+id/action_hiringFragment_to_mainActivity2"
+            app:destination="@id/actionHireToMain" />
+    </fragment>
+    <fragment
+        android:id="@+id/confirmationFragment"
+        android:name="com.example.proyectofinal.fragments.HireActivity.ConfirmFragment"
+        android:label="fragment_confirm"
+        tools:layout="@layout/fragment_confirm" >
+        <action
+            android:id="@+id/actionConfirmToHire"
+            app:destination="@id/hiringFragment" />
+    </fragment>
+    <activity
+        android:id="@+id/actionHireToMain"
+        android:name="com.example.proyectofinal.activities.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+</navigation>

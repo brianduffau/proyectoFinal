@@ -8,19 +8,35 @@
     tools:context=".fragments.AuthActivity.LoginFragment">
 
     <include layout="@layout/toolbar"
-        android:id="@+id/auth_toolbar"/>
+        android:id="@+id/confirm_toolbar"/>
+
+    <ImageButton
+        android:id="@+id/google_button_login"
+        android:layout_width="166dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="122dp"
+        android:layout_marginTop="59dp"
+        android:layout_marginEnd="122dp"
+        android:layout_marginBottom="74dp"
+        app:layout_constraintBottom_toTopOf="@+id/register_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_register"
+        app:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
 
     <LinearLayout
         android:id="@+id/login_register"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="300dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="14dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/google_button_login"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -50,21 +66,6 @@
             android:text="Acceder" />
 
     </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/google_button_login"
-        android:layout_width="166dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="122dp"
-        android:layout_marginTop="59dp"
-        android:layout_marginEnd="122dp"
-        android:layout_marginBottom="74dp"
-        app:layout_constraintBottom_toTopOf="@+id/register_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_register"
-        app:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
 
     <Button
         android:id="@+id/register_button"

@@ -1,107 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ProfessionalProfileFragment">
+    tools:context=".fragments.HireActivity.ProfessionalProfileFragment">
 
-    <ImageView
-        android:id="@+id/professionalProfileImage"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/rellay1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="141dp"
-        android:layout_marginTop="125dp"
-        android:layout_marginEnd="142dp"
-        android:layout_marginBottom="26dp"
-        app:layout_constraintBottom_toTopOf="@+id/professionalName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
+        android:background="@color/dark"
+        android:paddingBottom="20dp">
 
-    <TextView
-        android:id="@+id/professionalName"
-        android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/imgUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/professional_profile_image"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginStart="9dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginEnd="9dp"
+                android:layout_marginBottom="9dp"
+                android:adjustViewBounds="true"
+                android:background="@color/white"
+                android:padding="3dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/profile" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/professional_profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgUser"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15sp"
+            android:fontFamily="sans-serif-light"
+            android:text="María Sonselap"
+            android:textColor="@color/white"
+            android:textSize="32sp" />
+
+
+        <TextView
+            android:id="@+id/professional_profile_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/professional_profile_name"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif"
+            android:text="Paseadora"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:id="@+id/hire_professional"
+            android:layout_width="91dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="46dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="22dp"
+            android:layout_toEndOf="@+id/imgUser"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_handshake" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_handshake"
+                android:text="Contratar"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linlay1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="26dp"
-        android:layout_marginEnd="177dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/professionalProfileImage" />
+        android:layout_below="@id/rellay1"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/professionalType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginEnd="177dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/professionalName" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/light"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
 
-    <TextView
-        android:id="@+id/professionalCity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="176dp"
-        android:layout_marginEnd="177dp"
-        android:layout_marginBottom="9dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/professionalRatingBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/professionaQtyWork"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="61dp"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="88dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-        app:layout_constraintEnd_toStartOf="@+id/professionalRatingBar"
-        app:layout_constraintStart_toStartOf="parent" />
+                <TextView
+                    android:id="@+id/professional_work_qty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="453K"
+                    android:textColor="@color/white"
+                    android:textSize="25sp" />
 
-    <RatingBar
-        android:id="@+id/professionalRatingBar"
-        android:layout_width="wrap_content"
-        android:layout_height="57dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="9dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/professionaQtyWork"
-        app:layout_constraintTop_toBottomOf="@+id/professionalCity" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Trabajos"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="409dp"
-        android:layout_height="236dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="494dp" />
+            </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/hireButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="299dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="263dp"
-        android:src="@mipmap/ic_launcher"
-        app:layout_constraintBottom_toTopOf="@+id/professionalRatingBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        </RelativeLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/teal_700"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <RatingBar
+                    android:id="@+id/professional_profile_rating"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:rating="4"
+                    android:stepSize="0.1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Calificación"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linlay1"
+        android:layout_marginTop="-11dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recReviews"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+</RelativeLayout>
+

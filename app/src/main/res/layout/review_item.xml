@@ -19,7 +19,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/petImage"
+            android:id="@+id/customerImgReview"
             android:layout_width="100dp"
             android:layout_height="80dp"
             android:scaleType="fitXY"
@@ -34,22 +34,22 @@
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/petName"
+                android:id="@+id/customerNameReview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Nombre mascota"
+                android:text="Nombre usuario"
                 android:textAlignment="center"
 
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/petType"
+                android:id="@+id/comentReview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Tipo mascota"
+                android:text="Comentario"
                 android:textAlignment="center"
                 android:textSize="14sp" />
 

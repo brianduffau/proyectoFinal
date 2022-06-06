@@ -2,66 +2,74 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout5"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.HiringFragment">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/confirmationMsg2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="241dp"
-        android:layout_marginEnd="177dp"
-        android:layout_marginBottom="63dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="318dp"
+        android:layout_height="503dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/confirm_professional_name"
+            android:layout_width="match_parent"
+            android:layout_height="81dp"
+            android:gravity="center"
+            android:text="¡Felicitaciones!"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/hiring_msg"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:gravity="center"
+            android:text="Tu mascota está en buenas manos" />
+
+        <TextView
+            android:id="@+id/hiring_info"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:text="TextView" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            app:srcCompat="@drawable/fui_ic_check_circle_black_128dp" />
+
+        <TextView
+            android:id="@+id/hiring_msg_2"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:gravity="center"
+            android:text="TextView" />
+
+    </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="84dp"
-        android:layout_height="88dp"
-        android:layout_marginStart="163dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="164dp"
-        android:layout_marginBottom="35dp"
-        android:src="@android:drawable/checkbox_on_background"
-        app:layout_constraintBottom_toTopOf="@+id/confirmationMsg3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirmationMsg2" />
-
-    <TextView
-        android:id="@+id/confirmationMsg3"
+        android:id="@+id/hiring_home_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="177dp"
-        android:layout_marginBottom="249dp"
-        android:text="TextView"
+        android:layout_marginStart="181dp"
+        android:layout_marginEnd="182dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_home" />
 
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="294dp"
-        android:layout_marginTop="638dp"
-        android:layout_marginEnd="23dp"
-        android:layout_marginBottom="45dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

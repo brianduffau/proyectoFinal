@@ -51,8 +51,6 @@ class LoginFragment : Fragment() {
         setupToolbar()
         setupListeners()
 
-
-
         return v
     }
 
@@ -76,6 +74,8 @@ class LoginFragment : Fragment() {
         signUpButton.setOnClickListener{Navigation.findNavController(v).navigate(R.id.actionAuthToRegister)}
 
         loginButton.setOnClickListener {
+            Navigation.findNavController(v).navigate(R.id.authToMain)
+        /*
             if (emailEditText.text.isNotEmpty() && passEditText.text.isNotEmpty()) {
 
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(
@@ -89,6 +89,7 @@ class LoginFragment : Fragment() {
                     }
                 }
             }
+        */
         }
 
         googleButton.setOnClickListener {
