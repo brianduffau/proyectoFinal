@@ -10,7 +10,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.Navigation
-import com.bumptech.glide.Glide
+//import com.bumptech.glide.Glide
 import com.example.proyectofinal.R
 import com.example.proyectofinal.entities.Customer
 import com.example.proyectofinal.viewmodels.UserProfileViewModel

@@ -19,8 +19,6 @@ import com.google.firebase.ktx.Firebase
 
 class AddPetFragment : Fragment() {
 
-
-
     private lateinit var viewModel: AddPetViewModel
     lateinit var v: View
     var db = Firebase.firestore

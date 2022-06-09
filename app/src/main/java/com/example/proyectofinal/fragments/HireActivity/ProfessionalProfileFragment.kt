@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectofinal.R
 import com.example.proyectofinal.activities.HireActivity
 import com.example.proyectofinal.adapters.ReviewAdapter
+import com.example.proyectofinal.entities.Customer
 import com.example.proyectofinal.entities.Hiring
 import com.example.proyectofinal.entities.Professional
 import com.example.proyectofinal.entities.Review
@@ -32,6 +33,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.abs
 
 
@@ -76,11 +78,12 @@ class ProfessionalProfileFragment : Fragment(){
 
     override fun onStart() {
         super.onStart()
-        reviewsBD()
 
         professional = (activity as HireActivity).professional
         hireStartDate = Calendar.getInstance()
         hireEndDate = Calendar.getInstance()
+
+        reviewsBD()
 
         setUpViews()
 
@@ -205,21 +208,17 @@ class ProfessionalProfileFragment : Fragment(){
         }
     }
 
-    fun reviewsBD () {
+    private fun reviewsBD () {
         db.collection("reviews")
-            //.whereEqualTo("id_reviewed", profId())
+            .whereEqualTo("id_reviewed", professional.id.trimStart())
             .get()
             .addOnSuccessListener { snapshot ->
                 if (snapshot != null) {
-                    Log.i("ifReview", "entro")
                     for (h in snapshot) {
                         reviewsList.add(h.toObject())
-                        // EL TEMA ES QUE ACA DEBERIA AGREGAR DISTINTO A LO QUE ESTA EN LA CLASE, SON LOS NOMBRES, NO LOS ID. LA BUSQUEDA LA HAGO ACA MISMO?
                     }
-                    // YO TENDRIA QUE BUSCAR ESE ID DE CADA UNO EN LA COLECCION DE PROFESIONALES PARA VER EL NOMBRE
                     adapter = ReviewAdapter(requireContext(),reviewsList){position->
                         Snackbar.make(v,position.toString(), Snackbar.LENGTH_SHORT).show()
-                        Log.i("entro for y adapter - r", "REVIEWS: $reviewsList")
                     }
                     recReviews.adapter = adapter
                 }

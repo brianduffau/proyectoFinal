@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+//import com.bumptech.glide.Glide
 import com.example.proyectofinal.R
 import com.example.proyectofinal.entities.Review
 
@@ -31,6 +31,7 @@ class ReviewAdapter( var context: Context,
             nameCust.text = name
         }
 
+
         fun setComent(coment: String) {
             val comentCust : TextView = view.findViewById(R.id.comentReview)
             comentCust.text = coment
@@ -52,7 +53,7 @@ class ReviewAdapter( var context: Context,
 
     override fun onBindViewHolder(holder: ReviewHolder, position: Int) {
 
-        //holder.setNameCustomer(reviewsList[position])
+        holder.setNameCustomer(reviewsList[position].reviewer_name)
         holder.setComent(reviewsList[position].content)
 
         // PARA QUE CARGUE LA IMAGEN:
