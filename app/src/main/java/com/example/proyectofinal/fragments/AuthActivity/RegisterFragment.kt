@@ -146,8 +146,6 @@ class RegisterFragment : Fragment() {
                         .addOnCompleteListener {
                             if (it.isSuccessful) {
                                 if (it.getResult().additionalUserInfo?.isNewUser!!) {
-                                    Log.d(TAG, "onActivityResult: ${it.result.user?.email}")
-                                    Log.d(TAG, "onActivityResult: ${it.result.user?.displayName}")
                                     saveUser(
                                         it.result.user?.uid ?: "",
                                         account.givenName ?: "",
@@ -179,7 +177,6 @@ class RegisterFragment : Fragment() {
     }
 
     private fun saveUser(id: String, name: String, surname: String, email: String, img: String) {
-        Log.d(TAG, "saveUser: $id")
         val customer = Customer(id = id, name = name, surname = surname, email = email, img = img)
 
         db.collection("customers")
