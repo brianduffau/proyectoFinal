@@ -189,10 +189,10 @@ class RegisterFragment : Fragment() {
     private fun saveUser(id: String, name: String, surname: String, email: String, img: String) {
         val customer = Customer(id = id, name = name, surname = surname, email = email, img = img)
 
-        db.collection("customers")
-            .add(customer)
+        db.collection("customers").document(id)
+            .set(customer)
             .addOnSuccessListener { documentReference ->
-                Log.d(ContentValues.TAG, "Usuario agregado con id : ${documentReference.id}")
+                Log.d(ContentValues.TAG, "Usuario agregado con id : $id")
             }
             .addOnFailureListener { e ->
                 Log.w(ContentValues.TAG, "Error adding document", e)
