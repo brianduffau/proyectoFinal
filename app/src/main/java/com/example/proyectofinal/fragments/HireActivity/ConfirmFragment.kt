@@ -80,7 +80,7 @@ class ConfirmFragment : Fragment() {
 
     private fun createHiring() {
         val customerId = Firebase.auth.currentUser?.uid
-        val hiring = Hiring(customerId ?: "" ,professional.id, Timestamp(hireStartDate.time), Timestamp(hireEndDate.time))
+        val hiring = Hiring(customerId ?: "" ,professional.id, professional.name,professional.professionalType,Timestamp(hireStartDate.time), Timestamp(hireEndDate.time))
 
         db.collection("hirings")
             .add(hiring)

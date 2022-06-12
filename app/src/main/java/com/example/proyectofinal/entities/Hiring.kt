@@ -7,6 +7,8 @@ import java.util.*
 data class Hiring(
     val id_customer: String = "",
     val id_professional: String = "",
+    val professional_name: String = "",
+    val professional_type: String = "",
     val startDate: Timestamp? = null,
     val endDate: Timestamp? = null
 )
