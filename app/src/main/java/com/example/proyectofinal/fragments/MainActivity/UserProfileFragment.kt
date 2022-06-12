@@ -74,9 +74,6 @@ class UserProfileFragment : Fragment() {
         textSurname.text = user.surname
         Glide.with(this).load(user.img).into(image)*/
 
-
-
-
     }
 
 

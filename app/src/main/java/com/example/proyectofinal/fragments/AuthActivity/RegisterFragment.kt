@@ -2,6 +2,7 @@ package com.example.proyectofinal.fragments.AuthActivity
 
 import android.app.AlertDialog
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -145,8 +146,10 @@ class RegisterFragment : Fragment() {
                         .addOnCompleteListener {
                             if (it.isSuccessful) {
                                 if (it.getResult().additionalUserInfo?.isNewUser!!) {
+                                    Log.d(TAG, "onActivityResult: ${it.result.user?.email}")
+                                    Log.d(TAG, "onActivityResult: ${it.result.user?.displayName}")
                                     saveUser(
-                                        account.id ?: "",
+                                        it.result.user?.uid ?: "",
                                         account.givenName ?: "",
                                         "",
                                         account.email ?: "",
@@ -176,6 +179,7 @@ class RegisterFragment : Fragment() {
     }
 
     private fun saveUser(id: String, name: String, surname: String, email: String, img: String) {
+        Log.d(TAG, "saveUser: $id")
         val customer = Customer(id = id, name = name, surname = surname, email = email, img = img)
 
         db.collection("customers")

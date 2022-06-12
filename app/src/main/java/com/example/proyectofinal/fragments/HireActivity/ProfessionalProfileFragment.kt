@@ -83,7 +83,7 @@ class ProfessionalProfileFragment : Fragment(){
         hireStartDate = Calendar.getInstance()
         hireEndDate = Calendar.getInstance()
 
-        reviewsBD()
+        getReviews()
 
         setUpViews()
 
@@ -208,7 +208,7 @@ class ProfessionalProfileFragment : Fragment(){
         }
     }
 
-    private fun reviewsBD () {
+    private fun getReviews () {
         db.collection("reviews")
             .whereEqualTo("id_reviewed", professional.id.trimStart())
             .get()
@@ -226,7 +226,6 @@ class ProfessionalProfileFragment : Fragment(){
             .addOnFailureListener { exception ->
                 Log.w("fallo", "Error getting documents: ", exception)
             }
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
