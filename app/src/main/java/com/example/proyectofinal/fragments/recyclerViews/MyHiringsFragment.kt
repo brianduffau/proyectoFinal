@@ -74,7 +74,7 @@ class MyHiringsFragment : Fragment() {
                     Log.i("ifHirings", "entro")
                     for (h in snapshot) {
                         hiresList.add(h.toObject())
-                        // EL TEMA ES QUE ACA DEBERIA AGREGAR DISTINTO A LO QUE ESTA EN LA CLASE, SON LOS NOMBRES, NO LOS ID. LA BUSQUEDA LA HAGO ACA MISMO?
+
                     }
                     // YO TENDRIA QUE BUSCAR ESE ID DE CADA UNO EN LA COLECCION DE PROFESIONALES PARA VER EL NOMBRE
                     adapter = HireAdapter(requireContext(),hiresList){ position->

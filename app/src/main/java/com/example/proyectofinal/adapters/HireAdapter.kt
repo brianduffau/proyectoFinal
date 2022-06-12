@@ -53,8 +53,8 @@ class HireAdapter(var context: Context,
     override fun onBindViewHolder(holder: HireHolder, position: Int) {
 
 
-        holder.setNameProf(hiresList[position].id_professional)
-        //holder.setTypeProf(hiresList[position].type)
+        holder.setNameProf(hiresList[position].professional_name)
+        holder.setTypeProf(hiresList[position].professional_type)
 
         // PARA QUE CARGUE LA IMAGEN:
         //Glide.with(context).load(hiresList[position].profImg).into(holder.getImageView())*/
