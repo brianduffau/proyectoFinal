@@ -78,29 +78,39 @@ class RegisterFragment : Fragment() {
         registerButton.setOnClickListener {
             if (checkFormNotEmpty()) {
                 if (doubleCheckPass()) {
-                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(
-                        emailInput.text.toString(),
-                        passInput.text.toString()
-                    )
-                        .addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                saveUser(
-                                    it.getResult().user?.uid ?: "",
-                                    nameInput.text.toString(),
-                                    surnameInput.text.toString(),
-                                    emailInput.text.toString(),
-                                    ""
-                                )
-                                accountCreatedAlert()
-                            } else {
-                                val toast = Toast.makeText(
-                                    requireContext(),
-                                    "El usuario ya existe",
-                                    Toast.LENGTH_LONG
-                                )
-                                toast.show()
+                    if(checkShortPass()) {
+                        FirebaseAuth.getInstance().createUserWithEmailAndPassword(
+                            emailInput.text.toString(),
+                            passInput.text.toString()
+                        )
+                            .addOnCompleteListener {
+                                if (it.isSuccessful) {
+                                    saveUser(
+                                        it.getResult().user?.uid ?: "",
+                                        nameInput.text.toString(),
+                                        surnameInput.text.toString(),
+                                        emailInput.text.toString(),
+                                        ""
+                                    )
+                                    accountCreatedAlert()
+                                } else {
+                                    Log.d(TAG, "setupRegister: $it")
+                                    val toast = Toast.makeText(
+                                        requireContext(),
+                                        "El usuario ya existe",
+                                        Toast.LENGTH_LONG
+                                    )
+                                    toast.show()
+                                }
                             }
-                        }
+                    } else {
+                        val toast = Toast.makeText(
+                            requireContext(),
+                            "La contraseña debe tener más de 6 caracteres",
+                            Toast.LENGTH_LONG
+                        )
+                        toast.show()
+                    }
                 } else {
                     val toast = Toast.makeText(
                         requireContext(),
@@ -200,6 +210,10 @@ class RegisterFragment : Fragment() {
 
     private fun doubleCheckPass(): Boolean {
         return passInput.text.toString() == passConfirmInput.text.toString()
+    }
+
+    private fun checkShortPass(): Boolean {
+        return passInput.text.length > 5
     }
 
     private fun accountCreatedAlert() {
