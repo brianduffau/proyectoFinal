@@ -52,6 +52,7 @@ class PetAdapter( var context: Context,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PetHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.pet_item, parent, false)
+
         return (PetHolder(itemView))
     }
 
@@ -67,6 +68,8 @@ class PetAdapter( var context: Context,
         holder.getCard().setOnClickListener{
             onClick(position)
         }
+
+
     }
 
     override fun getItemCount(): Int {

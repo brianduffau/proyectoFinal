@@ -2,6 +2,7 @@ package com.example.proyectofinal.fragments.MainActivity
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +15,9 @@ import androidx.navigation.Navigation
 import com.example.proyectofinal.R
 import com.example.proyectofinal.entities.Customer
 import com.example.proyectofinal.viewmodels.UserProfileViewModel
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 class UserProfileFragment : Fragment() {
@@ -67,16 +70,41 @@ class UserProfileFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
+        getUserInfo()
         /*user = viewModel.getUserInfo()!!
-        textName.text = user.name
-        textMail.text = user.email
-        textSurname.text = user.surname
-        Glide.with(this).load(user.img).into(image)*/
+        textName.text = getUserInfo().name
+        textMail.text = getUserInfo().email
+        textSurname.text = getUserInfo().surname
+        //Glide.with(this).load(user.img).into(image)*/
 
     }
 
+    fun userId (): String {
+        val user = Firebase.auth.currentUser
+        var id : String = ""
+        if (user != null) {
+            id = user.uid
+        }
+        return id
+    }
 
+    fun getUserInfo() {
+        val docRef = db.collection("customers").document(userId())
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    Log.d("userOK", "DocumentSnapshot data: ${document.id}")
+                    textName.text = document.data?.get("name") as String
+                    textSurname.text = document.data?.get("surname") as String
+                    textMail.text = document.data?.get("email") as String
+                } else {
+                    Log.d("userNotFound", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("userNotOK", "get failed with ", exception)
+            }
+    }
 
 
     /*

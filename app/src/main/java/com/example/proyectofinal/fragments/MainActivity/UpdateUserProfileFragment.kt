@@ -9,6 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.navigation.Navigation
 import com.example.proyectofinal.R
 import com.example.proyectofinal.entities.Customer
 import com.example.proyectofinal.viewmodels.UpdateUserProfileViewModel
@@ -30,8 +33,11 @@ class UpdateUserProfileFragment : Fragment() {
     lateinit private var textSurname : EditText
     lateinit private var textMail : EditText
     lateinit private var buttonUpdate : Button
-    lateinit var user : Customer
+    //lateinit var user : Customer
     private val db = Firebase.firestore
+
+    private lateinit var toolbarText : TextView
+    private lateinit var backButton : ImageView
 
     lateinit var v : View
 
@@ -41,12 +47,16 @@ class UpdateUserProfileFragment : Fragment() {
     ): View? {
         v = inflater.inflate(R.layout.fragment_update_user_profile, container, false)
 
+        backButton = v.findViewById(R.id.back_button_toolbar)
+        toolbarText = v.findViewById(R.id.text_toolbar)
+        setupToolbar()
+
         textName = v.findViewById(R.id.nameUserUp)
         textSurname = v.findViewById(R.id.surnameUserUp)
-        textMail = v.findViewById(R.id.mailUserUp)
+
 
         buttonUpdate = v.findViewById(R.id.updateProf)
-        //buttonUpdate.setOnClickListener{ updateUser()}
+        buttonUpdate.setOnClickListener{ updateUser()}
 
         return v
     }
@@ -58,26 +68,48 @@ class UpdateUserProfileFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
+    private fun setupToolbar() {
+        toolbarText.setText("Mi perfil")
+        backButton.setOnClickListener{ Navigation.findNavController(v).popBackStack()}
+    }
+
     override fun onStart() {
         super.onStart()
 
-        /*user = viewModelShared.getUserInfo()!!
+        getUserInfo()
 
-        textName.setText(user.name)
-        textMail.setText(user.email)
-        textSurname.setText(user.surname)*/
+        //user = viewModelShared.getUserInfo()!!
 
+        //textName.setText(user.name)
+        //textSurname.setText(user.surname)
+
+    }
+
+    fun getUserInfo() {
+        val docRef = db.collection("customers").document(viewModelShared.userId())
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    Log.d("userOK", "DocumentSnapshot data: ${document.id}")
+                    textName.setText(document.data?.get("name") as String)
+                    textSurname.setText(document.data?.get("surname") as String)
+                } else {
+                    Log.d("userNotFound", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("userNotOK", "get failed with ", exception)
+            }
     }
 
     private fun updateUser() {
 
         var name = textName.text.toString()
-        var mail = textMail.text.toString()
         var surname = textSurname.text.toString()
 
-        val docRef = db.collection("customers").document(user.id)
-        docRef.update("name",name, "surname",surname, "email", mail)
-            .addOnSuccessListener { Log.d("updateUserOK", "Usuario actualizado en id: ${user.id}")
+        val docRef = db.collection("customers").document(viewModelShared.userId())
+        docRef.update("name",name, "surname",surname)
+            .addOnSuccessListener { Log.d("updateUserOK", "Usuario actualizado con apellido: $surname")
                                     Snackbar.make(v,"Usuario actualizado con exito", Snackbar.LENGTH_SHORT).show()
                                     //viewModelShared.getUserInfo() = user
             }

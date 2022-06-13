@@ -44,7 +44,13 @@ class MyPetsFragment : Fragment() {
         btnAdd = v.findViewById(R.id.btn_add)
         recPets = v.findViewById(R.id.recPets)
 
+        // ESTO EN EL CREATED O EN ONSTART
+        recPets.setHasFixedSize(true)
+        recPets.layoutManager = LinearLayoutManager(context)
+
+
         btnAdd.setOnClickListener{ Navigation.findNavController(v).navigate(R.id.actionListPetsAddPet)}
+
 
 
         return v
@@ -55,10 +61,11 @@ class MyPetsFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        // INTENTO DE CARGAR LOS DATOS A VER SI FUNCIONA:
-        //petsList.add(Pet("01","https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.es%2Ffotos-premium%2Flabrador-marron-foto-estudio-cachorro_12887850.htm&psig=AOvVaw2j8-0smiLmq9GD9vaaVKAY&ust=1653766170442000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCMCm-pq1gPgCFQAAAAAdAAAAABAD","India",9,"Perro", "1234AACC"))
-        //petsList.add(Pet("Malta","Perro",1,"https://www.google.com/url?sa=i&url=https%3A%2F%2Fes.123rf.com%2Fimagenes-de-archivo%2Fperro_mestizo.html&psig=AOvVaw1UJKwhy7PGxgimszqB8LaB&ust=1653766045548000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCMi5i-C0gPgCFQAAAAAdAAAAABAD", "1234AACC"))
+        petsBD()
 
+    }
+
+    private fun petsBD() {
         // CHEQUEAR SI DESPUES DE AGREGAR UNA MASCOTA, APARECE REPETIDA LA QUE YA ESTABA...
         db.collection("pets")
             .whereEqualTo("idOwner", userId())
@@ -80,12 +87,7 @@ class MyPetsFragment : Fragment() {
                 Log.w("fallo", "Error getting documents: ", exception)
             }
 
-        // ESTO ACA O EN EL CREATED
-        recPets.setHasFixedSize(true)
-        recPets.layoutManager = LinearLayoutManager(context)
-
     }
-
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
