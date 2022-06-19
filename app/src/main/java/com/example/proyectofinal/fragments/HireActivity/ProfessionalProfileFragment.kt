@@ -1,7 +1,6 @@
 package com.example.proyectofinal.fragments.HireActivity
 
 import android.annotation.SuppressLint
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
@@ -17,23 +16,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectofinal.R
 import com.example.proyectofinal.activities.HireActivity
 import com.example.proyectofinal.adapters.ReviewAdapter
-import com.example.proyectofinal.entities.Customer
-import com.example.proyectofinal.entities.Hiring
 import com.example.proyectofinal.entities.Professional
 import com.example.proyectofinal.entities.Review
 import com.example.proyectofinal.viewmodels.ProfessionalProfileViewModel
-import com.google.android.gms.auth.api.Auth
-import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.datepicker.*
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
-import com.google.firebase.Timestamp
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
+import java.util.Calendar.*
 import kotlin.math.abs
 
 
@@ -60,15 +56,14 @@ class ProfessionalProfileFragment : Fragment(){
     lateinit var adapter: ReviewAdapter
     var reviewsList : ArrayList<Review> = arrayListOf()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_professional_profile, container, false)
 
-
         recReviews = v.findViewById(R.id.recReviews)
+
         // ESTO ACA O EN EL ONSTART
         recReviews.setHasFixedSize(true)
         recReviews.layoutManager = LinearLayoutManager(context)
@@ -80,15 +75,14 @@ class ProfessionalProfileFragment : Fragment(){
         super.onStart()
 
         professional = (activity as HireActivity).professional
-        hireStartDate = Calendar.getInstance()
-        hireEndDate = Calendar.getInstance()
+        hireStartDate = getInstance()
+        hireEndDate = getInstance()
 
         getReviews()
 
         setUpViews()
 
     }
-
 
     private fun setUpViews() {
         professionalName = v.findViewById(R.id.professional_profile_name)
@@ -117,21 +111,40 @@ class ProfessionalProfileFragment : Fragment(){
         }
     }
 
+    private fun calendarConstraints() : CalendarConstraints {
+
+        val dateValidatorMin = DateValidatorPointForward.from(hireStartDate.timeInMillis)
+        //val dateValidatorMax = DateValidatorPointBackward.before()
+
+        val listValidators = ArrayList<CalendarConstraints.DateValidator>()
+        listValidators.apply {
+            add(dateValidatorMin)
+            //add(dateValidatorMax)
+        }
+        val validators = CompositeDateValidator.allOf(listValidators)
+
+        return CalendarConstraints.Builder()
+            .setValidator(validators)
+            .build()
+    }
+
     @SuppressLint("SimpleDateFormat")
     private fun datePicker() {
+
         val datePicker =
-            MaterialDatePicker.Builder.datePicker()
+            MaterialDatePicker.Builder.datePicker().setCalendarConstraints((calendarConstraints()))
                 .setTitleText("Seleccione un día para el paseo")
                 .build()
-        datePicker.show(parentFragmentManager, null);
+
+        datePicker.show(parentFragmentManager, null)
         datePicker.addOnPositiveButtonClickListener {
             val localTimeMilliseconds = it + abs(hireStartDate.timeZone.rawOffset)
             hireStartDate.time = Date(localTimeMilliseconds)
             hireEndDate.time = Date(localTimeMilliseconds)
 
             startTimePicker()
-        }
 
+        }
     }
 
     private fun startTimePicker() {
@@ -144,8 +157,8 @@ class ProfessionalProfileFragment : Fragment(){
         timePicker.show(parentFragmentManager, null)
         timePicker.addOnPositiveButtonClickListener{
             if(timePicker.hour in 10..19){
-                hireStartDate.set(Calendar.HOUR_OF_DAY, timePicker.hour)
-                hireStartDate.set(Calendar.MINUTE, timePicker.minute)
+                hireStartDate.set(HOUR_OF_DAY, timePicker.hour)
+                hireStartDate.set(MINUTE, timePicker.minute)
 
                 Log.d(TAG, "datePicker: ${hireStartDate.time}")
 
@@ -155,7 +168,6 @@ class ProfessionalProfileFragment : Fragment(){
             }else{
                 Snackbar.make(v,"${professional.name} trabaja de 9hs a 20hs, ingrese otro horario",Snackbar.LENGTH_LONG).show()
             }
-
 
         }
     }
@@ -169,8 +181,8 @@ class ProfessionalProfileFragment : Fragment(){
                 .build()
         timePicker.show(parentFragmentManager, null)
         timePicker.addOnPositiveButtonClickListener{
-            hireEndDate.set(Calendar.HOUR_OF_DAY, timePicker.hour)
-            hireEndDate.set(Calendar.MINUTE, timePicker.minute)
+            hireEndDate.set(HOUR_OF_DAY, timePicker.hour)
+            hireEndDate.set(MINUTE, timePicker.minute)
 
             Log.d(TAG, "datePicker: ${hireEndDate.time}")
 
@@ -185,7 +197,7 @@ class ProfessionalProfileFragment : Fragment(){
 
     private fun dateRangePicker() {
         val dateRangePicker =
-            MaterialDatePicker.Builder.dateRangePicker()
+            MaterialDatePicker.Builder.dateRangePicker().setCalendarConstraints(calendarConstraints())
                 .setTitleText("Seleccione ")
                 .build()
         dateRangePicker.show(parentFragmentManager, null)
