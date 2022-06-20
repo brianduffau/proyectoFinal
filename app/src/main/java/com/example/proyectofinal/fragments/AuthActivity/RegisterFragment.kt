@@ -1,17 +1,23 @@
 package com.example.proyectofinal.fragments.AuthActivity
 
+import android.R.attr.path
+import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
-import androidx.lifecycle.ViewModelProvider
+import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.proyectofinal.R
 import com.example.proyectofinal.entities.Customer
@@ -19,10 +25,15 @@ import com.example.proyectofinal.viewmodels.RegisterViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import java.util.*
+
 
 class RegisterFragment : Fragment() {
 
@@ -38,9 +49,18 @@ class RegisterFragment : Fragment() {
     private lateinit var surnameInput: EditText
     private lateinit var emailInput: EditText
     private lateinit var passInput: EditText
+    private lateinit var photoUser: ImageView
+    private lateinit var addPhoto: Button
+    private lateinit var imageUri: Uri
     private lateinit var passConfirmInput: EditText
     private lateinit var backButton: ImageView
     private lateinit var toolbarText: TextView
+    private lateinit var photo: String
+
+    private lateinit var storage: FirebaseStorage
+    private lateinit var storageReference: StorageReference
+
+
 
 
     override fun onCreateView(
@@ -53,7 +73,25 @@ class RegisterFragment : Fragment() {
         setupToolbar()
         setupRegister()
 
+        // FIREBASE STORAGE
+        storage = FirebaseStorage.getInstance()
+        storageReference = storage.reference
+
+        val imageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            var uri= it.data?.data!!
+            photoUser.setImageURI(uri)
+            imageUri = uri
+        }
+
+        addPhoto.setOnClickListener{pickPhoto(imageLauncher)}
+
         return v
+    }
+
+    fun pickPhoto(imageLauncher: ActivityResultLauncher<Intent>) {
+        val intent= Intent(Intent.ACTION_GET_CONTENT)
+        intent.type="image/*"
+        imageLauncher.launch(intent)
     }
 
     private fun setupToolbar() {
@@ -71,6 +109,39 @@ class RegisterFragment : Fragment() {
         passConfirmInput = v.findViewById(R.id.pass_confirm_register)
         toolbarText = v.findViewById(R.id.text_toolbar)
         backButton = v.findViewById(R.id.back_button_toolbar)
+        addPhoto = v.findViewById(R.id.addPhoto_register)
+        photoUser = v.findViewById(R.id.image_register)
+    }
+
+    private fun addPhotoStorage(id : String) {
+
+        val riversRef: StorageReference = storageReference.child("user/${id}/${Calendar.getInstance().time}")
+
+        riversRef.putFile(imageUri)
+            .addOnSuccessListener { document -> // Get a URL to the uploaded content
+                val downloadUrl = riversRef.downloadUrl
+                downloadUrl.addOnSuccessListener {
+                    photo = it.toString()
+                    savePhoto(photo, id)
+                }
+                Log.d("imgUserOk", "Imagen usuario con ID: ${id}")
+
+                }
+            .addOnFailureListener {
+                // Handle unsuccessful uploads
+                Snackbar.make(v, "Error al cargar la imagen", Snackbar.LENGTH_SHORT).show()
+                Log.w("falloImgUser", "Error getting documents: ", it)
+                }
+    }
+
+    private fun savePhoto(photo: String, id: String) {
+        val data = mapOf(
+            "img" to photo
+        )
+
+        db.collection("customers")
+            .document(id)
+            .update(data)
     }
 
     private fun setupRegister() {
@@ -175,6 +246,8 @@ class RegisterFragment : Fragment() {
             }
 
         }
+
+
     }
 
     private fun showAlert() {
@@ -192,10 +265,11 @@ class RegisterFragment : Fragment() {
         db.collection("customers").document(id)
             .set(customer)
             .addOnSuccessListener { documentReference ->
-                Log.d(ContentValues.TAG, "Usuario agregado con id : $id")
+                addPhotoStorage(id)
+                Log.d("saveUserOk", "Usuario agregado con id : $id")
             }
             .addOnFailureListener { e ->
-                Log.w(ContentValues.TAG, "Error adding document", e)
+                Log.w("saveUserNotOk", "Error adding document", e)
             }
     }
 
@@ -223,14 +297,25 @@ class RegisterFragment : Fragment() {
         builder.setPositiveButton("Aceptar", null)
         val dialog: AlertDialog = builder.create()
         dialog.show()
+        cleanInputs()
     }
 
+    private fun cleanInputs() {
+        nameInput.setText("")
+        surnameInput.setText("")
+        emailInput.setText("")
+        passInput.setText("")
+        passConfirmInput.setText("")
+        photoUser.setImageURI(null)
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
-// TODO: Use the ViewModel
+        // TODO: Use the ViewModel
     }
+
+
 
 
 }

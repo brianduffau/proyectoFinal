@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.Navigation
+import com.bumptech.glide.Glide
 //import com.bumptech.glide.Glide
 import com.example.proyectofinal.R
 import com.example.proyectofinal.entities.Customer
@@ -19,6 +20,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
+import java.util.*
 
 class UserProfileFragment : Fragment() {
 
@@ -77,6 +80,7 @@ class UserProfileFragment : Fragment() {
         textSurname.text = getUserInfo().surname
         //Glide.with(this).load(user.img).into(image)*/
 
+
     }
 
     fun userId (): String {
@@ -93,10 +97,14 @@ class UserProfileFragment : Fragment() {
         docRef.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
-                    Log.d("userOK", "DocumentSnapshot data: ${document.id}")
+                    Log.d("userOK", "User id: ${userId()} y time: ${Calendar.getInstance().time}")
+                    //user = document.toObject<Customer>()!!
+                    //showData(user)
                     textName.text = document.data?.get("name") as String
                     textSurname.text = document.data?.get("surname") as String
                     textMail.text = document.data?.get("email") as String
+                    Log.d("userImgOK", "Imagen URL: ${document.data?.get("img") as String}")
+                    Picasso.get().load(document.data?.get("img") as String).fit().centerCrop().into(image)
                 } else {
                     Log.d("userNotFound", "No such document")
                 }
@@ -104,6 +112,14 @@ class UserProfileFragment : Fragment() {
             .addOnFailureListener { exception ->
                 Log.d("userNotOK", "get failed with ", exception)
             }
+    }
+
+    private fun showData(user: Customer) {
+        textName.text = user.name
+        textMail.text = user.email
+        textSurname.text = user.surname
+        Picasso.get().load(user.img).fit().centerCrop().into(image)
+        Log.d("userImgOK", "Url img: ${user.img}")
     }
 
 

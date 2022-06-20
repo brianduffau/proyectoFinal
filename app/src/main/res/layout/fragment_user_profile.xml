@@ -8,107 +8,76 @@
     tools:context=".fragments.MainActivity.UserProfileFragment">
 
 
-    <ImageView
-        android:id="@+id/imageUser"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="31dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toTopOf="@+id/nameUser"
-        app:layout_constraintDimensionRatio="h,1:1"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintHorizontal_bias="0.432"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/nameUser"
-        android:layout_width="0dp"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
-        android:layout_marginBottom="32dp"
-        android:text="Nombre"
-        app:layout_constraintBottom_toTopOf="@+id/surnameUser"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/imageUser" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/mailUser"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="108dp"
-        android:text="Mail"
-        app:layout_constraintBottom_toTopOf="@+id/modifyProfile"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/surnameUser" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/modifyProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Modificar tus datos"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintHorizontal_bias="0.56"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/mailUser" />
+            <ImageView
+                android:id="@+id/imageUser"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:layout_marginTop="32dp"
+                tools:src="@tools:sample/avatars"
+                android:layout_gravity="center"/>
 
-    <Button
-        android:id="@+id/myPets"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="13dp"
-        android:text="Mis Mascotas"
-        app:layout_constraintBottom_toTopOf="@+id/myHirings"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintHorizontal_bias="0.544"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/modifyProfile"
-        app:layout_constraintVertical_bias="0.0" />
+            <TextView
+                android:id="@+id/nameUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Nombre"
+                android:textSize="18sp"/>
 
-    <Button
-        android:id="@+id/myHirings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
-        android:text="Mis Contrataciones"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/myPets" />
+            <TextView
+                android:id="@+id/surnameUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Apellido"
+                android:textSize="18sp"/>
 
-    <TextView
-        android:id="@+id/surnameUser"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Apellido"
-        app:layout_constraintBottom_toTopOf="@+id/mailUser"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/nameUser"
-        app:layout_constraintVertical_bias="0.248" />
+            <TextView
+                android:id="@+id/mailUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Mail"
+                android:textSize="18sp" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="98dp" />
+            <Button
+                android:id="@+id/modifyProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Modificar tus datos"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/orange"
+                android:shadowColor="#000000"/>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="330dp" />
+            <Button
+                android:id="@+id/myPets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Mis Mascotas" />
+
+            <Button
+                android:id="@+id/myHirings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mis Contrataciones" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

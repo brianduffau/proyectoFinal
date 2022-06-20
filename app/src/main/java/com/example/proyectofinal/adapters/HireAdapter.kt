@@ -8,9 +8,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+//import com.bumptech.glide.Glide
 import com.example.proyectofinal.R
 import com.example.proyectofinal.entities.Hiring
+import com.squareup.picasso.Picasso
 
 
 class HireAdapter(var context: Context,
@@ -58,6 +59,7 @@ class HireAdapter(var context: Context,
 
         // PARA QUE CARGUE LA IMAGEN:
         //Glide.with(context).load(hiresList[position].profImg).into(holder.getImageView())*/
+        Picasso.get().load(hiresList[position].professional_img).fit().centerCrop().into(holder.getImageView())
 
         holder.getCard().setOnClickListener{
             onClick(position)

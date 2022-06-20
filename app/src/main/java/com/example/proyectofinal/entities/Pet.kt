@@ -1,5 +1,8 @@
 package com.example.proyectofinal.entities
 
+import android.net.Uri
+
+
 data class Pet(
     val id: String = "",
     val imgPet: String = "",
