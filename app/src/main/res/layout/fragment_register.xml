@@ -4,90 +4,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout8"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.AuthActivity.RegisterFragment" >
+    android:layout_height="wrap_content"
+    tools:context=".fragments.AuthActivity.RegisterFragment">
 
-    <include layout="@layout/toolbar"
-        android:id="@+id/confirm_toolbar"/>
+    <include
+        android:id="@+id/confirm_toolbar"
+        layout="@layout/toolbar" />
 
-    <LinearLayout
-        android:id="@+id/form_register"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="242dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/confirm_toolbar">
 
-        <EditText
-            android:id="@+id/name_register"
+        <LinearLayout
+            android:id="@+id/form_register"
             android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:ems="10"
-            android:hint="Nombre"
-            android:inputType="text" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/surname_register"
-            android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:ems="10"
-            android:hint="Apellido"
-            android:inputType="text" />
+            <ImageView
+                android:id="@+id/image_register"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="32dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                tools:src="@tools:sample/avatars" />
 
-        <EditText
-            android:id="@+id/email_register"
-            android:layout_width="match_parent"
-            android:layout_height="59dp"
-            android:ems="10"
-            android:hint="Email"
-            android:inputType="textEmailAddress" />
+            <Button
+                android:id="@+id/addPhoto_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_gravity="center"
+                android:text="Agregar foto" />
 
-        <EditText
-            android:id="@+id/pass_register"
-            android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:ems="10"
-            android:hint="Contraseña"
-            android:inputType="textPassword" />
+            <EditText
+                android:id="@+id/name_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Nombre"
+                android:inputType="text" />
 
-        <EditText
-            android:id="@+id/pass_confirm_register"
-            android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:ems="10"
-            android:hint="Confirme su contraseña"
-            android:inputType="textPassword" />
+            <EditText
+                android:id="@+id/surname_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Apellido"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/email_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Email"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/pass_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Contraseña"
+                android:inputType="textPassword" />
+
+            <EditText
+                android:id="@+id/pass_confirm_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Confirme su contraseña"
+                android:inputType="textPassword" />
 
 
-        <Button
-            android:id="@+id/button_register"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/orange"
-            android:shadowColor="#000000"
-            android:text="Registrarme" />
+            <Button
+                android:id="@+id/button_register"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/orange"
+                android:shadowColor="#000000"
+                android:text="Registrarme" />
 
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/google_button_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                app:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
 
-    <ImageButton
-        android:id="@+id/google_button_register"
-        android:layout_width="166dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="122dp"
-        android:layout_marginTop="65dp"
-        android:layout_marginEnd="123dp"
-        android:layout_marginBottom="128dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/form_register"
-        app:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

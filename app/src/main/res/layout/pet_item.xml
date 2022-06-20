@@ -26,6 +26,7 @@
             android:id="@+id/petImage"
             android:layout_width="100dp"
             android:layout_height="80dp"
+            android:padding="10dp"
             android:scaleType="fitXY"
             app:srcCompat="@mipmap/ic_launcher" />
 

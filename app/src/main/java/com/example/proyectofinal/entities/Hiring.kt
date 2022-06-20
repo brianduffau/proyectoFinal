@@ -9,6 +9,7 @@ data class Hiring(
     val id_professional: String = "",
     val professional_name: String = "",
     val professional_type: String = "",
+    val professional_img: String = "",
     val startDate: Timestamp? = null,
     val endDate: Timestamp? = null
 )

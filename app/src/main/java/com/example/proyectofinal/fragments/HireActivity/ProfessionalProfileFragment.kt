@@ -1,6 +1,7 @@
 package com.example.proyectofinal.fragments.HireActivity
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
@@ -26,6 +27,7 @@ import com.google.android.material.timepicker.TimeFormat
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -56,14 +58,15 @@ class ProfessionalProfileFragment : Fragment(){
     lateinit var adapter: ReviewAdapter
     var reviewsList : ArrayList<Review> = arrayListOf()
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_professional_profile, container, false)
 
-        recReviews = v.findViewById(R.id.recReviews)
 
+        recReviews = v.findViewById(R.id.recReviews)
         // ESTO ACA O EN EL ONSTART
         recReviews.setHasFixedSize(true)
         recReviews.layoutManager = LinearLayoutManager(context)
@@ -84,6 +87,7 @@ class ProfessionalProfileFragment : Fragment(){
 
     }
 
+
     private fun setUpViews() {
         professionalName = v.findViewById(R.id.professional_profile_name)
         profileImage = v.findViewById(R.id.professional_profile_image)
@@ -94,6 +98,7 @@ class ProfessionalProfileFragment : Fragment(){
 
         professionalName.text = professional.name
         professionalType.text = professional.professionalType
+        Picasso.get().load(professional.img).fit().centerCrop().into(profileImage)
 
 
         setupHireButton()
@@ -130,7 +135,6 @@ class ProfessionalProfileFragment : Fragment(){
 
     @SuppressLint("SimpleDateFormat")
     private fun datePicker() {
-
         val datePicker =
             MaterialDatePicker.Builder.datePicker().setCalendarConstraints((calendarConstraints()))
                 .setTitleText("Seleccione un día para el paseo")
@@ -168,6 +172,7 @@ class ProfessionalProfileFragment : Fragment(){
             }else{
                 Snackbar.make(v,"${professional.name} trabaja de 9hs a 20hs, ingrese otro horario",Snackbar.LENGTH_LONG).show()
             }
+
 
         }
     }

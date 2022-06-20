@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".fragments.recyclerViews.MyPetsFragment">
 
+    <include
+        android:id="@+id/addPet_toolbar"
+        layout="@layout/toolbar"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="59dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recPets"
         android:layout_width="0dp"
@@ -14,27 +20,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtTitleP" />
-
-    <TextView
-        android:id="@+id/txtTitleP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="170dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="184dp"
-        android:layout_marginBottom="1dp"
-        android:text="Mis mascotas"
-        app:layout_constraintBottom_toTopOf="@+id/recPets"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/addPet_toolbar" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="495dp"
         android:layout_marginBottom="32dp"
         android:clickable="true"
         android:src="@android:drawable/ic_input_add"
@@ -42,7 +34,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.842"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recPets"
+        app:layout_constraintTop_toBottomOf="@+id/addPet_toolbar"
         app:layout_constraintVertical_bias="0.82" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
