@@ -1,14 +1,16 @@
 package com.example.proyectofinal.fragments.HireActivity
 
 import android.annotation.SuppressLint
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RatingBar
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -29,8 +31,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
 import java.util.Calendar.*
 import kotlin.math.abs
@@ -118,14 +118,16 @@ class ProfessionalProfileFragment : Fragment(){
     }
 
     private fun calendarConstraints() : CalendarConstraints {
+        val c = getInstance(TimeZone.getDefault())
+        c.add(DATE, 28)
 
         val dateValidatorMin = DateValidatorPointForward.from(hireStartDate.timeInMillis)
-        //val dateValidatorMax = DateValidatorPointBackward.before()
+        val dateValidatorMax = DateValidatorPointBackward.before(c.timeInMillis)
 
         val listValidators = ArrayList<CalendarConstraints.DateValidator>()
         listValidators.apply {
             add(dateValidatorMin)
-            //add(dateValidatorMax)
+            add(dateValidatorMax)
         }
         val validators = CompositeDateValidator.allOf(listValidators)
 
@@ -196,10 +198,21 @@ class ProfessionalProfileFragment : Fragment(){
 
             (activity as HireActivity).hireEndDate = hireEndDate //hacer en view model
 
-            disponibilityCheck()
+            HireChecks()
             //Navigation.findNavController(v).navigate(R.id.actionProfessionalToConfirm)
 
         }
+    }
+
+    private fun HireChecks(){
+
+        val ok = hireStartDate.before(hireEndDate)
+        if(ok){
+            disponibilityCheck()
+        }else{
+            Snackbar.make(v, "El horario de finalizacion de la actividad es menor al horario de inicio", Snackbar.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun disponibilityCheck() {
@@ -247,7 +260,7 @@ class ProfessionalProfileFragment : Fragment(){
                 (activity as HireActivity).hireEndDate = hireEndDate
             }
 
-            disponibilityCheck()
+            HireChecks()
             //Navigation.findNavController(v).navigate(R.id.actionProfessionalToConfirm)
 
             Log.d(TAG, "dateRangePicker: ${hireStartDate.time} y ${hireEndDate.time}")
