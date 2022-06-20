@@ -14,5 +14,5 @@ data class Professional(
     val professionalType: String = "",
     val petType: String = "",
     val petAge: Array<Int>? = null,
-
-    )
+    val petQty: Int = 1,
+)

@@ -16,13 +16,16 @@ import android.widget.TextView
 import androidx.navigation.Navigation
 import com.example.proyectofinal.R
 import com.example.proyectofinal.activities.HireActivity
+import com.example.proyectofinal.adapters.ReviewAdapter
 import com.example.proyectofinal.entities.Hiring
 import com.example.proyectofinal.entities.Professional
 import com.example.proyectofinal.viewmodels.ConfirmViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import java.util.*
 
@@ -70,7 +73,10 @@ class ConfirmFragment : Fragment() {
 
         professionalName.text = professional.name
         professionalType.text = professional.professionalType
-        confirm_msg.text = "${professional.name} pasará a buscar a tu mascota el ${hireStartDate.get(Calendar.DAY_OF_MONTH)}/${hireStartDate.get(Calendar.MONTH)}/${hireStartDate.get(Calendar.YEAR)}, a las"
+        confirm_msg.text = "${professional.name} pasará a buscar a tu mascota el " +
+                "${hireStartDate.get(Calendar.DAY_OF_MONTH)}/${hireStartDate.get(Calendar.MONTH)}" +
+                "/${hireStartDate.get(Calendar.YEAR)}, a las " +
+                "${hireStartDate.get(Calendar.HOUR_OF_DAY)}:${hireStartDate.get(Calendar.MINUTE)}"
         confirmHireButton.setOnClickListener{
             createHiring()
             Navigation.findNavController(v).navigate(R.id.actionConfirmToHire)
@@ -82,6 +88,11 @@ class ConfirmFragment : Fragment() {
         val customerId = Firebase.auth.currentUser?.uid
         val hiring = Hiring(customerId ?: "" ,professional.id, Timestamp(hireStartDate.time), Timestamp(hireEndDate.time))
 
+        if(professional.professionalType == "Paseador"){
+            Log.d(ContentValues.TAG, "ES PASEADOR : ${professional.professionalType}")
+            disponibilityCheck()
+        }
+
         db.collection("hirings")
             .add(hiring)
             .addOnSuccessListener { documentReference ->
@@ -90,6 +101,26 @@ class ConfirmFragment : Fragment() {
             .addOnFailureListener { e ->
                 Log.w(ContentValues.TAG, "Error adding document", e)
             }
+    }
+
+    private fun disponibilityCheck(){
+
+        db.collection("hirings")
+            .whereEqualTo("id_professional", professional.id)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                if (snapshot != null) {
+                    Log.i("VEO SI ENCONTRO ALGO", "entro")
+                    for (h in snapshot) {
+                        Log.d("OBJETOS: ", h.toString())
+                        //reviewsList.add(h.toObject())
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w("fallo", "Error getting documents: ", exception)
+            }
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
