@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/brian/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable/ic_launcher_background.xml" value="0.102" />
+        <entry key="..\:/Users/brian/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable/rounded_corner.xml" value="0.171" />
+        <entry key="..\:/Users/brian/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_login.xml" value="0.24166666666666667" />
+        <entry key="..\:/Users/brian/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_map.xml" value="0.24166666666666667" />
+        <entry key="..\:/Users/brian/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_professional_profile.xml" value="0.24166666666666667" />
+        <entry key="..\:/Users/brian/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/select_dialog_item.xml" value="0.24166666666666667" />
         <entry key="..\:/Users/cami8/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.1545" />
         <entry key="..\:/Users/cami8/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/cami8/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/comida_fragment.xml" value="0.1" />

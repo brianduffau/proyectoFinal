@@ -9,11 +9,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.proyectofinal.R
+import com.example.proyectofinal.entities.Professional
+import com.example.proyectofinal.entities.Review
 import com.example.proyectofinal.viewmodels.MapViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -27,8 +32,11 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.chip.Chip
 import com.google.firebase.firestore.GeoPoint
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import java.util.ArrayList
 
 
 class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener,
@@ -55,6 +63,11 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
     var db = Firebase.firestore
 
+    var profList : ArrayList<Professional> = arrayListOf()
+    //var profList : ArrayList<String> = arrayListOf()
+
+    private lateinit var searchInput : AutoCompleteTextView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -72,6 +85,33 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         verTodos = v.findViewById(R.id.verTodos)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        db.collection("professionals")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val listEntry = document.toObject<Professional>()
+                    profList.add(listEntry)
+                    Log.d("autocompletarOK", "${document.id} => ${document.data}")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w("autocompletarNotOK", "Error getting documents: ", exception)
+            }
+
+        // VER DONDE UBICAR CORRECTAMENTE ESTA PARTE DEL CODIGO DENTRO DEL FRAGMENT
+        searchInput = v.findViewById(R.id.searchInput)
+        val adapter = activity?.let { ArrayAdapter(it, android.R.layout.simple_list_item_1, profList) }
+        searchInput.setAdapter(adapter)
+
+        searchInput.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            mMap.clear()
+
+            // TODO: COMPLETAR LA GENERACION DEL MARKER, MOSTRARLO EN MAPA Y LINK AL PERFIL DEL PROF
+
+
+
+        }
 
         return v
 
@@ -91,7 +131,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         mMap.setOnInfoWindowClickListener(this)
 
         setUpMap()
-        getMarkersData()
 
         paseador.setOnClickListener {
             val paseadorString = capitalizeString(paseador.text.toString())
@@ -108,51 +147,29 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         }
 
         verTodos.setOnClickListener {
-            getMarkersData()
+            getAllMarkers()
         }
 
     }
 
     private fun capitalizeString(str: String): String {
         var retStr = str
-        try { // We can face index out of bound exception if the string is null
+        try {
             retStr = str.substring(0, 1).uppercase() + str.substring(1)
         } catch (e: Exception) {
         }
         return retStr
     }
 
+
     private fun getDB(type : String){
-        lateinit var geoPoint : GeoPoint
+
         db.collection("professionals")
             .whereEqualTo("professionalType", type)
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
-                    if(document != null){
-                        var geoPointFB = document.getGeoPoint("geo")
-                        if (geoPointFB != null) {
-                            geoPoint = geoPointFB
-                        }
-
-                        var latitude = geoPoint.latitude
-                        var longitude = geoPoint.longitude
-                        val myPos = LatLng(latitude, longitude)
-
-                        Log.d("markersOk", "${document.id} => ${document.data}")
-
-                        val marker = mMap.addMarker(
-                            MarkerOptions().position(myPos)
-                                .title(document.data["name"] as String?)
-                                .snippet(document.data["professionalType"] as String?)
-                        )
-
-                        val idOne = marker?.id
-                        if (idOne != null) {
-                            markerMap.put(idOne, document.id)
-                        }
-
-                    }
+                    generateMarkers(document, mMap, markerMap)
                 }
 
                 mMap.setOnInfoWindowClickListener { marker ->
@@ -162,9 +179,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
                         v.findNavController().navigate(action)
                     }
                 }
-
-
-
             }
             .addOnFailureListener { exception ->
                 Log.d("markersNotOK", "Error getting documents: ", exception)
@@ -173,8 +187,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
     @SuppressLint("MissingPermission")
     private fun setUpMap(){
-        val caba = LatLng(-34.594776, -58.446751)
 
+        val caba = LatLng(-34.594776, -58.446751)
         myMarker()
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(caba, 12f));
@@ -206,38 +220,14 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
             ?.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
     }
 
-    private fun getMarkersData(){
-
-        lateinit var geoPoint : GeoPoint ;
+    private fun getAllMarkers(){
 
         val docRef = db.collection("professionals")
 
         docRef.get()
             .addOnSuccessListener { result ->
                 for (document in result) {
-
-                    if(document != null) {
-                        var geoPointFB = document.getGeoPoint("geo")
-                        if (geoPointFB != null) {
-                            geoPoint = geoPointFB
-                        }
-
-                        var latitude = geoPoint.latitude
-                        var longitude = geoPoint.longitude
-                        val myPos = LatLng(latitude, longitude)
-
-                        val marker = mMap.addMarker(
-                            MarkerOptions().position(myPos)
-                                .title(document.data["name"] as String?)
-                                .snippet(document.data["professionalType"] as String?)
-                        )
-
-                        val idOne = marker?.id
-                        if (idOne != null) {
-                            markerMap.put(idOne, document.id)
-                        }
-
-                    }
+                    generateMarkers(document, mMap, markerMap)
                 }
 
                 mMap.setOnInfoWindowClickListener { marker ->
@@ -270,6 +260,32 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
 }
 
+private fun generateMarkers(document : QueryDocumentSnapshot, mMap : GoogleMap, markerMap : HashMap<String, String>){
 
+    lateinit var geoPoint : GeoPoint ;
+
+    if(document != null) {
+
+        var geoPointFB = document.getGeoPoint("geo")
+        if (geoPointFB != null) {
+            geoPoint = geoPointFB
+        }
+
+        var latitude = geoPoint.latitude
+        var longitude = geoPoint.longitude
+        val myPos = LatLng(latitude, longitude)
+
+        val marker = mMap.addMarker(
+            MarkerOptions().position(myPos)
+                .title(document.data["name"] as String?)
+                .snippet(document.data["professionalType"] as String?)
+        )
+
+        val idOne = marker?.id
+        if (idOne != null) {
+            markerMap.put(idOne, document.id)
+        }
+    }
+}
 
 

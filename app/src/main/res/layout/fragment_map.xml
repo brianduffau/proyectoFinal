@@ -18,49 +18,99 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chip_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <HorizontalScrollView
+        android:layout_width="393dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/map"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/map"
+        app:layout_constraintTop_toBottomOf="@+id/searchInput"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.49"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.025"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/paseador"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="paseador"
+                app:chipBackgroundColor="#00FFFFFF"
+                app:chipIcon="@drawable/walk"
+                app:chipIconSize="22dp"
+                app:chipIconVisible="true"
+                app:iconStartPadding="4dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/cuidador"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="cuidador"
+                app:chipBackgroundColor="#00FFFFFF"
+                app:chipIcon="@drawable/house"
+                app:chipIconSize="22dp"
+                app:chipIconVisible="true"
+                app:iconStartPadding="4dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/veterinaria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="veterinaria"
+                app:chipBackgroundColor="#00FFFFFF"
+                app:chipIcon="@drawable/vet"
+                app:chipIconSize="22dp"
+                app:chipIconVisible="true"
+                app:iconStartPadding="4dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/petShop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="pet shop"
+                app:chipBackgroundColor="#00FFFFFF"
+                app:chipIcon="@drawable/petshop"
+                app:chipIconSize="22dp"
+                app:iconStartPadding="4dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/verTodos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ver todos"
+                app:chipBackgroundColor="#00FFFFFF" />
+
+        </com.google.android.material.chip.ChipGroup>
+    </HorizontalScrollView>
+
+    <AutoCompleteTextView
+        android:id="@+id/searchInput"
+        android:layout_width="367dp"
+        android:layout_height="44dp"
+        android:background="@drawable/rounded_corner"
+        android:backgroundTintMode="src_over"
+        android:hint="buscar..."
+        android:paddingStart="10dp"
+        app:circularflow_defaultRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintHorizontal_bias="0.407"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.025"
-        app:singleSelection="true">
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/paseador"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="paseador" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/cuidador"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="cuidador" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/veterinaria"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="veterinaria" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/petShop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="pet shop" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/verTodos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ver todos" />
-
-    </com.google.android.material.chip.ChipGroup>
+        app:layout_constraintTop_toTopOf="@+id/map"
+        app:layout_constraintVertical_bias="0.023" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
