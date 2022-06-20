@@ -24,6 +24,7 @@ import com.google.android.material.datepicker.*
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -143,6 +144,7 @@ class ProfessionalProfileFragment : Fragment(){
         datePicker.show(parentFragmentManager, null)
         datePicker.addOnPositiveButtonClickListener {
             val localTimeMilliseconds = it + abs(hireStartDate.timeZone.rawOffset)
+
             hireStartDate.time = Date(localTimeMilliseconds)
             hireEndDate.time = Date(localTimeMilliseconds)
 
@@ -194,11 +196,37 @@ class ProfessionalProfileFragment : Fragment(){
 
             (activity as HireActivity).hireEndDate = hireEndDate //hacer en view model
 
-            Navigation.findNavController(v).navigate(R.id.actionProfessionalToConfirm)
+            disponibilityCheck()
+            //Navigation.findNavController(v).navigate(R.id.actionProfessionalToConfirm)
 
         }
     }
 
+    private fun disponibilityCheck() {
+        var cantidadDeContrataciones = 0;
+
+        db.collection("hirings")
+            .whereEqualTo("id_professional", professional.id)
+            .whereEqualTo("startDate", Timestamp(hireStartDate.time))
+            .whereEqualTo("endDate", Timestamp(hireEndDate.time))
+            .get()
+            .addOnSuccessListener { snapshot ->
+                if (snapshot != null) {
+                    for (h in snapshot) {
+                        cantidadDeContrataciones++;
+                    }
+                }
+
+                if(cantidadDeContrataciones < professional.petQty){
+                    Navigation.findNavController(v).navigate(R.id.actionProfessionalToConfirm)
+                }else{
+                    Snackbar.make(v, "${professional.name} no tiene disponible ese horario, por favor seleccione otro horario", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w("fallo", "Error getting documents: ", exception)
+            }
+    }
 
     private fun dateRangePicker() {
         val dateRangePicker =
@@ -219,7 +247,8 @@ class ProfessionalProfileFragment : Fragment(){
                 (activity as HireActivity).hireEndDate = hireEndDate
             }
 
-            Navigation.findNavController(v).navigate(R.id.actionProfessionalToConfirm)
+            disponibilityCheck()
+            //Navigation.findNavController(v).navigate(R.id.actionProfessionalToConfirm)
 
             Log.d(TAG, "dateRangePicker: ${hireStartDate.time} y ${hireEndDate.time}")
         }

@@ -2,6 +2,7 @@ package com.example.proyectofinal.fragments.HireActivity
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
+import android.nfc.Tag
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +18,7 @@ import androidx.navigation.Navigation
 import com.example.proyectofinal.R
 import com.example.proyectofinal.activities.HireActivity
 import com.example.proyectofinal.entities.Hiring
+import com.example.proyectofinal.adapters.ReviewAdapter
 import com.example.proyectofinal.entities.Professional
 import com.example.proyectofinal.viewmodels.ConfirmViewModel
 import com.google.firebase.Timestamp
@@ -24,7 +26,10 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.ktx.toObject
 import java.util.*
+import kotlin.math.abs
 
 class ConfirmFragment : Fragment() {
 
@@ -43,7 +48,6 @@ class ConfirmFragment : Fragment() {
     private lateinit var hireStartDate : Calendar
     private lateinit var hireEndDate : Calendar
     private lateinit var confirmHireButton : Button
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,9 +74,14 @@ class ConfirmFragment : Fragment() {
 
         professionalName.text = professional.name
         professionalType.text = professional.professionalType
-        confirm_msg.text = "${professional.name} pasará a buscar a tu mascota el ${hireStartDate.get(Calendar.DAY_OF_MONTH)}/${hireStartDate.get(Calendar.MONTH)}/${hireStartDate.get(Calendar.YEAR)}, a las"
+        confirm_msg.text = "${professional.name} pasará a buscar a tu mascota el " +
+                "${hireStartDate.get(Calendar.DAY_OF_MONTH)}/${hireStartDate.get(Calendar.MONTH)}" +
+                "/${hireStartDate.get(Calendar.YEAR)}, a las " +
+                "${hireStartDate.get(Calendar.HOUR_OF_DAY)}:${hireStartDate.get(Calendar.MINUTE)}"
         confirmHireButton.setOnClickListener{
+
             createHiring()
+
             Navigation.findNavController(v).navigate(R.id.actionConfirmToHire)
         }
 
@@ -85,12 +94,17 @@ class ConfirmFragment : Fragment() {
         db.collection("hirings")
             .add(hiring)
             .addOnSuccessListener { documentReference ->
-                Log.d(ContentValues.TAG, "Contratación agregada con id : ${documentReference.id}")
+                Log.d(
+                    ContentValues.TAG,
+                    "Contratación agregada con id : ${documentReference.id}"
+                )
             }
             .addOnFailureListener { e ->
                 Log.w(ContentValues.TAG, "Error adding document", e)
             }
+
     }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
