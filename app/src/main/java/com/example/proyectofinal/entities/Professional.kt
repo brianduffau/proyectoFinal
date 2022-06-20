@@ -14,7 +14,7 @@ data class Professional(
     val professionalType: String = "",
     val petType: String = "",
     val petAge: Array<Int>? = null,
-
+    val petQty: Int = 1,
     )
     {
         override fun toString() : String = "$name - $professionalType - $petType"
