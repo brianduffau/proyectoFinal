@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 //import com.bumptech.glide.Glide
 import com.example.proyectofinal.R
 import com.example.proyectofinal.entities.Review
+import com.squareup.picasso.Picasso
 
 
 class ReviewAdapter( var context: Context,
@@ -58,6 +59,7 @@ class ReviewAdapter( var context: Context,
 
         // PARA QUE CARGUE LA IMAGEN:
         //Glide.with(context).load(reviewsList[position]).into(holder.getImageView())
+        Picasso.get().load(reviewsList[position].reviewer_photo).fit().centerCrop().into(holder.getImageView())
 
         holder.getCard().setOnClickListener{
             onClick(position)

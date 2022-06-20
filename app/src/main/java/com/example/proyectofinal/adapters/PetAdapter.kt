@@ -1,6 +1,9 @@
 package com.example.proyectofinal.adapters
 
 import android.content.Context
+import android.icu.number.NumberFormatter.with
+import android.icu.number.NumberRangeFormatter.with
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +13,11 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 //import com.bumptech.glide.Glide
+//import com.bumptech.glide.Glide
 import com.example.proyectofinal.R
 import com.example.proyectofinal.entities.Pet
+import com.squareup.picasso.Picasso
+import java.io.File
 
 class PetAdapter( var context: Context,
                  var petsList: ArrayList<Pet>,
@@ -62,13 +68,14 @@ class PetAdapter( var context: Context,
         holder.setName(petsList[position].name)
         holder.setType(petsList[position].type)
 
+
         // PARA QUE CARGUE LA IMAGEN:
-        Glide.with(context).load(petsList[position].imgPet).into(holder.getImageView())
+        //Glide.with(context).load(petsList[position].imgPet).centerCrop().into(holder.getImageView())
+        Picasso.get().load(petsList[position].imgPet).fit().centerCrop().into(holder.getImageView())
 
         holder.getCard().setOnClickListener{
             onClick(position)
         }
-
 
     }
 

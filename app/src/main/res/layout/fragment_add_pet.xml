@@ -7,87 +7,88 @@
     android:layout_height="match_parent"
     tools:context=".fragments.MainActivity.AddPetFragment">
 
-    <include layout="@layout/toolbar"
-        android:id="@+id/addPet_toolbar"/>
+    <include
+        android:id="@+id/addPet_toolbar"
+        layout="@layout/toolbar" />
 
-    <EditText
-        android:id="@+id/petNameAdd"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="207dp"
-        android:layout_marginBottom="51dp"
-        android:ems="10"
-        android:hint="Nombre de la mascota"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/grupoSelecMascota"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <RadioGroup
-        android:id="@+id/grupoSelecMascota"
-        android:layout_width="105dp"
-        android:layout_height="95dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/petAgeAdd"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/petNameAdd">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp"
+        app:layout_constraintTop_toBottomOf="@+id/addPet_toolbar">
 
-        <RadioButton
-            android:id="@+id/dog"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Perro" />
+            android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/cat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:text="Gato" />
+            <ImageView
+                android:id="@+id/petPhotoAdd"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="32dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                tools:src="@tools:sample/avatars" />
 
-    </RadioGroup>
+            <Button
+                android:id="@+id/addPet_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="agregar foto" />
 
-    <EditText
-        android:id="@+id/petAgeAdd"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:ems="10"
-        android:hint="Edad"
-        android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/add_pet"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/grupoSelecMascota" />
+            <EditText
+                android:id="@+id/petNameAdd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_marginTop="32dp"
+                android:hint="Nombre de la mascota"
+                android:inputType="textPersonName" />
 
-    <Button
-        android:id="@+id/add_pet"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="75dp"
-        android:text="Guardar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/petAgeAdd" />
+            <RadioGroup
+                android:id="@+id/grupoSelecMascota"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="48dp" />
+                <RadioButton
+                    android:id="@+id/dog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Perro" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="362dp" />
+                <RadioButton
+                    android:id="@+id/cat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:text="Gato" />
 
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/petAgeAdd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:ems="10"
+                android:hint="Edad"
+                android:inputType="number" />
+
+            <Button
+                android:id="@+id/add_pet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="75dp"
+                android:text="Guardar"
+                android:backgroundTint="@color/orange"
+                android:shadowColor="#000000"/>
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
