@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,10 +20,14 @@ import com.example.proyectofinal.viewmodels.AuthViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import java.util.*
 
 
 class LoginFragment : Fragment() {
@@ -75,21 +80,6 @@ class LoginFragment : Fragment() {
 
         loginButton.setOnClickListener {
             Navigation.findNavController(v).navigate(R.id.authToMain)
-        /*
-            if (emailEditText.text.isNotEmpty() && passEditText.text.isNotEmpty()) {
-
-                FirebaseAuth.getInstance().signInWithEmailAndPassword(
-                    emailEditText.text.toString(),
-                    passEditText.text.toString()
-                ).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        Navigation.findNavController(v).navigate(R.id.authToMain)
-                    } else {
-                        showAlert()
-                    }
-                }
-            }
-        */
         }
 
         googleButton.setOnClickListener {
@@ -130,11 +120,19 @@ class LoginFragment : Fragment() {
                     FirebaseAuth.getInstance().signInWithCredential(credential)
                         .addOnCompleteListener {
                             if (it.isSuccessful) {
-                                if(it.getResult().additionalUserInfo?.isNewUser!!){
-                                    saveUser(account.givenName ?: "", "", account.email ?: "", )
+                                Log.d(TAG, "onActivityResult: ${it.result.user?.photoUrl}")
+                                Log.d(TAG, "onActivityResult: ${account.photoUrl}")
+
+                                if (it.getResult().additionalUserInfo?.isNewUser!!) {
+                                    saveUser(
+                                        it.result.user?.uid ?: "",
+                                        account.givenName ?: "",
+                                        "",
+                                        account.email ?: "",
+                                        "",
+                                    )
                                 }
                                 Navigation.findNavController(v).navigate(R.id.authToMain)
-
                             } else {
                                 showAlert()
                             }
@@ -147,19 +145,18 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun saveUser(name: String, surname : String, email : String) {
-        val user = hashMapOf(
-            "name" to name,
-            "surname" to surname,
-            "email" to email,
-        )
-        db.collection("customers")
-            .add(user)
+
+    private fun saveUser(id: String, name: String, surname: String, email: String, img: String) {
+        val customer = Customer(id = id, name = name, surname = surname, email = email, img = img)
+
+        db.collection("customers").document(id)
+            .set(customer)
             .addOnSuccessListener { documentReference ->
-                Log.d(ContentValues.TAG, "Usuario agregado con id : ${documentReference.id}")
+                //addPhotoStorage(id)
+                Log.d("saveUserOk", "Usuario agregado con id : $id")
             }
             .addOnFailureListener { e ->
-                Log.w(ContentValues.TAG, "Error adding document", e)
+                Log.w("saveUserNotOk", "Error adding document", e)
             }
     }
 

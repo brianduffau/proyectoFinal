@@ -146,7 +146,9 @@ class UpdateUserProfileFragment : Fragment() {
                     textName.setText(document.data?.get("name") as String)
                     textSurname.setText(document.data?.get("surname") as String)
                     Log.d("userImgUpOK", "Imagen URL: ${document.data?.get("img") as String}")
-                    Picasso.get().load(document.data?.get("img") as String).fit().centerCrop().into(photoUser)
+                    if(document.data?.get("img") != ""){
+                        Picasso.get().load(document.data?.get("img") as String).fit().centerCrop().into(photoUser)
+                    }
                 } else {
                     Log.d("userNotFound", "No such document")
                 }

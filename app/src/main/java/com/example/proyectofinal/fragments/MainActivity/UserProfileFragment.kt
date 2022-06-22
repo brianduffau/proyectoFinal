@@ -104,7 +104,10 @@ class UserProfileFragment : Fragment() {
                     textSurname.text = document.data?.get("surname") as String
                     textMail.text = document.data?.get("email") as String
                     Log.d("userImgOK", "Imagen URL: ${document.data?.get("img") as String}")
-                    Picasso.get().load(document.data?.get("img") as String).fit().centerCrop().into(image)
+                    if(document.data?.get("img") != ""){
+                        Picasso.get().load(document.data?.get("img") as String).fit().centerCrop().into(image)
+                    }
+
                 } else {
                     Log.d("userNotFound", "No such document")
                 }

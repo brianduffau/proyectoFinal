@@ -158,7 +158,7 @@ class AddPetFragment : Fragment() {
     private fun setupToolbar() {
         // PODREMOS MANDARLO UNA MAS ATRAS? QUE VAYA AL PERFIL
         toolbarText.setText("Mis mascotas")
-        backButton.setOnClickListener{ Navigation.findNavController(v).popBackStack()}
+        backButton.setOnClickListener{ Navigation.findNavController(v).popBackStack(R.id.userProfileFragment, false)}
     }
 
     fun userId (): String {

@@ -109,9 +109,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
             // TODO: COMPLETAR LA GENERACION DEL MARKER, MOSTRARLO EN MAPA Y LINK AL PERFIL DEL PROF
 
-
-
         }
+
+        //muestra todos los profesionales de entrada
+        getAllMarkers()
 
         return v
 
