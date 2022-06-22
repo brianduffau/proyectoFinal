@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout10"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.AuthActivity.HomeFragment" >
+    tools:context=".fragments.AuthActivity.HomeFragment">
 
     <TextView
         android:id="@+id/textView2"
@@ -16,14 +16,14 @@
         android:layout_marginEnd="121dp"
         android:layout_marginBottom="82dp"
         android:text="Mascoteando"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.131" />
 
     <TextView
         android:id="@+id/textView3"
@@ -32,13 +32,14 @@
         android:layout_marginStart="81dp"
         android:layout_marginEnd="82dp"
         android:layout_marginBottom="81dp"
-        android:text="Conectamos mascotas con paseadores"
+        android:text="Mascotas en buenas manos"
+        android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.292" />
+        app:layout_constraintVertical_bias="0.415" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"

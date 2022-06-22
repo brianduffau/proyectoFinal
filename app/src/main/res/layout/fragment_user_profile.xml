@@ -33,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
+                android:gravity="center"
                 android:text="Nombre"
                 android:textSize="18sp"/>
 
@@ -41,6 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:gravity="center"
                 android:text="Apellido"
                 android:textSize="18sp"/>
 
@@ -49,6 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:gravity="center"
                 android:text="Mail"
                 android:textSize="18sp" />
 
@@ -57,21 +60,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="Modificar tus datos"
+                android:text="Modificar mis datos"
                 android:layout_gravity="center"
                 android:backgroundTint="@color/orange"
                 android:shadowColor="#000000"/>
 
             <Button
                 android:id="@+id/myPets"
-                android:layout_width="match_parent"
+                android:layout_width="326dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
+                android:layout_gravity="center"
                 android:text="Mis Mascotas" />
 
             <Button
                 android:id="@+id/myHirings"
-                android:layout_width="match_parent"
+                android:layout_width="328dp"
+                android:layout_gravity="center"
                 android:layout_height="wrap_content"
                 android:text="Mis Contrataciones" />
 

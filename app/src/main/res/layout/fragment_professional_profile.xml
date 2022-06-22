@@ -120,7 +120,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="453K"
+                    android:text="14"
                     android:textColor="@color/white"
                     android:textSize="25sp" />
 
@@ -187,8 +187,17 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recReviews"
+            android:layout_marginTop="50sp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Calificaciones de clientes"
+            android:textSize="18sp" />
     </RelativeLayout>
 
 </RelativeLayout>

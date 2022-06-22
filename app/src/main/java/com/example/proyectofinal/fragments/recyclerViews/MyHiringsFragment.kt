@@ -36,7 +36,6 @@ class MyHiringsFragment : Fragment() {
         v = inflater.inflate(R.layout.fragment_hirings, container, false)
 
         recHires = v.findViewById(R.id.recHirings)
-        // ESTO ACA O EN EL ONSTART
         recHires.setHasFixedSize(true)
         recHires.layoutManager = LinearLayoutManager(context)
 
@@ -76,7 +75,6 @@ class MyHiringsFragment : Fragment() {
                         hiresList.add(h.toObject())
 
                     }
-                    // YO TENDRIA QUE BUSCAR ESE ID DE CADA UNO EN LA COLECCION DE PROFESIONALES PARA VER EL NOMBRE
                     adapter = HireAdapter(requireContext(),hiresList){ position->
                         Snackbar.make(v,position.toString(), Snackbar.LENGTH_SHORT).show()
                         Log.i("entro al for y adapter", "CONTRATACIONES: $hiresList")
