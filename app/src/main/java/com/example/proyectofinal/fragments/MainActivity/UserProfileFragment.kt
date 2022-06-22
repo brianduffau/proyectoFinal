@@ -73,17 +73,17 @@ class UserProfileFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        //getUserInfo()
-        user = viewModel.getUserInfo()!!
-        /*textName.text = getUserInfo().name
-        textMail.text = getUserInfo().email
-        textSurname.text = getUserInfo().surname
-        //Glide.with(this).load(user.img).into(image)*/
-
-
+        viewModel.getUserInfo(textName,textSurname,textMail,image)
     }
 
-    fun userId (): String {
+
+
+
+
+
+    // PARA HACERLO SIN VIEW MODEL
+
+    private fun userId (): String {
         val user = Firebase.auth.currentUser
         var id : String = ""
         if (user != null) {
@@ -92,7 +92,8 @@ class UserProfileFragment : Fragment() {
         return id
     }
 
-    fun getUserInfo() {
+
+    private fun getUserInfo() {
         val docRef = db.collection("customers").document(userId())
         docRef.get()
             .addOnSuccessListener { document ->
@@ -124,12 +125,5 @@ class UserProfileFragment : Fragment() {
         Picasso.get().load(user.img).fit().centerCrop().into(image)
         Log.d("userImgOK", "Url img: ${user.img}")
     }
-
-
-    /*
-        textName.text = document.data?.get("name") as String
-        textSurname.text = document.data?.get("surname") as String
-        textMail.text = document.data?.get("email") as String
-     */
 
 }
