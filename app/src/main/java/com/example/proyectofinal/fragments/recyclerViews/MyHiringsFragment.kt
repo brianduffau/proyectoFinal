@@ -77,7 +77,6 @@ class MyHiringsFragment : Fragment() {
                     }
                     adapter = HireAdapter(requireContext(),hiresList){ position->
                         Snackbar.make(v,position.toString(), Snackbar.LENGTH_SHORT).show()
-                        Log.i("entro al for y adapter", "CONTRATACIONES: $hiresList")
                     }
                     recHires.adapter = adapter
                 }

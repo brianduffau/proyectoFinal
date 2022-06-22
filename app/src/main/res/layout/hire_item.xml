@@ -21,7 +21,7 @@
         <ImageView
             android:id="@+id/profHireImage"
             android:layout_width="100dp"
-            android:layout_height="80dp"
+            android:layout_height="100dp"
             android:scaleType="fitXY"
             android:padding="10dp"
             app:srcCompat="@mipmap/ic_launcher" />
@@ -53,6 +53,18 @@
                 android:text="Tipo profesional"
                 android:textAlignment="center"
                 android:textSize="14sp" />
+
+            <RatingBar
+                android:id="@+id/ratingContrataciones"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5" />
+
+            <Button
+                android:id="@+id/reviewLink"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Calificar" />
 
         </LinearLayout>
 
