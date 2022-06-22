@@ -72,16 +72,9 @@ class UserProfileFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        viewModel.getUserInfo(textName,textSurname,image)
-        //getUserInfo()
+        //viewModel.getUserInfo(textName,textSurname,image)
+        getUserInfo()
     }
-
-
-
-
-
-
-    // PARA HACERLO SIN VIEW MODEL
 
     private fun userId (): String {
         val user = Firebase.auth.currentUser
@@ -118,11 +111,4 @@ class UserProfileFragment : Fragment() {
             }
     }
 
-    private fun showData(user: Customer) {
-        textName.text = user.name
-        //textMail.text = user.email
-        textSurname.text = user.surname
-        Picasso.get().load(user.img).fit().centerCrop().into(image)
-        Log.d("userImgOK", "Url img: ${user.img}")
-    }
 }
