@@ -18,6 +18,8 @@
 
         <LinearLayout
             android:id="@+id/form_register"
+            android:layout_marginLeft="40sp"
+            android:layout_marginRight="40sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -31,14 +33,6 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 tools:src="@tools:sample/avatars" />
-
-            <Button
-                android:id="@+id/addPhoto_register"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_gravity="center"
-                android:text="Agregar foto" />
 
             <EditText
                 android:id="@+id/name_register"
@@ -82,6 +76,16 @@
 
 
             <Button
+                android:id="@+id/addPhoto_register"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="25dp"
+                android:text="Agregar foto"
+                android:textSize="10sp" />
+
+            <Button
                 android:id="@+id/button_register"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -92,7 +96,7 @@
 
             <ImageButton
                 android:id="@+id/google_button_register"
-                android:layout_width="wrap_content"
+                android:layout_width="143dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"

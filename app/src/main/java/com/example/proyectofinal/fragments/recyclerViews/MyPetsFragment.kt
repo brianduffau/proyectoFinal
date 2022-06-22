@@ -54,7 +54,6 @@ class MyPetsFragment : Fragment() {
         toolbarText = v.findViewById(R.id.text_toolbar)
         backButton = v.findViewById(R.id.back_button_toolbar)
 
-        // ESTO EN EL CREATED O EN ONSTART
         recPets.setHasFixedSize(true)
         recPets.layoutManager = LinearLayoutManager(context)
 

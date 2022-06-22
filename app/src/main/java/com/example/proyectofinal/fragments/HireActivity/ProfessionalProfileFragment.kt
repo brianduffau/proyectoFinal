@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectofinal.R
 import com.example.proyectofinal.activities.HireActivity
+import com.example.proyectofinal.adapters.HireAdapter
 import com.example.proyectofinal.adapters.ReviewAdapter
 import com.example.proyectofinal.entities.Professional
 import com.example.proyectofinal.entities.Review
@@ -36,7 +37,7 @@ import java.util.Calendar.*
 import kotlin.math.abs
 
 
-class ProfessionalProfileFragment : Fragment(){
+class ProfessionalProfileFragment : Fragment() {
 
     private lateinit var viewModel: ProfessionalProfileViewModel
 
@@ -44,20 +45,20 @@ class ProfessionalProfileFragment : Fragment(){
 
     private val db = Firebase.firestore
 
-    private lateinit var professional : Professional
-    private lateinit var profileImage : ImageView
-    private lateinit var professionalType : TextView
-    private lateinit var workQuantity : TextView
-    private lateinit var rating : RatingBar
-    private lateinit var hireButton : LinearLayout
-    private lateinit var professionalName : TextView
+    private lateinit var professional: Professional
+    private lateinit var profileImage: ImageView
+    private lateinit var professionalType: TextView
+    private lateinit var workQuantity: TextView
+    private lateinit var rating: RatingBar
+    private lateinit var hireButton: LinearLayout
+    private lateinit var professionalName: TextView
 
     private lateinit var hireStartDate: Calendar
     private lateinit var hireEndDate: Calendar
 
-    lateinit var recReviews : RecyclerView
+    lateinit var recReviews: RecyclerView
     lateinit var adapter: ReviewAdapter
-    var reviewsList : ArrayList<Review> = arrayListOf()
+    var reviewsList: ArrayList<Review> = arrayListOf()
 
 
     override fun onCreateView(
@@ -83,7 +84,6 @@ class ProfessionalProfileFragment : Fragment(){
         hireEndDate = getInstance()
 
         getReviews()
-
         setUpViews()
 
     }
@@ -99,12 +99,29 @@ class ProfessionalProfileFragment : Fragment(){
 
         professionalName.text = professional.name
         professionalType.text = professional.professionalType
+        //workQuantity.text = getWorkQuantity().toString()
         Picasso.get().load(professional.img).fit().centerCrop().into(profileImage)
-
+        getWorkQuantity()
 
         setupHireButton()
 
     }
+
+    private fun getWorkQuantity() {
+        db.collection("hirings")
+            .whereEqualTo("id_professional",  professional.id)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                if (snapshot != null) {
+                    Log.d(TAG, "getWorkQuantity: ${snapshot.size()}")
+                    workQuantity.text = snapshot.size().toString()
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w("fallo", "Error getting documents: ", exception)
+            }
+    }
+
 
     private fun setupHireButton() {
 
