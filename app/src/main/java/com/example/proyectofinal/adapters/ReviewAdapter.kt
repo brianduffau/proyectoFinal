@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
@@ -31,7 +32,11 @@ class ReviewAdapter( var context: Context,
             val nameCust : TextView = view.findViewById(R.id.customerNameReview)
             nameCust.text = name
         }
-
+        fun setBarCustomer(rating: Float) {
+            val ratingProf : RatingBar = view.findViewById(R.id.ratingProf)
+            ratingProf.setIsIndicator(true)
+            ratingProf.setRating(rating)
+        }
 
         fun setComent(coment: String) {
             val comentCust : TextView = view.findViewById(R.id.comentReview)
@@ -56,9 +61,7 @@ class ReviewAdapter( var context: Context,
 
         holder.setNameCustomer(reviewsList[position].reviewer_name)
         holder.setComent(reviewsList[position].content)
-
-        // PARA QUE CARGUE LA IMAGEN:
-        //Glide.with(context).load(reviewsList[position]).into(holder.getImageView())
+        holder.setBarCustomer(reviewsList[position].stars)
         Picasso.get().load(reviewsList[position].reviewer_photo).fit().centerCrop().into(holder.getImageView())
 
         holder.getCard().setOnClickListener{
