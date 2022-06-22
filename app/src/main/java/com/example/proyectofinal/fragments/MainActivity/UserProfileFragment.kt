@@ -72,7 +72,6 @@ class UserProfileFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        //viewModel.getUserInfo(textName,textSurname,image)
         getUserInfo()
     }
 
