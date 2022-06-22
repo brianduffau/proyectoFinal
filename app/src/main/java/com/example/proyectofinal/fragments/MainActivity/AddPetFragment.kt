@@ -41,7 +41,7 @@ class AddPetFragment : Fragment() {
     lateinit var cat: RadioButton
     lateinit var typeSelec : String
 
-    private lateinit var imageUri: Uri
+    private var imageUri: Uri? = null
     private lateinit var photoPet: ImageView
     private lateinit var addPhoto: Button
     private lateinit var storage: FirebaseStorage
@@ -94,8 +94,16 @@ class AddPetFragment : Fragment() {
 
         addPhoto.setOnClickListener{pickPhoto(imageLauncher)}
 
-        addPet.setOnClickListener{addPetStorage()
-            Snackbar.make(v,"Mascota agregada con exito", Snackbar.LENGTH_SHORT).show()}
+        addPet.setOnClickListener{
+
+            if(imageUri != null){
+                addPetStorage()
+                Snackbar.make(v,"Mascota agregada con exito", Snackbar.LENGTH_SHORT).show()
+            } else {
+                Snackbar.make(v,"Por favor agregue una imagen para la mascota", Snackbar.LENGTH_SHORT).show()
+            }
+
+        }
 
         return v
     }
@@ -104,7 +112,7 @@ class AddPetFragment : Fragment() {
 
         val riversRef: StorageReference = storageReference.child("pet/${userId()}/${namePetAdd.text}")
 
-        riversRef.putFile(imageUri)
+        riversRef.putFile(imageUri!!)
             .addOnSuccessListener { document -> // Get a URL to the uploaded content
                 val downloadUrl = riversRef.downloadUrl
                 downloadUrl.addOnSuccessListener {
@@ -115,10 +123,12 @@ class AddPetFragment : Fragment() {
             }
             .addOnFailureListener {
                 // Handle unsuccessful uploads
-                Snackbar.make(v,"Error al cargar la imagen", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(v, "Error al cargar la imagen", Snackbar.LENGTH_SHORT).show()
                 Log.w("falloImgPet", "Error getting documents: ", it)
             }
     }
+
+
 
     private fun addPetDB(photo: String) {
         val data = mapOf(
@@ -135,6 +145,7 @@ class AddPetFragment : Fragment() {
                 //uploadPhoto()
                 //petId = document.id
                 Log.d("addPetOk", "Mascota con ID: ${document.id}")
+                cleanInputs()
 
             }
             .addOnFailureListener { exception ->
@@ -169,7 +180,12 @@ class AddPetFragment : Fragment() {
         return id
     }
 
-
+    private fun cleanInputs() {
+        namePetAdd.setText("")
+        selecPet.clearCheck()
+        agePetAdd.setText("")
+        photoPet.setImageURI(null)
+    }
 
 
 
@@ -179,7 +195,7 @@ class AddPetFragment : Fragment() {
 
         val riversRef: StorageReference = storageReference.child("pet/${userId()}/${namePetAdd.text}")
 
-        riversRef.putFile(imageUri)
+        riversRef.putFile(imageUri!!)
             .addOnSuccessListener { document -> // Get a URL to the uploaded content
                 val downloadUrl = riversRef.downloadUrl
                 downloadUrl.addOnSuccessListener {

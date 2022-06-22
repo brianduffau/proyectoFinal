@@ -119,11 +119,11 @@ class UpdateUserProfileFragment : Fragment() {
         val docRef = db.collection("customers").document(viewModelShared.userId())
         docRef.update("name",name, "surname",surname)
             .addOnSuccessListener { Log.d("updateUserOK", "Usuario actualizado con apellido: $surname")
-                Snackbar.make(v,"Usuario actualizado con exito", Snackbar.LENGTH_SHORT).show()
                 // O EL IF DE LA URI ACA
                 if (imageUri != null) {
                     addPhotoStorage()
                 }
+                Snackbar.make(v,"Usuario actualizado con exito", Snackbar.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e -> Log.d("updateUserNotOK", "get failed with ", e) }
 
