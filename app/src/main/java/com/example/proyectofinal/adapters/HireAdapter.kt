@@ -4,13 +4,15 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-//import com.bumptech.glide.Glide
 import com.example.proyectofinal.R
 import com.example.proyectofinal.entities.Hiring
+import com.example.proyectofinal.fragments.recyclerViews.MyHiringsFragmentDirections
 import com.squareup.picasso.Picasso
 
 
@@ -25,6 +27,14 @@ class HireAdapter(var context: Context,
         init {
             this.view = v
             this.cardHires = view.findViewById(R.id.card_hires_list)
+        }
+
+        fun PuntajeLinkProf(id: String) {
+            val reviewLink : Button = view.findViewById(R.id.reviewLink)
+            reviewLink.text = "Calificar"
+
+            val action = MyHiringsFragmentDirections.actionHiringsFragmentToReviewFragment2(id)
+            reviewLink.setOnClickListener{ Navigation.findNavController(view).navigate(action)}
         }
 
         fun setNameProf(name: String) {
@@ -56,10 +66,12 @@ class HireAdapter(var context: Context,
 
         holder.setNameProf(hiresList[position].professional_name)
         holder.setTypeProf(hiresList[position].professional_type)
+        holder.PuntajeLinkProf(hiresList[position].id_professional)
 
-        // PARA QUE CARGUE LA IMAGEN:
-        //Glide.with(context).load(hiresList[position].profImg).into(holder.getImageView())*/
-        Picasso.get().load(hiresList[position].professional_img).fit().centerCrop().into(holder.getImageView())
+        if(!hiresList[position].professional_img.isEmpty()) {
+            Picasso.get().load(hiresList[position].professional_img).fit().centerCrop()
+                .into(holder.getImageView())
+        }
 
         holder.getCard().setOnClickListener{
             onClick(position)

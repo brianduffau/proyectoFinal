@@ -68,7 +68,6 @@ class ProfessionalProfileFragment : Fragment(){
 
 
         recReviews = v.findViewById(R.id.recReviews)
-        // ESTO ACA O EN EL ONSTART
         recReviews.setHasFixedSize(true)
         recReviews.layoutManager = LinearLayoutManager(context)
 
