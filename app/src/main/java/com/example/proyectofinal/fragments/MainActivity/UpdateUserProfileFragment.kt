@@ -31,10 +31,6 @@ import java.util.*
 
 class UpdateUserProfileFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = UpdateUserProfileFragment()
-    }
-
     private lateinit var viewModel: UpdateUserProfileViewModel
     private lateinit var viewModelShared: UserProfileViewModel
 
@@ -45,7 +41,7 @@ class UpdateUserProfileFragment : Fragment() {
     private lateinit var buttonPhoto : Button
     //lateinit var user : Customer
     private val db = Firebase.firestore
-    private lateinit var imageUri: Uri
+    private var imageUri: Uri? = null
     private lateinit var photo: String
     private lateinit var storage: FirebaseStorage
     private lateinit var storageReference: StorageReference
@@ -76,7 +72,7 @@ class UpdateUserProfileFragment : Fragment() {
         val imageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             var uri= it.data?.data!!
             photoUser.setImageURI(uri)
-            Picasso.get().load(uri).fit().centerCrop().into(photoUser)
+            //Picasso.get().load(uri).fit().centerCrop().into(photoUser)
             imageUri = uri
         }
 
@@ -84,7 +80,8 @@ class UpdateUserProfileFragment : Fragment() {
 
 
         buttonUpdate = v.findViewById(R.id.updateProf)
-        buttonUpdate.setOnClickListener{ addPhotoStorage()}
+        buttonUpdate.setOnClickListener{ //viewModelShared.updateUser(v,PHOTO,textName,textSurname,photoUser)
+            updateUser()}
 
         return v
     }
@@ -110,9 +107,25 @@ class UpdateUserProfileFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         getUserInfo()
-        //user = viewModelShared.getUserInfo()!!
-        //textName.setText(user.name)
-        //textSurname.setText(user.surname)
+    }
+
+    private fun updateUser() {
+
+        var name = textName.text.toString()
+        var surname = textSurname.text.toString()
+
+        //Picasso.get().load(photo).fit().centerCrop().into(photoUser)
+
+        val docRef = db.collection("customers").document(viewModelShared.userId())
+        docRef.update("name",name, "surname",surname)
+            .addOnSuccessListener { Log.d("updateUserOK", "Usuario actualizado con apellido: $surname")
+                // O EL IF DE LA URI ACA
+                if (imageUri != null) {
+                    addPhotoStorage()
+                }
+                Snackbar.make(v,"Usuario actualizado con exito", Snackbar.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e -> Log.d("updateUserNotOK", "get failed with ", e) }
 
     }
 
@@ -120,21 +133,32 @@ class UpdateUserProfileFragment : Fragment() {
 
         val riversRef: StorageReference = storageReference.child("user/${viewModelShared.userId()}/${Calendar.getInstance().time}")
 
-        riversRef.putFile(imageUri)
+        riversRef.putFile(imageUri!!)
             .addOnSuccessListener { document -> // Get a URL to the uploaded content
                 val downloadUrl = riversRef.downloadUrl
                 downloadUrl.addOnSuccessListener {
                     photo = it.toString()
-                    updateUser(photo)
+                    updateImg(photo)
                 }
                 Log.d("imgUserOk", "Imagen usuario con ID: ${viewModelShared.userId()}")
 
             }
             .addOnFailureListener {
                 // Handle unsuccessful uploads
-                Snackbar.make(v, "Error al cargar la imagen", Snackbar.LENGTH_SHORT).show()
+                //Snackbar.make(v, "Error al cargar la imagen", Snackbar.LENGTH_SHORT).show()
                 Log.w("falloImgUser", "Error getting documents: ", it)
             }
+    }
+
+    fun updateImg(photo: String) {
+        Picasso.get().load(photo).fit().centerCrop().into(photoUser)
+
+        val docRef = db.collection("customers").document(viewModelShared.userId())
+        docRef.update("img", photo)
+            .addOnSuccessListener { Log.d("updateUserOK", "Img actualizada: $photo")
+                Snackbar.make(v,"Imagen actualizado con exito", Snackbar.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e -> Log.d("updateUserNotOK", "get failed with ", e) }
     }
 
     fun getUserInfo() {
@@ -158,20 +182,6 @@ class UpdateUserProfileFragment : Fragment() {
             }
     }
 
-    private fun updateUser(photo: String) {
 
-        var name = textName.text.toString()
-        var surname = textSurname.text.toString()
-        Picasso.get().load(photo).fit().centerCrop().into(photoUser)
-
-        val docRef = db.collection("customers").document(viewModelShared.userId())
-        docRef.update("name",name, "surname",surname, "img", photo)
-            .addOnSuccessListener { Log.d("updateUserOK", "Usuario actualizado con apellido: $surname")
-                                    Snackbar.make(v,"Usuario actualizado con exito", Snackbar.LENGTH_SHORT).show()
-                                    //viewModelShared.getUserInfo() = user
-            }
-            .addOnFailureListener { e -> Log.d("updateUserNotOK", "get failed with ", e) }
-
-    }
 
 }

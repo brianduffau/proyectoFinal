@@ -34,9 +34,8 @@ class UserProfileFragment : Fragment() {
 
     lateinit var textName : TextView
     lateinit var textSurname : TextView
-    lateinit var textMail : TextView
     lateinit var image : ImageView
-
+    //lateinit var textMail : TextView
     lateinit var user : Customer
 
 
@@ -51,8 +50,8 @@ class UserProfileFragment : Fragment() {
 
         textName = v.findViewById(R.id.nameUser)
         textSurname = v.findViewById(R.id.surnameUser)
-        textMail = v.findViewById(R.id.mailUser)
         image = v.findViewById(R.id.imageUser)
+        //textMail = v.findViewById(R.id.mailUser)
 
         petsButton = v.findViewById(R.id.myPets)
         hiringsButton = v.findViewById(R.id.myHirings)
@@ -74,16 +73,9 @@ class UserProfileFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         getUserInfo()
-        /*user = viewModel.getUserInfo()!!
-        textName.text = getUserInfo().name
-        textMail.text = getUserInfo().email
-        textSurname.text = getUserInfo().surname
-        //Glide.with(this).load(user.img).into(image)*/
-
-
     }
 
-    fun userId (): String {
+    private fun userId (): String {
         val user = Firebase.auth.currentUser
         var id : String = ""
         if (user != null) {
@@ -92,7 +84,8 @@ class UserProfileFragment : Fragment() {
         return id
     }
 
-    fun getUserInfo() {
+
+    private fun getUserInfo() {
         val docRef = db.collection("customers").document(userId())
         docRef.get()
             .addOnSuccessListener { document ->
@@ -102,7 +95,7 @@ class UserProfileFragment : Fragment() {
                     //showData(user)
                     textName.text = document.data?.get("name") as String
                     textSurname.text = document.data?.get("surname") as String
-                    textMail.text = document.data?.get("email") as String
+                    //textMail.text = document.data?.get("email") as String
                     Log.d("userImgOK", "Imagen URL: ${document.data?.get("img") as String}")
                     if(document.data?.get("img") != ""){
                         Picasso.get().load(document.data?.get("img") as String).fit().centerCrop().into(image)
@@ -116,20 +109,5 @@ class UserProfileFragment : Fragment() {
                 Log.d("userNotOK", "get failed with ", exception)
             }
     }
-
-    private fun showData(user: Customer) {
-        textName.text = user.name
-        textMail.text = user.email
-        textSurname.text = user.surname
-        Picasso.get().load(user.img).fit().centerCrop().into(image)
-        Log.d("userImgOK", "Url img: ${user.img}")
-    }
-
-
-    /*
-        textName.text = document.data?.get("name") as String
-        textSurname.text = document.data?.get("surname") as String
-        textMail.text = document.data?.get("email") as String
-     */
 
 }

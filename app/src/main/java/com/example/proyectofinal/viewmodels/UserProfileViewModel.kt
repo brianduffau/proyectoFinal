@@ -1,17 +1,26 @@
 package com.example.proyectofinal.viewmodels
 
+import android.net.Uri
 import android.util.Log
+import android.view.View
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.ViewModel
 import com.example.proyectofinal.entities.Customer
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.squareup.picasso.Picasso
+import java.util.*
 
 class UserProfileViewModel : ViewModel() {
 
     private val db = Firebase.firestore
-
 
     fun userId (): String {
         val user = Firebase.auth.currentUser
@@ -22,23 +31,6 @@ class UserProfileViewModel : ViewModel() {
         return id
     }
 
-    fun getUserInfo() : Customer? {
-        var userLog: Customer? = null
-        val id = userId()
-        val docRef = db.collection("customers").document(id)
-        docRef.get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    Log.d("userOK", "DocumentSnapshot data: ${document.id}")
-                    userLog = document.toObject<Customer>()!!
-                } else {
-                    Log.d("userNotFound", "No such document")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.d("userNotOK", "get failed with ", exception)
-            }
-        return userLog
 
-    }
+
 }
