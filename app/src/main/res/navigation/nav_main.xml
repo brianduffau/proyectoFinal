@@ -77,5 +77,8 @@
         <argument
             android:name="profesional_id"
             app:argType="string" />
+        <argument
+            android:name="hiringId"
+            app:argType="string" />
     </fragment>
 </navigation>

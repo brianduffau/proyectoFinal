@@ -11,6 +11,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/textoReviewAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:text="@string/califica_profesional"
+            android:textAlignment="center" />
+
         <EditText
             android:id="@+id/reviewText"
             android:layout_width="match_parent"
@@ -22,7 +30,9 @@
         <RatingBar
             android:id="@+id/puntajeBar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center" />
 
         <Button
             android:id="@+id/addReview"

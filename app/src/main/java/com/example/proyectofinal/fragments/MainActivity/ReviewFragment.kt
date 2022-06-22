@@ -12,18 +12,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.example.proyectofinal.R
-import com.example.proyectofinal.adapters.HireAdapter
 import com.example.proyectofinal.entities.Customer
-import com.example.proyectofinal.entities.Professional
 import com.example.proyectofinal.viewmodels.ReviewViewModel
-import com.example.proyectofinal.viewmodels.UserProfileViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.squareup.picasso.Picasso
-import java.util.*
 
 
 class ReviewFragment : Fragment() {
@@ -55,21 +50,22 @@ class ReviewFragment : Fragment() {
         puntajeBar = v.findViewById(R.id.puntajeBar)
 
         val profesionalId = args.profesionalId
-
+        val hiringId = args.hiringId
 
         getUserInfo()
 
         addReview.setOnClickListener{addReview(
             profesionalId,
             reviewText.getText().toString(),
-            puntajeBar.getRating()
+            puntajeBar.getRating(),
+            hiringId
         )
             Snackbar.make(v,"Review agregada con exito", Snackbar.LENGTH_SHORT).show()}
 
         return v
     }
 
-    private fun addReview(profesionalId: String, reviewText: String, puntajeBar: Float) {
+    private fun addReview(profesionalId: String, reviewText: String, puntajeBar: Float, hiringId: String) {
 
         val data = mapOf(
             "reviewer_name" to  customer.name,
@@ -79,6 +75,7 @@ class ReviewFragment : Fragment() {
             "id_reviewed" to  profesionalId,
             "stars" to  puntajeBar,
             "content" to  reviewText,
+            "reviewId" to hiringId,
         )
 
         db.collection("reviews")

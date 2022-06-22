@@ -8,4 +8,5 @@ data class Review(
     val id_reviewed: String = "",
     val stars: Float = 0.0F,
     val content: String= "",
+    val reviewId: String? = "",
 )
