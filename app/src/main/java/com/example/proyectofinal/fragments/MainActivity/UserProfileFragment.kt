@@ -73,9 +73,9 @@ class UserProfileFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        getUserInfo()
-        /*user = viewModel.getUserInfo()!!
-        textName.text = getUserInfo().name
+        //getUserInfo()
+        user = viewModel.getUserInfo()!!
+        /*textName.text = getUserInfo().name
         textMail.text = getUserInfo().email
         textSurname.text = getUserInfo().surname
         //Glide.with(this).load(user.img).into(image)*/
