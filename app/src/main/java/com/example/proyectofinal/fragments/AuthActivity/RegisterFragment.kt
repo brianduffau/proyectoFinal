@@ -52,7 +52,7 @@ class RegisterFragment : Fragment() {
     private lateinit var passInput: EditText
     private lateinit var photoUser: ImageView
     private lateinit var addPhoto: Button
-    private lateinit var imageUri: Uri
+    private var imageUri: Uri? = null
     private lateinit var passConfirmInput: EditText
     private lateinit var backButton: ImageView
     private lateinit var toolbarText: TextView
@@ -118,7 +118,7 @@ class RegisterFragment : Fragment() {
 
         val riversRef: StorageReference = storageReference.child("user/${id}/${Calendar.getInstance().time}")
 
-        riversRef.putFile(imageUri)
+        riversRef.putFile(imageUri!!)
             .addOnSuccessListener { document -> // Get a URL to the uploaded content
                 val downloadUrl = riversRef.downloadUrl
                 downloadUrl.addOnSuccessListener {
@@ -266,7 +266,9 @@ class RegisterFragment : Fragment() {
         db.collection("customers").document(id)
             .set(customer)
             .addOnSuccessListener { documentReference ->
-                addPhotoStorage(id)
+                if (imageUri != null){
+                    addPhotoStorage(id)
+                }
                 Log.d("saveUserOk", "Usuario agregado con id : $id")
             }
             .addOnFailureListener { e ->
