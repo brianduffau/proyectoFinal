@@ -1,7 +1,6 @@
 package com.example.proyectofinal.adapters
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Build
 import android.text.format.DateFormat
@@ -140,7 +139,6 @@ class HireAdapter(var context: Context,
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: HireHolder, position: Int) {
-
         val timestamp = System.currentTimeMillis() / 1000
         var inTime = false;
 
@@ -173,9 +171,7 @@ class HireAdapter(var context: Context,
 
     }
 
-    override fun getItemCount(): Int {
-        return hiresList.size
-    }
+    override fun getItemCount() = hiresList.size
 
     fun userId (): String {
         val user = Firebase.auth.currentUser
