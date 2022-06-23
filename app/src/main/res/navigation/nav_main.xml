@@ -22,7 +22,11 @@
         android:id="@+id/hiringsFragment"
         android:name="com.example.proyectofinal.fragments.recyclerViews.MyHiringsFragment"
         android:label="fragment_my_hires"
-        tools:layout="@layout/fragment_hirings" />
+        tools:layout="@layout/fragment_hirings" >
+        <action
+            android:id="@+id/action_hiringsFragment_to_reviewFragment2"
+            app:destination="@id/reviewFragment" />
+    </fragment>
     <fragment
         android:id="@+id/userProfileFragment"
         android:name="com.example.proyectofinal.fragments.MainActivity.UserProfileFragment"
@@ -66,4 +70,15 @@
             android:name="professionalId"
             app:argType="string" />
     </activity>
+    <fragment
+        android:id="@+id/reviewFragment"
+        android:name="com.example.proyectofinal.fragments.MainActivity.ReviewFragment"
+        android:label="ReviewFragment" >
+        <argument
+            android:name="profesional_id"
+            app:argType="string" />
+        <argument
+            android:name="hiringId"
+            app:argType="string" />
+    </fragment>
 </navigation>

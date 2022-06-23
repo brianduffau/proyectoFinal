@@ -2,7 +2,6 @@ package com.example.proyectofinal.fragments.HireActivity
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
-import android.nfc.Tag
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -11,25 +10,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
-import android.widget.RatingBar
 import android.widget.TextView
 import androidx.navigation.Navigation
 import com.example.proyectofinal.R
 import com.example.proyectofinal.activities.HireActivity
 import com.example.proyectofinal.entities.Hiring
-import com.example.proyectofinal.adapters.ReviewAdapter
 import com.example.proyectofinal.entities.Professional
 import com.example.proyectofinal.viewmodels.ConfirmViewModel
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.firestore.ktx.toObject
 import java.util.*
-import kotlin.math.abs
 
 class ConfirmFragment : Fragment() {
 
@@ -89,7 +81,18 @@ class ConfirmFragment : Fragment() {
 
     private fun createHiring() {
         val customerId = Firebase.auth.currentUser?.uid
-        val hiring = Hiring(customerId ?: "" ,professional.id, professional.name,professional.professionalType,professional.img,Timestamp(hireStartDate.time), Timestamp(hireEndDate.time))
+        val hiringId = System.currentTimeMillis().toString() + professional.id;
+
+        val hiring = Hiring(
+            customerId ?: "" ,
+            professional.id,
+            professional.name,
+            professional.professionalType,
+            professional.img,
+            Timestamp(hireStartDate.time),
+            Timestamp(hireEndDate.time),
+            hiringId
+        )
 
         db.collection("hirings")
             .add(hiring)

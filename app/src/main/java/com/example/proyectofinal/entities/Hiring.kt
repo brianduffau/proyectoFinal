@@ -11,6 +11,7 @@ data class Hiring(
     val professional_type: String = "",
     val professional_img: String = "",
     val startDate: Timestamp? = null,
-    val endDate: Timestamp? = null
-)
+    val endDate: Timestamp? = null,
+    val hiringId: String? = "",
+    )
 
