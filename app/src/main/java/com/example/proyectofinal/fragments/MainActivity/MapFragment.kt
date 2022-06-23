@@ -59,12 +59,11 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     private lateinit var petShop : Chip
     private lateinit var verTodos : Chip
 
-    var markerMap = HashMap<String, String>()
+    private var markerMap = HashMap<String, String>()
 
     var db = Firebase.firestore
 
-    var profList : ArrayList<Professional> = arrayListOf()
-    //var profList : ArrayList<String> = arrayListOf()
+    private var profList : ArrayList<Professional> = arrayListOf()
 
     private lateinit var searchInput : AutoCompleteTextView
 
@@ -86,33 +85,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
-        db.collection("professionals")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val listEntry = document.toObject<Professional>()
-                    profList.add(listEntry)
-                    Log.d("autocompletarOK", "${document.id} => ${document.data}")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w("autocompletarNotOK", "Error getting documents: ", exception)
-            }
-
-        // VER DONDE UBICAR CORRECTAMENTE ESTA PARTE DEL CODIGO DENTRO DEL FRAGMENT
-        searchInput = v.findViewById(R.id.searchInput)
-        val adapter = activity?.let { ArrayAdapter(it, android.R.layout.simple_list_item_1, profList) }
-        searchInput.setAdapter(adapter)
-
-        searchInput.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            mMap.clear()
-
-            // TODO: COMPLETAR LA GENERACION DEL MARKER, MOSTRARLO EN MAPA Y LINK AL PERFIL DEL PROF
-
-        }
-
         //muestra todos los profesionales de entrada
-        getAllMarkers()
+        //getAllMarkers()
 
         return v
 
@@ -122,7 +96,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MapViewModel::class.java)
         // TODO: Use the ViewModel
-
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -132,38 +105,73 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         mMap.setOnInfoWindowClickListener(this)
 
         setUpMap()
-
-        paseador.setOnClickListener {
-            val paseadorString = capitalizeString(paseador.text.toString())
-            mMap.clear()
-            myMarker()
-            getDB(paseadorString)
-        }
-
-        cuidador.setOnClickListener {
-            mMap.clear()
-            myMarker()
-            val cuidadorString = capitalizeString(cuidador.text.toString())
-            getDB(cuidadorString)
-        }
-
-        verTodos.setOnClickListener {
-            getAllMarkers()
-        }
+        searchBar()
+        chipFilters()
 
     }
 
-    private fun capitalizeString(str: String): String {
-        var retStr = str
-        try {
-            retStr = str.substring(0, 1).uppercase() + str.substring(1)
-        } catch (e: Exception) {
+    private fun generateMarkers(document : QueryDocumentSnapshot, mMap : GoogleMap, markerMap : HashMap<String, String>){
+
+        // GENERA LOS MARKERS EN LA FUNCION DE GETMARKERSBYTYPE
+
+        lateinit var geoPoint : GeoPoint ;
+
+        if(document != null) {
+
+            var geoPointFB = document.getGeoPoint("geo")
+            if (geoPointFB != null) {
+                geoPoint = geoPointFB
+            }
+
+            var latitude = geoPoint.latitude
+            var longitude = geoPoint.longitude
+            val myPos = LatLng(latitude, longitude)
+
+            val marker = mMap.addMarker(
+                MarkerOptions().position(myPos)
+                    .title(document.data["name"] as String?)
+                    .snippet(document.data["professionalType"] as String?)
+            )
+
+            val idOne = marker?.id
+            if (idOne != null) {
+                markerMap.put(idOne, document.id)
+            }
         }
-        return retStr
     }
 
+    private fun getAllMarkers(){
 
-    private fun getDB(type : String){
+        // TRAE TODOS LOS PROFESIONALES DE LA DB
+
+        val docRef = db.collection("professionals")
+
+        docRef.get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    generateMarkers(document, mMap, markerMap)
+                }
+
+                mMap.setOnInfoWindowClickListener { marker ->
+                    val actionId = markerMap[marker.id]
+                    if (actionId != null) {
+                        val action = MapFragmentDirections.actionMapToProfessional(
+                            actionId
+                        )
+                        v.findNavController().navigate(action)
+                    }
+                }
+
+            }
+            .addOnFailureListener { exception ->
+                Log.d("markersNotOK", "Error getting documents: ", exception)
+            }
+    }
+
+    private fun getMarkersByType(type : String){
+
+        // LLAMADAS A DB SEGUN TIPO DE PROFESIONAL
+        // LUEGO MUESTRA MARKERS SEGUN ESE TIPO
 
         db.collection("professionals")
             .whereEqualTo("professionalType", type)
@@ -186,13 +194,33 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
             }
     }
 
+    private fun chipFilters(){
+        paseador.setOnClickListener {
+            val paseadorString = capitalizeString(paseador.text.toString())
+            mMap.clear()
+            myMarker()
+            getMarkersByType(paseadorString)
+        }
+
+        cuidador.setOnClickListener {
+            mMap.clear()
+            myMarker()
+            val cuidadorString = capitalizeString(cuidador.text.toString())
+            getMarkersByType(cuidadorString)
+        }
+
+        verTodos.setOnClickListener {
+            getAllMarkers()
+        }
+    }
+
     @SuppressLint("MissingPermission")
     private fun setUpMap(){
 
         val caba = LatLng(-34.594776, -58.446751)
         myMarker()
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(caba, 12f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(caba, 12f))
 
         if(ActivityCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED){
@@ -221,33 +249,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
             ?.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
     }
 
-    private fun getAllMarkers(){
-
-        val docRef = db.collection("professionals")
-
-        docRef.get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    generateMarkers(document, mMap, markerMap)
-                }
-
-                mMap.setOnInfoWindowClickListener { marker ->
-                    val actionId = markerMap[marker.id]
-                    if (actionId != null) {
-                        val action = MapFragmentDirections.actionMapToProfessional(
-                            actionId
-                        )
-
-                        v.findNavController().navigate(action)
-                    }
-                }
-
-            }
-            .addOnFailureListener { exception ->
-                Log.d("markersNotOK", "Error getting documents: ", exception)
-            }
-    }
-
     private fun placeMarkerOnMap(currentLatLng: LatLng) {
         val markerOptions = MarkerOptions().position(currentLatLng)
         markerOptions.title("$currentLatLng")
@@ -259,34 +260,85 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     override fun onInfoWindowClick( marker : Marker) {
     }
 
-}
+    private fun searchBar(){
 
-private fun generateMarkers(document : QueryDocumentSnapshot, mMap : GoogleMap, markerMap : HashMap<String, String>){
+        searchInput = v.findViewById(R.id.searchInput)
 
-    lateinit var geoPoint : GeoPoint ;
+        db.collection("professionals")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val listEntry = document.toObject<Professional>()
+                    profList.add(listEntry)
+                    Log.d("autocompletarOK", "${document.id} => ${document.data}")
 
-    if(document != null) {
 
-        var geoPointFB = document.getGeoPoint("geo")
-        if (geoPointFB != null) {
-            geoPoint = geoPointFB
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w("autocompletarNotOK", "Error getting documents: ", exception)
+            }
+
+        val adapter = activity?.let { ArrayAdapter(it, android.R.layout.simple_list_item_1, profList) }
+        searchInput.setAdapter(adapter)
+
+        searchInput.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            mMap.clear()
+            markerMap.clear()
+            myMarker()
+
+            if (adapter != null) {
+                val professional = adapter.getItem(id.toInt())
+                if (professional != null) {
+
+                    lateinit var geoPoint : GeoPoint ;
+
+                    var geoPointFB = professional.geo
+                    if (geoPointFB != null) {
+                        geoPoint = geoPointFB
+                    }
+
+                    var latitude = geoPoint.latitude
+                    var longitude = geoPoint.longitude
+
+                    val myPos = LatLng(latitude, longitude)
+
+                    val marker = mMap.addMarker(
+                        MarkerOptions().position(myPos)
+                            .title(professional.name)
+                            .snippet(professional.professionalType)
+                    )
+
+                    val idOne = marker?.id
+                    if (idOne != null) {
+                        markerMap[idOne] = professional.id
+
+                        mMap.setOnInfoWindowClickListener {
+                            Log.i("markerData", markerMap.entries.toString() + " " + markerMap[marker.id])
+                            /*val actionId = markerMap[marker.id]
+                            if (actionId != null) {
+                                val action =
+                                    MapFragmentDirections.actionMapToProfessional(
+                                        actionId
+                                    )
+                                v.findNavController().navigate(action)
+                            }*/
+                        }
+                    }
+                }
+            }
         }
 
-        var latitude = geoPoint.latitude
-        var longitude = geoPoint.longitude
-        val myPos = LatLng(latitude, longitude)
-
-        val marker = mMap.addMarker(
-            MarkerOptions().position(myPos)
-                .title(document.data["name"] as String?)
-                .snippet(document.data["professionalType"] as String?)
-        )
-
-        val idOne = marker?.id
-        if (idOne != null) {
-            markerMap.put(idOne, document.id)
-        }
     }
-}
 
+    private fun capitalizeString(str: String): String {
+        var retStr = str
+        try {
+            retStr = str.substring(0, 1).uppercase() + str.substring(1)
+        } catch (e: Exception) {
+        }
+        return retStr
+    }
+
+}
 
