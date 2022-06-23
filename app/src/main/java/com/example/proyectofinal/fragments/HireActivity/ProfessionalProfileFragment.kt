@@ -69,7 +69,6 @@ class ProfessionalProfileFragment : Fragment() {
 
 
         recReviews = v.findViewById(R.id.recReviews)
-        // ESTO ACA O EN EL ONSTART
         recReviews.setHasFixedSize(true)
         recReviews.layoutManager = LinearLayoutManager(context)
 
@@ -95,6 +94,9 @@ class ProfessionalProfileFragment : Fragment() {
         professionalType = v.findViewById(R.id.professional_profile_type)
         workQuantity = v.findViewById(R.id.professional_work_qty)
         rating = v.findViewById(R.id.professional_profile_rating)
+        rating.setIsIndicator(true)
+        rating.setRating(0.0F)
+        checkCalificacion(professional.id, rating)
         hireButton = v.findViewById(R.id.hire_professional)
 
         professionalName.text = professional.name
@@ -104,6 +106,36 @@ class ProfessionalProfileFragment : Fragment() {
         getWorkQuantity()
 
         setupHireButton()
+
+    }
+
+    fun checkCalificacion(id: String, rating: RatingBar) {
+        var count = 0;
+        var rat = 0.0F;
+        var review: Review
+        var total = 0.0F;
+
+        db.collection("reviews")
+            .whereEqualTo("id_reviewed", id)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                if (snapshot != null) {
+
+                    for (h in snapshot) {
+                        count++
+                        review = h.toObject()
+                        rat += review.stars
+
+                    }
+                    if(count > 0) {
+                        total = rat / count.toFloat()
+                        rating.setRating(total)
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w("fallo", "Error getting documents: ", exception)
+            }
 
     }
 
@@ -286,7 +318,7 @@ class ProfessionalProfileFragment : Fragment() {
 
     private fun getReviews () {
         db.collection("reviews")
-            .whereEqualTo("id_reviewed", professional.id.trimStart())
+            .whereEqualTo("id_reviewed", professional.id)
             .get()
             .addOnSuccessListener { snapshot ->
                 if (snapshot != null) {
