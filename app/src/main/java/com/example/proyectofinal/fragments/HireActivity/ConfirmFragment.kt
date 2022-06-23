@@ -77,7 +77,7 @@ class ConfirmFragment : Fragment() {
         confirm_msg.text = "${professional.name} pasará a buscar a tu mascota el " +
                 "${hireStartDate.get(Calendar.DAY_OF_MONTH)}/${hireStartDate.get(Calendar.MONTH)}" +
                 "/${hireStartDate.get(Calendar.YEAR)}, a las " +
-                "${hireStartDate.get(Calendar.HOUR_OF_DAY)}:${hireStartDate.get(Calendar.MINUTE)}"
+                "${hireStartDate.get(Calendar.HOUR_OF_DAY)}:${hireStartDate.get(Calendar.MINUTE)}0"
         confirmHireButton.setOnClickListener{
 
             createHiring()

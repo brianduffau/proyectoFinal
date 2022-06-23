@@ -50,7 +50,9 @@ class HiringFragment : Fragment() {
         msg = v.findViewById(R.id.hiring_msg_2)
         homeButton = v.findViewById(R.id.hiring_home_button)
 
-        hiringInfo.text = "${professional.name} pasará por tu mascota el ${hireStartDate.get(Calendar.DAY_OF_MONTH)}/${hireStartDate.get(Calendar.MONTH)}/${hireStartDate.get(Calendar.YEAR)}, a las"
+        hiringInfo.text = "${professional.name} pasará por tu mascota el" +
+                " ${hireStartDate.get(Calendar.DAY_OF_MONTH)}/${hireStartDate.get(Calendar.MONTH)}/${hireStartDate.get(Calendar.YEAR)}" +
+                ", a las ${hireStartDate.get(Calendar.HOUR_OF_DAY)}:${hireStartDate.get(Calendar.MINUTE)}0"
         msg.text = "No olvides calificar a ${professional.name} cuando concluya el servicio"
         homeButton.setOnClickListener{
             Navigation.findNavController(v).navigate(R.id.actionHireToMain)
