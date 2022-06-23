@@ -59,8 +59,8 @@ class ReviewFragment : Fragment() {
             reviewText.getText().toString(),
             puntajeBar.getRating(),
             hiringId
-        )
-            Snackbar.make(v,"Review agregada con exito", Snackbar.LENGTH_SHORT).show()}
+            )
+        }
 
         return v
     }
@@ -82,7 +82,8 @@ class ReviewFragment : Fragment() {
             .add(data)
             .addOnSuccessListener { document ->
                 Log.d("ReviewOk", "Review con ID: ${document.id}")
-
+                Snackbar.make(v,"Review agregada con exito", Snackbar.LENGTH_SHORT).show()
+                Navigation.findNavController(v).popBackStack()
             }
             .addOnFailureListener { exception ->
                 Log.w("falloAddReview", "Error getting documents: ", exception)
@@ -98,7 +99,6 @@ class ReviewFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setupToolbar() {
-        toolbarText.setText("Mis Contrataciones")
         backButton.setOnClickListener{ Navigation.findNavController(v).popBackStack()}
     }
 
