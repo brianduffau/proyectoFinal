@@ -80,7 +80,7 @@
                 android:id="@+id/petShop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pet shop"
+                android:text="Pet Shop"
                 app:chipBackgroundColor="#00FFFFFF"
                 app:chipIcon="@drawable/petshop"
                 app:chipIconSize="22dp"
