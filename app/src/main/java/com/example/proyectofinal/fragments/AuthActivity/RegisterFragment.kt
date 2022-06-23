@@ -209,15 +209,17 @@ class RegisterFragment : Fragment() {
 
             googleClient.signOut()
 
+            val signInIntent = googleClient.signInIntent
+            resultLauncher.launch(signInIntent)
+
             startActivityForResult(googleClient.signInIntent, GOOGLE_SIGN_IN)
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == GOOGLE_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+    val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        result ->
+        if (result.resultCode == GOOGLE_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
 
             try {
                 val account = task.getResult(ApiException::class.java)
@@ -247,6 +249,13 @@ class RegisterFragment : Fragment() {
             }
 
         }
+
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
 
 
     }
