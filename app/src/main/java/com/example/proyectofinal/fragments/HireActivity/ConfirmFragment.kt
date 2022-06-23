@@ -10,16 +10,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.navigation.Navigation
 import com.example.proyectofinal.R
 import com.example.proyectofinal.activities.HireActivity
 import com.example.proyectofinal.entities.Hiring
 import com.example.proyectofinal.entities.Professional
+import com.example.proyectofinal.entities.Review
 import com.example.proyectofinal.viewmodels.ConfirmViewModel
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import java.util.*
 
@@ -33,7 +36,7 @@ class ConfirmFragment : Fragment() {
     private lateinit var professionalName : TextView
     //private lateinit var professionalImg : ImageView
     private lateinit var professionalType : TextView
-    //private lateinit var rating : RatingBar
+    private lateinit var rating : RatingBar
     private lateinit var confirm_msg : TextView
 
     private lateinit var professional : Professional
@@ -77,6 +80,40 @@ class ConfirmFragment : Fragment() {
             Navigation.findNavController(v).navigate(R.id.actionConfirmToHire)
         }
 
+        rating = v.findViewById(R.id.professional_profile_rating2)
+        rating.setIsIndicator(true)
+        rating.setRating(0.0F)
+        checkCalificacion(professional.id, rating)
+
+    }
+
+    fun checkCalificacion(id: String, rating: RatingBar) {
+        var count = 0;
+        var rat = 0.0F;
+        var review: Review
+        var total = 0.0F;
+
+        db.collection("reviews")
+            .whereEqualTo("id_reviewed", id)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                if (snapshot != null) {
+
+                    for (h in snapshot) {
+                        count++
+                        review = h.toObject()
+                        rat += review.stars
+
+                    }
+                    if(count > 0) {
+                        total = rat / count.toFloat()
+                        rating.setRating(total)
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w("fallo", "Error getting documents: ", exception)
+            }
     }
 
     private fun createHiring() {
