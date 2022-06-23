@@ -114,7 +114,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
         // GENERA LOS MARKERS EN LA FUNCION DE GETMARKERSBYTYPE
 
-        lateinit var geoPoint : GeoPoint ;
+        lateinit var geoPoint : GeoPoint
 
         if(document != null) {
 
@@ -207,6 +207,13 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
             myMarker()
             val cuidadorString = capitalizeString(cuidador.text.toString())
             getMarkersByType(cuidadorString)
+        }
+
+        veterinaria.setOnClickListener {
+            mMap.clear()
+            myMarker()
+            val vetString = capitalizeString(veterinaria.text.toString())
+            getMarkersByType(vetString)
         }
 
         verTodos.setOnClickListener {
@@ -328,7 +335,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
                 }
             }
         }
-
     }
 
     private fun capitalizeString(str: String): String {
