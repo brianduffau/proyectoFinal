@@ -19,10 +19,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/profile" />
+            android:id="@+id/confirm_professional_img"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:layout_marginTop="32dp"
+            tools:src="@tools:sample/avatars"
+            android:layout_gravity="center" />
 
         <TextView
             android:id="@+id/confirm_professional_name"
@@ -57,7 +61,9 @@
             android:layout_width="match_parent"
             android:layout_height="73dp"
             android:gravity="center"
-            android:text="TextView" />
+            android:layout_marginTop="32px"
+            android:text="TextView"
+            android:textSize="20sp"/>
 
     </LinearLayout>
 

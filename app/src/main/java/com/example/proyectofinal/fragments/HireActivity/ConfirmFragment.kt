@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.navigation.Navigation
@@ -24,6 +25,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
 import java.util.*
 
 class ConfirmFragment : Fragment() {
@@ -34,7 +36,7 @@ class ConfirmFragment : Fragment() {
     private val db = Firebase.firestore
 
     private lateinit var professionalName : TextView
-    //private lateinit var professionalImg : ImageView
+    private lateinit var professionalImg : ImageView
     private lateinit var professionalType : TextView
     private lateinit var rating : RatingBar
     private lateinit var confirm_msg : TextView
@@ -62,13 +64,16 @@ class ConfirmFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun setUpViews() {
         professionalName = v.findViewById(R.id.confirm_professional_name)
-        //professionalImg = v.findViewById(R.id.confirm_professional_img)
+        professionalImg = v.findViewById(R.id.confirm_professional_img)
         professionalType = v.findViewById(R.id.confirm_professional_type)
         confirm_msg = v.findViewById(R.id.confirm_service_info)
         confirmHireButton = v.findViewById(R.id.confirm_hire_button)
 
         professionalName.text = professional.name
         professionalType.text = professional.professionalType
+        if (professional.img != null) {
+            Picasso.get().load(professional.img).fit().centerCrop().into(professionalImg)
+        }
         confirm_msg.text = "${professional.name} pasará a buscar a tu mascota el " +
                 "${hireStartDate.get(Calendar.DAY_OF_MONTH)}/${hireStartDate.get(Calendar.MONTH)}" +
                 "/${hireStartDate.get(Calendar.YEAR)}, a las " +
