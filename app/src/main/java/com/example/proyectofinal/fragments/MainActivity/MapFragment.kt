@@ -216,9 +216,17 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
             getMarkersByType(vetString)
         }
 
+        petShop.setOnClickListener {
+            mMap.clear()
+            myMarker()
+            val petShopString = capitalizeString(petShop.text.toString())
+            getMarkersByType(petShopString)
+        }
+
         verTodos.setOnClickListener {
             getAllMarkers()
         }
+
     }
 
     @SuppressLint("MissingPermission")
@@ -322,14 +330,14 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
                         mMap.setOnInfoWindowClickListener {
                             Log.i("markerData", markerMap.entries.toString() + " " + markerMap[marker.id])
-                            /*val actionId = markerMap[marker.id]
+                            val actionId = markerMap[marker.id]?.trim()
                             if (actionId != null) {
                                 val action =
                                     MapFragmentDirections.actionMapToProfessional(
                                         actionId
                                     )
                                 v.findNavController().navigate(action)
-                            }*/
+                            }
                         }
                     }
                 }
