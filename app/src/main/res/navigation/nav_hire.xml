@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_professional_profile" >
         <action
             android:id="@+id/actionProfessionalToConfirm"
-            app:destination="@id/confirmationFragment" />
+            app:destination="@id/petSelectFragment" />
     </fragment>
     <fragment
         android:id="@+id/hiringFragment"
@@ -37,4 +37,13 @@
         android:name="com.example.proyectofinal.activities.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
+    <fragment
+        android:id="@+id/petSelectFragment"
+        android:name="com.example.proyectofinal.fragments.HireActivity.PetSelectFragment"
+        android:label="fragment_pet_select"
+        tools:layout="@layout/fragment_pet_select" >
+        <action
+            android:id="@+id/action_petSelectFragment_to_confirmationFragment"
+            app:destination="@id/confirmationFragment" />
+    </fragment>
 </navigation>
