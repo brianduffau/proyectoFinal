@@ -13,5 +13,6 @@ data class Hiring(
     val startDate: Timestamp? = null,
     val endDate: Timestamp? = null,
     val hiringId: String? = "",
+    val pet: String = "",
     )
 

@@ -45,7 +45,8 @@
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="match_parent"
-            android:layout_height="190dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             app:srcCompat="@drawable/fui_ic_check_circle_black_128dp" />
 
         <TextView

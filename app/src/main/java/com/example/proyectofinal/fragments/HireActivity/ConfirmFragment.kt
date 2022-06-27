@@ -147,7 +147,8 @@ class ConfirmFragment : Fragment() {
             professional.img,
             Timestamp(hireStartDate.time),
             Timestamp(hireEndDate.time),
-            hiringId
+            hiringId,
+            petSelected
         )
 
         db.collection("hirings")
