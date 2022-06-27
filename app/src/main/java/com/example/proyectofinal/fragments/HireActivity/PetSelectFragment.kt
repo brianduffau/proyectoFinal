@@ -93,11 +93,11 @@ class PetSelectFragment : Fragment() {
          */
     }
 
-
     private fun petsBD() {
 
         db.collection("pets")
             .whereEqualTo("idOwner", userId())
+            .whereEqualTo("disp",true)
             .get()
             .addOnSuccessListener { document ->
                 if (document != null) {

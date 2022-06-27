@@ -10,4 +10,5 @@ data class Pet(
     val age: Int = 0,
     val type: String = "",
     val idOwner: String = "",
+    val disp: Boolean = true,
 )

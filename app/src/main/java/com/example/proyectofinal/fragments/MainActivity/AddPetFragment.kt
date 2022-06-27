@@ -137,14 +137,15 @@ class AddPetFragment : Fragment() {
             "age" to Integer.parseInt(agePetAdd.text.toString()),
             "type" to typeSelec,
             "imgPet" to photo,
+            "disp" to true,
             )
 
-        db.collection("pets")
-            .add(data)
+        db.collection("pets").document(userId()+namePetAdd.text.toString())
+            .set(data)
             .addOnSuccessListener { document ->
                 //uploadPhoto()
                 //petId = document.id
-                Log.d("addPetOk", "Mascota con ID: ${document.id}")
+                Log.d("addPetOk", "Mascota: $document")
                 cleanInputs()
 
             }

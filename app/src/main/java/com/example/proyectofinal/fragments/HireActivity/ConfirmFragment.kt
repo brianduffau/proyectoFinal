@@ -163,6 +163,12 @@ class ConfirmFragment : Fragment() {
                 Log.w(ContentValues.TAG, "Error adding document", e)
             }
 
+        db.collection("pets").document(customerId+petSelected).update("disp",false)
+
+    }
+
+    fun hiringPet() {
+
     }
 
 
