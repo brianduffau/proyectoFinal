@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.example.proyectofinal.R
 import com.example.proyectofinal.entities.Pet
 import com.google.android.material.snackbar.Snackbar
@@ -17,31 +19,68 @@ import com.google.firebase.ktx.Firebase
 class PetSelectFragment : Fragment() {
 
     lateinit var v:View
-    lateinit var spMeses : Spinner
+    lateinit var spPets : Spinner
     var db = Firebase.firestore
 
-    //var listaMeses = listOf("")
-    var petsList = listOf("hola", "chau")
+    var petsList : ArrayList<String> = arrayListOf()
+    var petName : String = ""
+    lateinit var adapter : ArrayAdapter<String>
+    lateinit var btnNext : Button
+
+    private lateinit var backButton: ImageView
+    private lateinit var toolbarText: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        petsBD()
-        v =  inflater.inflate(R.layout.fragment_pet_select, container, false)
 
-        spMeses = v.findViewById(R.id.pet_select_spinner
-        )
+        v =  inflater.inflate(R.layout.fragment_pet_select, container, false)
+        toolbarText = v.findViewById(R.id.text_toolbar)
+        backButton = v.findViewById(R.id.back_button_toolbar)
+
+        btnNext = v.findViewById(R.id.btn_pet_select)
+        spPets = v.findViewById(R.id.pet_select_spinner)
         setHasOptionsMenu(true)
+
+        spPets.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                petName = petsList[position]
+                Snackbar.make(v, "La mascota seleccionada es " + petsList[position], Snackbar.LENGTH_SHORT).show()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+
+            }
+        }
+
+        btnNext.setOnClickListener{
+            val action = PetSelectFragmentDirections.actionPetSelectToConfirm(petName)
+            v.findNavController().navigate(action)
+
+        }
+
+        setupToolbar()
         return v
     }
 
+    private fun setupToolbar() {
+        toolbarText.setText("Seleccionar")
+        backButton.setOnClickListener { Navigation.findNavController(v).popBackStack(R.id.professionalProfileFragment, false) }
+    }
+
+
     override fun onStart() {
         super.onStart()
-        populateSpinner(spMeses,petsList,requireContext())
+        petsBD()
+        spPets.setSelection(0, false)
+        /*
 
-        spMeses.setSelection(0, false)
-        spMeses.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+        populateSpinner(spPets,petsList,requireContext())
+
+
+        spPets.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 Snackbar.make(v, petsList[position], Snackbar.LENGTH_SHORT).show()
             }
@@ -50,27 +89,12 @@ class PetSelectFragment : Fragment() {
 
             }
         })
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        val id = when(item.itemId) {
-
-            //R.id.action_add -> Snackbar.make(v, "add", Snackbar.LENGTH_SHORT).show()
-
-            //R.id.action_fav -> Snackbar.make(v, "fav", Snackbar.LENGTH_SHORT).show()
-
-            else -> ""
-        }
-        return super.onOptionsItemSelected(item)
+         */
     }
 
 
     private fun petsBD() {
-
-        val original = listOf("orange", "apple")
-        val other = listOf("banana", "strawberry")
-        val newList = original + other // [orange, apple, banana, strawberry]
 
         db.collection("pets")
             .whereEqualTo("idOwner", userId())
@@ -78,11 +102,10 @@ class PetSelectFragment : Fragment() {
             .addOnSuccessListener { document ->
                 if (document != null) {
                     for (h in document) {
-                        petsList = original
-                        //petsList = petsList.plus
-                        //petsList.add(h.data["name"] as String)
+                        petsList.add(h.data["name"] as String)
                     }
-
+                adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, petsList)
+                spPets.adapter = adapter
                 }
             }
             .addOnFailureListener { exception ->
@@ -90,26 +113,28 @@ class PetSelectFragment : Fragment() {
             }
     }
 
-}
-
-
-fun userId (): String {
-    val user = Firebase.auth.currentUser
-    var id : String = ""
-    if (user != null) {
-        id = user.uid
+    fun userId (): String {
+        val user = Firebase.auth.currentUser
+        var id : String = ""
+        if (user != null) {
+            id = user.uid
+        }
+        return id
     }
-    return id
+
+
+    fun populateSpinner (spinner: Spinner, list : List<String>, context : Context)
+    {
+        //   val aa = ArrayAdapter( context!!, android.R.layout.simple_spinner_item, list)
+        val aa = ArrayAdapter(context,android.R.layout.simple_spinner_item, list)
+
+        // Set layout to use when the list of choices appear
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        // Set Adapter to Spinner
+        spinner.setAdapter(aa)
+    }
 }
 
 
-fun populateSpinner (spinner: Spinner, list : List<String>, context : Context)
-{
-    //   val aa = ArrayAdapter( context!!, android.R.layout.simple_spinner_item, list)
-    val aa = ArrayAdapter(context,android.R.layout.simple_spinner_item, list)
 
-    // Set layout to use when the list of choices appear
-    aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-    // Set Adapter to Spinner
-    spinner.setAdapter(aa)
-}
+

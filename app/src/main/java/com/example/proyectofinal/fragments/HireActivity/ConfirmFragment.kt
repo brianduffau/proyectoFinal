@@ -41,10 +41,14 @@ class ConfirmFragment : Fragment() {
     private lateinit var rating : RatingBar
     private lateinit var confirm_msg : TextView
 
+    private lateinit var petSelected : String
     private lateinit var professional : Professional
     private lateinit var hireStartDate : Calendar
     private lateinit var hireEndDate : Calendar
     private lateinit var confirmHireButton : Button
+
+    private lateinit var backButton: ImageView
+    private lateinit var toolbarText: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,24 +61,29 @@ class ConfirmFragment : Fragment() {
         hireEndDate = (activity as HireActivity).hireEndDate
 
         setUpViews()
-
+        setupToolbar()
         return v
     }
 
     @SuppressLint("SetTextI18n")
     private fun setUpViews() {
+        toolbarText = v.findViewById(R.id.text_toolbar)
+        backButton = v.findViewById(R.id.back_button_toolbar)
+
         professionalName = v.findViewById(R.id.confirm_professional_name)
         professionalImg = v.findViewById(R.id.confirm_professional_img)
         professionalType = v.findViewById(R.id.confirm_professional_type)
         confirm_msg = v.findViewById(R.id.confirm_service_info)
         confirmHireButton = v.findViewById(R.id.confirm_hire_button)
+        petSelected = ConfirmFragmentArgs.fromBundle(requireArguments()).namePet
 
         professionalName.text = professional.name
         professionalType.text = professional.professionalType
         if (professional.img != null) {
             Picasso.get().load(professional.img).fit().centerCrop().into(professionalImg)
         }
-        confirm_msg.text = "${professional.name} pasará a buscar a tu mascota el " +
+        confirm_msg.text = "${professional.name} pasará a buscar a " +
+                "${petSelected} el dia " +
                 "${hireStartDate.get(Calendar.DAY_OF_MONTH)}/${hireStartDate.get(Calendar.MONTH)}" +
                 "/${hireStartDate.get(Calendar.YEAR)}, a las " +
                 "${hireStartDate.get(Calendar.HOUR_OF_DAY)}:${hireStartDate.get(Calendar.MINUTE)}0"
@@ -90,6 +99,11 @@ class ConfirmFragment : Fragment() {
         rating.setRating(0.0F)
         checkCalificacion(professional.id, rating)
 
+    }
+
+    private fun setupToolbar() {
+        toolbarText.setText("Confirmar")
+        backButton.setOnClickListener { Navigation.findNavController(v).popBackStack(R.id.professionalProfileFragment, false) }
     }
 
     fun checkCalificacion(id: String, rating: RatingBar) {

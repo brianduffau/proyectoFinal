@@ -7,15 +7,45 @@
     android:layout_height="match_parent"
     tools:context=".fragments.HireActivity.PetSelectFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <Spinner
-        android:id="@+id/pet_select_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dropdown"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <include
+        android:id="@+id/pet_select_toolbar"
+        layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="60dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
+            android:text="Selecciona tu mascota:"
+            android:textSize="18dp">
+
+        </TextView>
+
+        <Spinner
+            android:id="@+id/pet_select_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp"
+            android:minHeight="48dp"
+            android:spinnerMode="dropdown" />
+
+        <Button
+            android:id="@+id/btn_pet_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/orange"
+            android:shadowColor="#000000"
+            android:text="continuar"></Button>
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
