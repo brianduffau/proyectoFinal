@@ -1,2 +1,2 @@
-# proyectoFinal
-proyectoFinal
+# mascoteando
+proyecto Final de carrera. Aplicacion mobile
